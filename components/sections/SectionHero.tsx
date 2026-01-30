@@ -1,78 +1,45 @@
 "use client";
 
-import Button from "../UI/Button";
-import Card from "../UI/Card";
-import Input from "../UI/Input";
-
 export default function SectionHero() {
   return (
-    <section className="relative min-h-screen overflow-hidden pt-28 sm:pt-32 md:pt-40 lg:pt-48">
+    <section
+      className="relative w-full h-screen overflow-hidden"
+      style={{
+        backgroundImage: "url('/bg/bg2.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/10" />
 
-      {/* BASE */}
-      <div className="absolute inset-0 bg-[#1a1405]" />
-
-      {/* CENTER GOLD CORE */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#f7c96b,transparent_65%)] opacity-80" />
-
-      {/* HORIZONTAL ENERGY BAND */}
-      <div className="absolute top-1/2 left-0 w-full h-[320px] -translate-y-1/2 bg-[linear-gradient(90deg,transparent,#ffd27d,transparent)] opacity-60 blur-[60px]" />
-
-      {/* SOFT WAVES */}
-      <div className="absolute top-1/3 left-0 w-full h-[400px] bg-[linear-gradient(180deg,transparent,#ffcc70,transparent)] opacity-30 blur-[120px]" />
-
-      {/* LIGHT STREAK LINES */}
-      <div className="absolute inset-0 opacity-25 bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.35)_0px,rgba(255,255,255,0.35)_1px,transparent_1px,transparent_40px)]" />
-
-      {/* SIDE SHADOWS */}
-      <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-black/60 to-transparent" />
-      <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-black/60 to-transparent" />
-
-      {/* CONTENT */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-
-          <div className="text-white max-w-xl">
-            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+      <div className="relative z-10 w-full h-full flex items-center">
+        <div className="w-full max-w-7xl mx-auto px-16 flex justify-end">
+          
+          <div className="max-w-xl ml-auto text-white text-right">
+            <h1
+              className="text-[64px] font-bold leading-tight"
+              style={{ textShadow: "0 6px 20px rgba(0,0,0,0.6)" }}
+            >
               Build the Future
-              <br />With WINOSA
+              <br />
+              With Winosa
             </h1>
 
-            <p className="mt-6 text-lg text-white/90">
-              Connecting global companies with Indonesian tech talent.
+            <p
+              className="mt-6 text-sm text-white/90 leading-relaxed text-right"
+              style={{ textShadow: "0 4px 12px rgba(0,0,0,0.6)" }}
+            >
+              Kami adalah perusahaan konsultan dan pengembang IT yang berbasis di Indonesia, 
+              berfokus pada penyediaan solusi teknologi untuk klien nasional dan internasional. 
+              Dengan kreativitas tinggi, keahlian profesional, dan kerja tim yang solid, kami 
+              membantu bisnis Anda tumbuh melalui solusi digital yang tepat, aman, dan berkelanjutan.
             </p>
-
-            <div className="mt-6">
-              <Input placeholder="Your email" />
-            </div>
-
-            <div className="mt-6">
-              <Button>Get Started</Button>
-            </div>
-
-            <div className="mt-10 flex flex-col gap-4">
-              <Card
-                image="/row-1.jpg"
-                title="Where Technology, Design, and Stories Meet"
-                description="We create digital experiences that inspire, connect, and grow."
-              />
-
-              <Card
-                image="/row-2.jpg"
-                title="More Technology, Design, and Stories"
-                description="Innovative solutions built for global audiences."
-              />
-            </div>
           </div>
 
-          <div className="flex justify-center">
-            <img
-              src="/Hero.png"
-              alt="WINOSAWEB Mascot"
-              className="w-[320px] drop-shadow-[0_40px_80px_rgba(255,200,80,0.45)]"
-            />
-          </div>
         </div>
       </div>
+
+      <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-white to-transparent" />
     </section>
   );
 }

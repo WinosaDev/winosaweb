@@ -44,15 +44,17 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 backdrop-blur-xl bg-transparent px-10 py-10">
+        <div className="fixed inset-0 backdrop-blur-xl bg-transparent px-10 py-10 overflow-y-auto">
           <div className="flex justify-between items-center">
             <img src="/logo.png" className="h-12" />
-            <button onClick={() => setOpen(false)} className="text-black text-2xl">✕</button>
+            <button onClick={() => setOpen(false)} className="text-black text-2xl">
+              ✕
+            </button>
           </div>
 
           <div className="w-full h-px bg-black my-6" />
 
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 pb-24">
             {["Company","Services","Portfolio","Blog","About Us","Contact","Plans"].map((m) => (
               <button
                 key={m}
