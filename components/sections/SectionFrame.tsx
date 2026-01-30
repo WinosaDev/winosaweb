@@ -26,8 +26,8 @@ export default function SectionFrame() {
           <div
             className="absolute"
             style={{
-              top: "57%",
-              left: "71%",
+              top: "61%",
+              left: "71.3%",
               transform: "translate(-50%, -100%)",
             }}
           >
