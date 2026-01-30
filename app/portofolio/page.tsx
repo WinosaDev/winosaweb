@@ -1,5 +1,5 @@
-import SectionPortoHero from "@/components/sections/SectionPortoHero";
-import SectionPortoCards from "@/components/sections/SectionPortoCards";
+import SectionPortoHero from "@/components/sectionsPorto/SectionPortoHero";
+import SectionPortoCards from "@/components/sectionsPorto/SectionPortoCards";
 import Footer from "@/components/layout/Footer";
 
 export default function PortfolioPage() {
