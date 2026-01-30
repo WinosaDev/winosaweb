@@ -1,0 +1,410 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("/images/PortoHero2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center right;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.178),
+    rgba(255, 255, 255, 0.4)
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 720px;
+  padding: 0 16px;
+}
+
+.title {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.title span {
+  color: #c8f000;
+}
+
+.subtitle {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  color: #444;
+  opacity: 0.9;
+}
+
+.icons {
+  margin-top: 24px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  color: #222;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero {
+    background-position: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 85vh;
+    background-position: top center;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .icons {
+    opacity: 0.75;
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 480px) {
+  .icons {
+    display: none; /* mobile lebih clean */
+  }
+}
+
+.heroButton {
+  margin-top: 28px;
+  padding: 12px 28px;
+  border-radius: 999px;
+
+  background: rgb(255, 255, 255);
+  color: #000000;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.heroButton:hover {
+  transform: translateY(-2px);
+  background: #8c8c8c;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.heroButton span {
+  margin-left: 6px;
+  transition: transform 0.25s ease;
+}
+
+.heroButton:hover span {
+  transform: translateX(4px);
+}
+
+/* ========== CARDS SECTION ========== */
+.cardsSection {
+  padding: 80px 20px 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Filter Buttons */
+.filterContainer {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+
+.filterBtn {
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: white;
+  color: #333;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterBtn:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.filterActive {
+  background: #1a1a1a;
+  color: white;
+  border-color: #1a1a1a;
+}
+
+/* Carousel Wrapper */
+.carouselWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carouselCard {
+  position: absolute;
+  width: 100%;
+  max-width: 400px;
+  height: 550px; /* ← Tambah height yang fix */
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.carouselCard:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
+}
+
+/* Navigation Buttons */
+.navButton {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  color: #1a1a1a;
+  font-size: 2rem;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  z-index: 20;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.navButton:hover {
+  background: #1a1a1a;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.navLeft {
+  left: 50%;
+  margin-left: -250px;
+}
+
+.navRight {
+  right: 50%;
+  margin-right: -250px;
+}
+
+/* Card Content */
+.cardImage {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  width: 100%;
+  height: 100%; 
+  background: #f5f5f5;
+  z-index: 0; 
+}
+
+.cardContent {
+  position: relative; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1; 
+  margin-top: auto; 
+  padding: 28px;
+  background: rgba(155, 155, 155, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 34px 34px 24px 24px; 
+}
+
+.cardTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.cardDescription {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardCategory {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 500;
+}
+
+.learnMore {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #1a1a1a;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.learnMore:hover {
+  gap: 10px;
+  color: #c8f000;
+}
+
+.learnMore span {
+  transition: transform 0.3s ease;
+}
+
+.learnMore:hover span {
+  transform: translateX(4px);
+}
+
+/* Dots Indicator */
+.dotsContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 80px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dotActive {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+/* Bottom Text */
+.bottomText {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 80px;
+}
+
+.bottomText p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* Big Title */
+.bigTitle {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.bigTitle h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+/* ========== RESPONSIVE CAROUSEL ========== */
+@media (max-width: 1024px) {
+  .navLeft {
+    margin-left: -220px;
+  }
+
+  .navRight {
+    margin-right: -220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navButton {
+    width: 45px;
+    height: 45px;
+    font-size: 1.8rem;
+  }
+
+  .navLeft {
+    margin-left: -200px;
+  }
+
+  .navRight {
+    margin-right: -200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navButton {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .navLeft {
+    margin-left: -180px;
+  }
+
+  .navRight {
+    margin-right: -180px;
+  }
+}
