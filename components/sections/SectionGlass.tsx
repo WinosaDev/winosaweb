@@ -61,24 +61,25 @@ function TimelineRow({
   isLast?: boolean;
 }) {
   return (
-    <div className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 lg:mb-40 min-h-[260px]">
+    <div className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 lg:mb-40 min-h-[240px]">
 
-      {/* DOT + LINE */}
+      {/* DOT + LINE (AMAN RESPONSIVE) */}
       <div
         className="
           absolute
           top-0
+          left-4
+          lg:left-1/2
+          lg:-translate-x-1/2
           flex
           flex-col
           items-center
-          left-full
-          lg:left-1/2
-          -translate-x-1/2
+          h-full
         "
       >
         <div className="w-4 h-4 bg-black rounded-full z-10" />
         {!isLast && (
-          <div className="w-px bg-black mt-2 h-[460px] lg:h-[260px]" />
+          <div className="w-px bg-black flex-1 mt-2" />
         )}
       </div>
 
@@ -134,7 +135,7 @@ function TextBlock({
 
 function DoubleOvalImage({ reverse }: { reverse?: boolean }) {
   return (
-    <div className="relative w-[360px] h-[180px]">
+    <div className="relative w-[320px] h-[180px]">
       <MagnifyOval
         className={`${reverse ? "right-0" : "left-0"} top-6`}
         size="lg"
@@ -163,7 +164,7 @@ function MagnifyOval({
   className?: string;
 }) {
   const sizeMap = {
-    sm: "w-[180px] h-[110px]",
+    sm: "w-[160px] h-[100px]",
     md: "w-[220px] h-[140px]",
     lg: "w-[240px] h-[150px]",
   };
