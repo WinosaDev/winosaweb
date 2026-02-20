@@ -17,7 +17,7 @@ export default function AdminHeader() {
     <header className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 h-16">
       <div className="flex items-center justify-between h-full px-6">
         <div className="flex items-center gap-3">
-          {/* Logo Image - SESUAIKAN UKURAN */}
+          {/* Logo Image */}
           <div className="w-10 h-10 relative">
             <Image
               src="/images/logo.png"

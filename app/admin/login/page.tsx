@@ -13,7 +13,7 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
@@ -24,19 +24,40 @@ export default function AdminLogin() {
       return
     }
 
-    // Simulasi auth
-    if (email !== 'admin@winosa.com' || password !== 'admin123') {
-      setError('Invalid email or password')
-      setLoading(false)
+    try {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    // Fallback sementara kalau DB mati
+    if (email === 'admin@winosa.com' && password === 'admin123') {
+      localStorage.setItem('adminToken', 'dummy-token-dev')
+      localStorage.setItem('isAdminLoggedIn', 'true')
+      router.push('/admin')
       return
     }
+    setError(data.message || 'Invalid email or password')
+    return
+  }
 
-    // Set session
+  localStorage.setItem('adminToken', data.token)
+  localStorage.setItem('isAdminLoggedIn', 'true')
+  router.push('/admin')
+} catch (err) {
+  // Fallback kalau backend ga bisa direach
+  if (email === 'admin@winosa.com' && password === 'admin123') {
+    localStorage.setItem('adminToken', 'dummy-token-dev')
     localStorage.setItem('isAdminLoggedIn', 'true')
-    localStorage.setItem('adminEmail', email)
-    
-    // Redirect ke dashboard
     router.push('/admin')
+    return
+  }
+  setError('Cannot connect to server.')
+}
   }
 
   return (
@@ -120,7 +141,7 @@ export default function AdminLogin() {
               </label>
             </div>
 
-            <button 
+            <button
               className={styles['login-button']}
               disabled={loading}
             >

@@ -49,8 +49,11 @@ export default function AdminSidebar() {
           {/* Menu Items */}
           <ul className="space-y-3 flex-1">
             {menuItems.map((item) => {
-              const isActive = pathname === item.href
               const Icon = item.icon
+              
+              // Check if current path starts with item href (untuk highlight sub-pages)
+              const isActive = pathname === item.href || 
+                               (item.href !== '/admin' && pathname.startsWith(item.href))
 
               if (isExpanded) {
                 // Mode EXPANDED - full width dengan text
