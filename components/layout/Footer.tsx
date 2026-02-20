@@ -22,7 +22,7 @@ export default function Footer() {
 
         <div className="space-y-4">
           <h4 className="font-bold tracking-wide">INSIGHT</h4>
-          <Link href="/Portfolio" className="block hover:underline">Portfolio</Link>
+          <Link href="/portofolio" className="block hover:underline">Portfolio</Link>
           <Link href="/Blog" className="block hover:underline">Blog</Link>
         </div>
 
