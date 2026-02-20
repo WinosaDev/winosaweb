@@ -10,6 +10,7 @@ export default function PortfolioPage() {
       <SectionPortoCards />
       <SectionBridge/>
       <SectionExplanation/>
+      <Footer/>
     </main>
   );
 }
