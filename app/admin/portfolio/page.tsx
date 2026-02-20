@@ -40,26 +40,16 @@ export default function PortfolioPage() {
   })
 
   const filteredPortfolios = portfolios.filter((portfolio) => {
-    const matchesFilter = 
-      activeFilter === 'All' || 
-      portfolio.status === activeFilter
-    
-    const matchesSearch = 
+    const matchesFilter = activeFilter === 'All' || portfolio.status === activeFilter
+    const matchesSearch =
       portfolio.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       portfolio.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       portfolio.category.toLowerCase().includes(searchQuery.toLowerCase())
-    
     return matchesFilter && matchesSearch
   })
 
-  const handleEdit = (id: string) => {
-    router.push(`/admin/portfolio/edit/${id}`)
-  }
-
-  const handleDelete = (id: string) => {
-    setDeleteModal({ isOpen: true, portfolioId: id })
-  }
-
+  const handleEdit = (id: string) => router.push(`/admin/portfolio/edit/${id}`)
+  const handleDelete = (id: string) => setDeleteModal({ isOpen: true, portfolioId: id })
   const confirmDelete = () => {
     if (deleteModal.portfolioId) {
       setPortfolios(portfolios.filter((p) => p.id !== deleteModal.portfolioId))
@@ -67,117 +57,87 @@ export default function PortfolioPage() {
     setDeleteModal({ isOpen: false, portfolioId: null })
   }
 
-  const handleAddNew = () => {
-    router.push('/admin/portfolio/add')
-  }
-
   return (
     <div className="space-y-6 w-full">
-      {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header */}
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-            Portofolio
-          </h1>
-          <p className="text-gray-600 italic text-base md:text-lg">
-            Manage study case and project
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">Portofolio</h1>
+          <p className="text-gray-500 italic text-base">Manage study case and project</p>
         </div>
-
-        {/* Add Portfolio Button */}
         <button
-          onClick={handleAddNew}
-          className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-full transition-colors duration-200 w-fit"
+          onClick={() => router.push('/admin/portfolio/add')}
+          className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-7 py-3.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md text-sm"
         >
           <Plus className="w-5 h-5" />
-          <span>Add Portofolio</span>
+          Add Portofolio
         </button>
       </div>
 
-      {/* SEARCH BAR - SENDIRI di atas */}
-      <div className="relative max-w-md">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+      {/* Search */}
+      <div className="relative w-fit">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <input
           type="text"
           placeholder="Search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+          className="pl-10 pr-6 py-2 border border-gray-300 rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-sm w-60"
         />
       </div>
 
-      {/* FILTER BUTTONS - TERPISAH di bawah search */}
-      <div className="flex gap-3">
+      {/* Filter Pills */}
+      <div className="flex gap-2">
         {(['All', 'Draft', 'Published'] as const).map((status) => (
           <button
             key={status}
             onClick={() => setActiveFilter(status)}
-            className={`
-              px-8 py-2.5 rounded-full font-medium transition-colors duration-200
-              ${
-                activeFilter === status
-                  ? 'bg-black text-white'
-                  : 'bg-white text-black border border-gray-300 hover:bg-gray-50'
-              }
-            `}
+            className={`px-5 py-1.5 rounded-full text-sm font-medium border transition-all duration-200
+              ${activeFilter === status
+                ? 'bg-gray-900 text-white border-gray-900'
+                : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500'
+              }`}
           >
             {status}
           </button>
         ))}
       </div>
 
-      {/* CARD GRID */}
+      {/* Card Grid */}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
         {filteredPortfolios.map((item) => (
-          <div
-            key={item.id}
-            className="border border-black rounded-3xl overflow-hidden bg-white"
-          >
-            {/* THUMBNAIL */}
+          <div key={item.id} className="border border-black rounded-3xl overflow-hidden bg-white">
+            {/* Thumbnail */}
             <div className="relative h-64 bg-[#f4efe9] flex items-center justify-center">
-              <span className="text-gray-400 text-base">
-                Logo / thumbnail
-              </span>
-
-              {/* STATUS BADGE */}
+              <span className="text-gray-400 text-base">Logo / thumbnail</span>
               <div
                 className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs border border-black ${
-                  item.status === 'Published'
-                    ? 'bg-green-200'
-                    : 'bg-gray-200'
+                  item.status === 'Published' ? 'bg-green-200' : 'bg-gray-200'
                 }`}
               >
                 {item.status}
               </div>
             </div>
 
-            {/* BOTTOM INFO */}
+            {/* Info */}
             <div className="border-t border-black p-5 flex justify-between items-end">
               <div>
-                <h3 className="text-xl font-semibold leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {item.description}
-                </p>
-                <p className="mt-2 text-sm text-black">
-                  {item.category}
-                </p>
+                <h3 className="text-xl font-semibold leading-tight">{item.title}</h3>
+                <p className="text-sm text-gray-500">{item.description}</p>
+                <p className="mt-2 text-sm text-black">{item.category}</p>
               </div>
-
-              {/* ACTION BUTTONS */}
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={() => handleDelete(item.id)}
-                  className="w-9 h-9 flex items-center justify-center border border-black rounded-lg text-red-500 hover:bg-red-50 transition"
+                  className="w-9 h-9 flex items-center justify-center border border-red-200 rounded-lg hover:bg-red-50 transition-colors group"
                 >
-                  <Trash2 size={15} />
+                  <Trash2 size={15} className="text-red-400 group-hover:text-red-600" />
                 </button>
-                <button 
+                <button
                   onClick={() => handleEdit(item.id)}
-                  className="w-9 h-9 flex items-center justify-center border border-black rounded-lg text-yellow-600 hover:bg-yellow-50 transition"
+                  className="w-9 h-9 flex items-center justify-center border border-yellow-200 rounded-lg hover:bg-yellow-50 transition-colors group"
                 >
-                  <Pencil size={15} />
+                  <Pencil size={15} className="text-yellow-500 group-hover:text-yellow-700" />
                 </button>
               </div>
             </div>
@@ -185,14 +145,10 @@ export default function PortfolioPage() {
         ))}
       </div>
 
-      {/* Empty State */}
       {filteredPortfolios.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No portfolios found</p>
-        </div>
+        <div className="text-center py-12 text-gray-500">No portfolios found</div>
       )}
 
-      {/* Delete Confirmation Modal */}
       <DeleteConfirmModal
         isOpen={deleteModal.isOpen}
         onClose={() => setDeleteModal({ isOpen: false, portfolioId: null })}

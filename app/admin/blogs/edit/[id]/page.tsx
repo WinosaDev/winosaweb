@@ -1,62 +1,32 @@
 'use client'
 
 import { useParams } from 'next/navigation'
+import { DUMMY_BLOGS } from '@/constants/blogs'
 import BlogForm from '@/components/admin/BlogForm'
-
-const DUMMY_BLOGS = [
-  {
-    id: '1',
-    title: 'Why Winosa',
-    category: 'Insight',
-    author: 'Yurian',
-    content: '',
-    status: 'Published',
-  },
-  {
-    id: '2',
-    title: 'Why Winosa',
-    category: 'Insight',
-    author: 'Yurian',
-    content: '',
-    status: 'Draft',
-  },
-  {
-    id: '3',
-    title: 'Why Winosa',
-    category: 'Insight',
-    author: 'Yurian',
-    content: '',
-    status: 'Published',
-  },
-]
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 export default function EditBlogPage() {
   const params = useParams()
   const blogId = params.id as string
-
-  // Find blog by ID
-  const blog = DUMMY_BLOGS.find((b) => b.id === blogId)
+  const blog = DUMMY_BLOGS.find((b) => b._id === blogId)
 
   if (!blog) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900">Blog not found</h2>
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <p className="text-6xl mb-4">📄</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Blog not found</h2>
+        <p className="text-gray-500 mb-6">The blog you're looking for doesn't exist.</p>
+        <Link
+          href="/admin/blogs"
+          className="flex items-center gap-2 text-sm font-medium text-yellow-600 hover:text-yellow-700"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Blogs
+        </Link>
       </div>
     )
   }
 
-  return (
-    <div className="max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-          Blog
-        </h1>
-        <p className="text-gray-600 italic text-base md:text-lg">
-          Manage Winosa blog content
-        </p>
-      </div>
-
-      <BlogForm mode="edit" initialData={blog} />
-    </div>
-  )
+  return <BlogForm initialData={blog} isEdit />
 }
