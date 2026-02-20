@@ -2,47 +2,66 @@ type CardProps = {
   image: string;
   title: string;
   description: string;
+  variant?: "services" | "preview";
 };
 
-export default function Card({ image, title, description }: CardProps) {
+export default function Card({
+  image,
+  title,
+  description,
+  variant = "preview",
+}: CardProps) {
+  if (variant === "services") {
+    return (
+      <div
+        className="
+          flex items-center gap-6
+          bg-white
+          rounded-[28px]
+          px-10 py-8
+          border border-black
+          shadow-[0_12px_30px_rgba(0,0,0,0.15)]
+          transition
+          hover:shadow-[0_18px_45px_rgba(0,0,0,0.2)]
+        "
+      >
+        <div className="w-24 h-24 flex items-center justify-center">
+          <img src={image} className="w-24 h-24" />
+        </div>
+
+        <div>
+          <h3 className="font-bold text-black text-lg mb-2">
+            {title}
+          </h3>
+          <p className="text-sm text-black/70 leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: "16px",
-        padding: "16px 20px",
-        border: "1.5px solid #000",
-        borderRadius: "18px",
-        boxShadow: "0 10px 28px rgba(0,0,0,0.25)",
-        background: "transparent",
-      }}
+      className="
+        bg-white
+        rounded-xl
+        shadow-lg
+        hover:shadow-2xl
+        transition
+        overflow-hidden
+      "
     >
       <img
         src={image}
-        alt={title}
-        style={{
-          width: "64px",
-          height: "64px",
-          borderRadius: "14px",
-          objectFit: "cover",
-          flexShrink: 0,
-        }}
+        className="w-full h-[180px] object-cover"
       />
 
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <h3 style={{ fontSize: "16px", fontWeight: 600 }}>
+      <div className="p-6">
+        <h3 className="font-semibold mb-2">
           {title}
         </h3>
-        <p
-          style={{
-            fontSize: "14px",
-            marginTop: "4px",
-            color: "#000",
-            lineHeight: 1.4,
-          }}
-        >
+        <p className="text-sm text-gray-600">
           {description}
         </p>
       </div>

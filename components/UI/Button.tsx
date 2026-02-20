@@ -1,34 +1,59 @@
 "use client";
 
+import Link from "next/link";
+
+type Variant = "dark" | "light";
+
 type ButtonProps = {
-  children: React.ReactNode;
+  text: string;
+  href?: string;
+  variant?: Variant;
   onClick?: () => void;
+  className?: string;
 };
 
-export default function Button({ children, onClick }: ButtonProps) {
+export default function Button({
+  text,
+  href,
+  variant = "dark",
+  onClick,
+  className = "",
+}: ButtonProps) {
+
+  const base = `
+    inline-flex items-center justify-center
+    px-8 py-3
+    rounded-full
+    font-semibold
+    border
+    bg-transparent
+    transition-all duration-300
+  `;
+
+  const variants = {
+    dark: `
+      border-black text-black
+      hover:bg-black/20
+    `,
+    light: `
+      border-white text-white
+      hover:bg-white/20
+    `,
+  };
+
+  const style = `${base} ${variants[variant]} ${className}`;
+
+  if (href) {
+    return (
+      <Link href={href} className={style}>
+        {text}
+      </Link>
+    );
+  }
+
   return (
-    <button
-      onClick={onClick}
-      style={{
-        padding: "12px 28px",
-        borderRadius: "999px",
-        border: "2px solid #000",
-        background: "transparent",
-        color: "#000",
-        fontWeight: 500,
-        cursor: "pointer",
-        transition: "all 0.25s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "#000";
-        e.currentTarget.style.color = "#fff";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "transparent";
-        e.currentTarget.style.color = "#000";
-      }}
-    >
-      {children}
+    <button onClick={onClick} className={style}>
+      {text}
     </button>
   );
 }
