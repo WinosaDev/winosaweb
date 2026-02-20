@@ -1,139 +1,20 @@
-'use client'
+import ServiceForm from '@/components/admin/ServiceForm'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Plus, Search } from 'lucide-react'
-import ServiceCard from '@/components/admin/ServiceCard'
-import DeleteConfirmModal from '@/components/admin/DeleteConfirmModal'
-import api from '@/lib/axios'
 
-export interface Service {
-  _id: string
-  title: string
-  description: string
-  status: 'Published' | 'Draft'
-}
-
-export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [filterStatus, setFilterStatus] = useState<'All' | 'Draft' | 'Published'>('All')
-  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; serviceId: string | null }>({
-    isOpen: false,
-    serviceId: null,
-  })
-
-  // Fetch dari API
-  const fetchServices = async () => {
-    try {
-      const res = await api.get('/admin/services')
-      setServices(res.data)
-    } catch (err) {
-      console.error('Gagal fetch services:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchServices()
-  }, [])
-
-  // Filter
-  const filteredServices = services.filter((service) => {
-    const matchesSearch = service.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = filterStatus === 'All' || service.status === filterStatus
-    return matchesSearch && matchesStatus
-  })
-
-  // Delete
-  const handleDelete = (id: string) => {
-    setDeleteModal({ isOpen: true, serviceId: id })
-  }
-
-  const confirmDelete = async () => {
-    if (deleteModal.serviceId) {
-      try {
-        await api.delete(`/services/${deleteModal.serviceId}`)
-        setServices(services.filter((s) => s._id !== deleteModal.serviceId))
-      } catch (err) {
-        console.error('Gagal delete:', err)
-      }
-    }
-    setDeleteModal({ isOpen: false, serviceId: null })
-  }
-
+export default function AddServicePage() {
   return (
-    <div className="space-y-6 w-full">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Services</h1>
-          <p className="text-gray-600 italic text-base md:text-lg">Manage Winosa services content</p>
-        </div>
-        <Link
-          href="/admin/services/add"
-          className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-full transition-colors duration-200 w-fit"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Add Service</span>
-        </Link>
+    <div className="max-w-4xl">
+      <div className="mb-8">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+          Services
+        </h1>
+        <p className="text-gray-600 italic text-base md:text-lg">
+          Manage Winosa services content
+        </p>
       </div>
 
-      {/* Search */}
-      <div className="relative max-w-md">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-        />
-      </div>
 
-      {/* Filter */}
-      <div className="flex gap-3">
-        {(['All', 'Draft', 'Published'] as const).map((status) => (
-          <button
-            key={status}
-            onClick={() => setFilterStatus(status)}
-            className={`px-8 py-2.5 rounded-full font-medium transition-colors duration-200 ${
-              filterStatus === status
-                ? 'bg-black text-white'
-                : 'bg-white text-black border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            {status}
-          </button>
-        ))}
-      </div>
-
-      {/* List */}
-      <div className="space-y-4">
-        {loading ? (
-          <div className="text-center py-12 text-gray-400">Loading...</div>
-        ) : filteredServices.length > 0 ? (
-          filteredServices.map((service) => (
-            <ServiceCard
-              key={service._id}
-              service={service}
-              onDelete={() => handleDelete(service._id)}
-            />
-          ))
-        ) : (
-          <div className="text-center py-12 text-gray-500">No services found</div>
-        )}
-      </div>
-
-      <DeleteConfirmModal
-        isOpen={deleteModal.isOpen}
-        onClose={() => setDeleteModal({ isOpen: false, serviceId: null })}
-        onConfirm={confirmDelete}
-        title="Delete Service"
-        message="Are you sure you want to delete this service? This action cannot be undone."
-      />
+      <ServiceForm mode="add" />
     </div>
   )
 }
