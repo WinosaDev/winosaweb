@@ -1,21 +1,31 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function SectionFrame() {
   return (
-    <section className="w-full bg-white py-24 lg:py-32">
+    <section className="w-full bg-white py-24 lg:py-32 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-0 font-serif text-black">
 
-        <h2 className="text-center text-3xl lg:text-4xl font-bold mb-24 lg:mb-32 leading-tight">
+        {/* TITLE */}
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center text-3xl lg:text-4xl font-bold mb-24 lg:mb-32 leading-tight"
+        >
           EMPOWERING YOUR VISION WITH PEOPLE,<br />
           INTEGRITY, AND TECHNOLOGY
-        </h2>
+        </motion.h2>
 
         <TimelineRow
           side="right"
           title="WHO WE ARE"
-          text="Kami adalah sekelompok profesional dengan kreativitas dan kemampuan tingkat tinggi.
-          Dengan kejujuran, keberanian, dan kolaborasi tim yang kuat, kami mengubah visi Anda
-          menjadi solusi nyata yang memberikan nilai bisnis jangka panjang."
+          text="We are a team of highly skilled professionals driven by creativity and excellence.
+          With honesty, courage, and strong collaboration, we transform your vision into
+          practical solutions that deliver long-term business value."
         >
           <DoubleOvalImage />
         </TimelineRow>
@@ -23,8 +33,8 @@ export default function SectionFrame() {
         <TimelineRow
           side="left"
           title="WHAT WE DO"
-          text="Winosa Mitra Bharatajaya adalah konsultan bisnis dan pengembang software yang
-          berfokus pada solusi IT untuk mendukung pertumbuhan bisnis Anda."
+          text="Winosa Mitra Bharatajaya is a business consulting and software development company
+          focused on delivering IT solutions that support and accelerate your business growth."
         >
           <DoubleOvalImage reverse />
         </TimelineRow>
@@ -32,8 +42,8 @@ export default function SectionFrame() {
         <TimelineRow
           side="right"
           title="VISION, MISSION & TRUST"
-          text="Kami berkomitmen menjadi perusahaan konsultan dan pengembang IT yang terpercaya,
-          inovatif, serta mampu bersaing di tingkat nasional dan internasional."
+          text="We are committed to becoming a trusted and innovative IT consulting and development
+          company, capable of competing at both national and international levels."
           isLast
         >
           <SingleOvalImage />
@@ -58,28 +68,38 @@ function TimelineRow({
   isLast?: boolean;
 }) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+      viewport={{ once: true }}
       className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 lg:mb-40 min-h-[240px]"
-      style={{ "--line-height": "365px" } as React.CSSProperties}
     >
-      <div
-        className="
-          absolute
-          top-16
-          left-4
-          lg:left-1/2
-          lg:-translate-x-1/2
-          flex
-          flex-col
-          items-center
-        "
-      >
-        <div className="w-4 h-4 bg-black rounded-full z-10" />
+      {/* Timeline Line */}
+      <div className="absolute top-16 left-4 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center">
+
+        {/* Dot */}
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+          className="w-4 h-4 bg-black rounded-full z-10"
+        />
+
+        {/* Line */}
         {!isLast && (
-          <div className="w-px bg-black mt-2 h-[var(--line-height)]" />
+          <motion.div
+            initial={{ height: 0 }}
+            whileInView={{ height: 365 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="w-px bg-black mt-2"
+          />
         )}
       </div>
 
+      {/* LEFT SIDE */}
       <div
         className={`${
           side === "left" ? "lg:order-1 text-right pr-16" : "lg:order-1"
@@ -92,6 +112,7 @@ function TimelineRow({
         )}
       </div>
 
+      {/* RIGHT SIDE */}
       <div
         className={`${
           side === "right" ? "lg:order-2 pl-16" : "lg:order-2"
@@ -103,7 +124,7 @@ function TimelineRow({
           children
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -117,16 +138,28 @@ function TextBlock({
   align?: "right";
 }) {
   return (
-    <div className={`max-w-md ${align === "right" ? "text-right" : ""}`}>
+    <motion.div
+      initial={{ opacity: 0, x: align === "right" ? -50 : 50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.7 }}
+      viewport={{ once: true }}
+      className={`max-w-md ${align === "right" ? "text-right" : ""}`}
+    >
       <h3 className="font-bold mb-4">{title}</h3>
       <p className="text-sm leading-relaxed">{text}</p>
-    </div>
+    </motion.div>
   );
 }
 
 function DoubleOvalImage({ reverse }: { reverse?: boolean }) {
   return (
-    <div className="relative w-[320px] h-[180px]">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.7 }}
+      viewport={{ once: true }}
+      className="relative w-[320px] h-[180px]"
+    >
       <MagnifyOval
         className={`${reverse ? "right-0" : "left-0"} top-6`}
         size="lg"
@@ -135,15 +168,21 @@ function DoubleOvalImage({ reverse }: { reverse?: boolean }) {
         className={`${reverse ? "left-0" : "right-0"} bottom-0`}
         size="sm"
       />
-    </div>
+    </motion.div>
   );
 }
 
 function SingleOvalImage() {
   return (
-    <div className="w-[220px] h-[140px]">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.7 }}
+      viewport={{ once: true }}
+      className="w-[220px] h-[140px]"
+    >
       <MagnifyOval size="md" />
-    </div>
+    </motion.div>
   );
 }
 

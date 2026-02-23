@@ -44,7 +44,7 @@ export default function SectionTeam() {
   };
 
   return (
-    <section className="w-full bg-white py-32 overflow-hidden">
+    <section className="relative w-full bg-white py-40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 text-black">
 
         <div className="text-center mb-16">
@@ -59,8 +59,8 @@ export default function SectionTeam() {
 
         <div className="relative h-[520px] flex items-center justify-center">
 
-          {/* Subtle gold glow */}
-          <div className="absolute w-[700px] h-[700px] bg-yellow-300/20 blur-[160px] rounded-full" />
+          {/* Bigger glow */}
+          <div className="absolute w-[1000px] h-[900px] bg-yellow-300/20 blur-[200px] rounded-full" />
 
           {team.map((member, i) => {
             const position = getPosition(i);
@@ -68,8 +68,7 @@ export default function SectionTeam() {
             let styles = "";
 
             if (position === "center") {
-              styles =
-                "translate-x-0 scale-100 z-30 opacity-100 blur-0";
+              styles = "translate-x-0 scale-100 z-30 opacity-100 blur-0";
             } else if (position === "left") {
               styles =
                 "-translate-x-[320px] scale-90 z-20 opacity-60 blur-sm";
@@ -83,11 +82,7 @@ export default function SectionTeam() {
             return (
               <div
                 key={i}
-                className={`
-                  absolute
-                  transition-all duration-700 ease-in-out
-                  ${styles}
-                `}
+                className={`absolute transition-all duration-700 ease-in-out ${styles}`}
               >
                 <div className="w-[340px] h-[420px] bg-white border border-black rounded-[32px] shadow-xl overflow-hidden">
 
@@ -113,6 +108,10 @@ export default function SectionTeam() {
 
         </div>
       </div>
+
+      {/* Bottom fade to white */}
+      <div className="absolute bottom-0 left-0 w-full h-[300px] bg-gradient-to-t from-white via-white to-transparent pointer-events-none" />
+
     </section>
   );
 }

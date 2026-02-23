@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import Button from "@/components/UI/Button";
+import { motion } from "framer-motion";
 
 export default function SectionCTA() {
   return (
     <section className="w-full bg-white py-32">
-      <div className="max-w-5xl mx-auto text-center px-8 text-black">
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, amount: 0.3 }}
+        className="max-w-5xl mx-auto text-center px-8 text-black"
+      >
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
           Ready to Build Your Digital Future?
         </h2>
@@ -21,7 +28,7 @@ export default function SectionCTA() {
             <Button text="Contact Us" />
           </Link>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

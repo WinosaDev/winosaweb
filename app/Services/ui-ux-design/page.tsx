@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionCTA from "@/components/layout/SectionCTA";
 
@@ -11,7 +10,6 @@ export default function UIUXPage() {
   return (
     <main className="bg-white">
 
-      <Navbar />
 
       <Hero />
       <Features />

@@ -9,8 +9,10 @@ import {
   Palette,
   Shield,
 } from "lucide-react";
+import { motion } from "framer-motion";
+import FadeUp from "@/components/animation/FadeUp";
 
-const services = [
+export const services = [
   {
     title: "Software Development",
     desc: "We design and develop scalable, secure, and high-performance web systems tailored to your business needs. From corporate websites to enterprise-grade platforms, our solutions are built using modern architecture and best engineering practices to ensure long-term reliability.",
@@ -56,11 +58,23 @@ export default function SectionServices() {
   return (
     <section className="w-full bg-white py-32">
       <div className="max-w-7xl mx-auto px-6 text-black">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
-          {services.map((item, i) => (
-            <ServiceCard key={i} {...item} />
-          ))}
-        </div>
+
+        <FadeUp>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+            {services.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 80 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.15 }}
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                <ServiceCard {...item} />
+              </motion.div>
+            ))}
+          </div>
+        </FadeUp>
+
       </div>
     </section>
   );
@@ -82,7 +96,6 @@ function ServiceCard({
   const content = (
     <div className="group relative h-full">
 
-      {/* GOLD GLOW */}
       <div
         className="
           absolute -inset-16
@@ -95,7 +108,6 @@ function ServiceCard({
         "
       />
 
-      {/* CARD */}
       <div
         className="
           relative
@@ -104,16 +116,13 @@ function ServiceCard({
           bg-white
           rounded-[28px]
           p-10
-          border border-black
           shadow-[0_12px_30px_rgba(0,0,0,0.15)]
           transition-all duration-500
           group-hover:-translate-y-2
           group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]
         "
       >
-        {/* HEADER */}
         <div className="flex items-start gap-6 mb-6">
-
           <div className="w-16 h-16 flex items-center justify-center rounded-full border border-black">
             <Icon size={28} strokeWidth={1.5} />
           </div>
@@ -123,12 +132,10 @@ function ServiceCard({
           </h3>
         </div>
 
-        {/* DESC */}
         <p className="text-sm text-black/70 leading-relaxed flex-1">
           {desc}
         </p>
 
-        {/* BUTTON FIXED POSITION */}
         <div className="mt-6">
           {hasDetail ? (
             <span

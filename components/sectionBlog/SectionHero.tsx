@@ -1,63 +1,92 @@
 "use client";
 
+import { motion } from "framer-motion";
+import FadeUp from "@/components/animation/FadeUp";
 import Link from "next/link";
 
 export default function SectionBlogHero() {
   return (
-    <section
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: "url('/bg/bg9.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-black/40" />
+    <FadeUp>
+      <section
+        className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: "url('/bg/bg9.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
 
-      {/* CONTENT */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center text-white">
-
-        {/* LABEL */}
-        <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="w-10 h-px bg-white/70" />
-          <span className="px-5 py-2 rounded-full border border-white text-xs tracking-wide">
-            Blog & Articles
-          </span>
-          <span className="w-10 h-px bg-white/70" />
-        </div>
-
-        {/* TITLE (1 LINE) */}
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 whitespace-nowrap">
-          Discover Our Latest Insights
-        </h1>
-
-        {/* SUBTITLE */}
-        <p className="text-white/90 text-lg max-w-2xl mx-auto mb-10">
-          Inspiring digital stories, technology perspectives, and strategic insights
-          for modern businesses.
-        </p>
-
-        {/* BUTTON */}
-        <Link
-          href="/Contact"
-          className="
-            inline-block
-            px-8 py-3
-            rounded-full
-            border border-white
-            text-white font-medium
-            hover:bg-white/20
-            transition
-          "
+        <motion.div
+          className="relative z-10 max-w-6xl mx-auto px-6 text-center text-white"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
         >
-          Get in Touch
-        </Link>
+          <motion.div
+            className="flex items-center justify-center gap-4 mb-6"
+            variants={{
+              hidden: { opacity: 0, y: 60 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="w-10 h-px bg-white/70" />
+            <span className="px-5 py-2 rounded-full border border-white text-xs tracking-wide">
+              Blog & Articles
+            </span>
+            <span className="w-10 h-px bg-white/70" />
+          </motion.div>
 
-      </div>
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold mb-6 whitespace-nowrap"
+            variants={{
+              hidden: { opacity: 0, y: 60 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8 }}
+          >
+            Discover Our Latest Insights
+          </motion.h1>
 
-      {/* BOTTOM GRADIENT */}
-      <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white to-transparent" />
-    </section>
+          <motion.p
+            className="text-white/90 text-lg max-w-2xl mx-auto mb-10"
+            variants={{
+              hidden: { opacity: 0, y: 60 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8 }}
+          >
+            Inspiring digital stories, technology perspectives, and strategic
+            insights for modern businesses.
+          </motion.p>
+
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 60 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.8 }}
+          >
+            <Link
+              href="/Contact"
+              className="inline-block px-8 py-3 rounded-full border border-white text-white font-medium hover:bg-white/20 transition"
+            >
+              Get in Touch
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white to-transparent" />
+      </section>
+    </FadeUp>
   );
 }

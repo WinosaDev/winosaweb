@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import FadeUp from "@/components/animation/FadeUp";
 
 const plans = [
   {
@@ -45,6 +46,8 @@ const plans = [
   },
 ];
 
+const whatsappNumber = "6281234567890";
+
 export default function SectionPricing() {
   return (
     <section className="w-full bg-white py-32">
@@ -61,105 +64,106 @@ export default function SectionPricing() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
           {plans.map((plan, i) => (
-            <div key={i} className="group relative h-full">
+            <FadeUp key={i} delay={i * 0.2}>
+              <div className="group relative h-full">
 
-              {/* GOLD GLOW */}
-              <div
-                className="
-                  absolute -inset-16
-                  rounded-[60px]
-                  bg-[radial-gradient(circle,rgba(255,200,0,0.6)_0%,rgba(255,200,0,0.35)_40%,transparent_75%)]
-                  opacity-0
-                  blur-[90px]
-                  transition-all duration-500
-                  group-hover:opacity-100
-                "
-              />
+                <div
+                  className="
+                    absolute -inset-16
+                    rounded-[60px]
+                    bg-[radial-gradient(circle,rgba(255,200,0,0.6)_0%,rgba(255,200,0,0.35)_40%,transparent_75%)]
+                    opacity-0
+                    blur-[90px]
+                    transition-all duration-500
+                    group-hover:opacity-100
+                  "
+                />
 
-              {/* CARD */}
-              <div
-                className="
-                  relative
-                  border border-black
-                  rounded-[28px]
-                  p-10
-                  bg-white
-                  shadow-[0_12px_30px_rgba(0,0,0,0.15)]
-                  transition-all duration-500
-                  group-hover:-translate-y-2
-                  group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]
-                  flex flex-col
-                  h-full
-                "
-              >
-                {plan.highlight && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-black text-white text-xs">
-                    Most Popular
-                  </div>
-                )}
+                <div
+                  className="
+                    relative
+                    rounded-[28px]
+                    p-10
+                    bg-white
+                    shadow-[0_12px_30px_rgba(0,0,0,0.15)]
+                    transition-all duration-500
+                    group-hover:-translate-y-2
+                    group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]
+                    flex flex-col
+                    h-full
+                    overflow-hidden
+                  "
+                >
 
-                {/* HEADER */}
-                <div>
-                  <h3 className="text-xl font-bold mb-2">
-                    {plan.name}
-                  </h3>
-
-                  <p className="text-sm text-black/70 mb-4">
-                    {plan.desc}
-                  </p>
-
-                  {plan.type === "normal" && (
-                    <span className="block text-sm text-black/60 mb-1">
-                      Start from
-                    </span>
+                  {plan.highlight && (
+                    <div className="absolute top-9 -right-16 rotate-45 bg-black text-white text-xs font-semibold px-16 py-2">
+                      MOST POPULAR
+                    </div>
                   )}
 
-                  <p className="text-4xl font-bold mb-6">
-                    {plan.price}
-                  </p>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">
+                      {plan.name}
+                    </h3>
+
+                    <p className="text-sm text-black/70 mb-4">
+                      {plan.desc}
+                    </p>
+
+                    {plan.type === "normal" && (
+                      <span className="block text-sm text-black/60 mb-1">
+                        Start from
+                      </span>
+                    )}
+
+                    <p className="text-4xl font-bold mb-6">
+                      {plan.price}
+                    </p>
+                  </div>
+
+                  <ul className="space-y-2 text-sm mb-8 flex-1">
+                    {plan.features.map((f, idx) => (
+                      <li key={idx}>{f}</li>
+                    ))}
+                  </ul>
+
+                  {plan.type === "custom" ? (
+                    <Link
+                      href={`https://wa.me/${whatsappNumber}?text=Hello%20I%20want%20a%20custom%20quote`}
+                      target="_blank"
+                      className="
+                        w-full text-center
+                        px-8 py-3
+                        rounded-full
+                        border border-black
+                        text-sm font-medium
+                        hover:bg-black/10
+                        transition
+                      "
+                    >
+                      Request Custom Quote
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`https://wa.me/${whatsappNumber}?text=Hello%20I%20am%20interested%20in%20the%20${plan.name}%20plan`}
+                      target="_blank"
+                      className="
+                        w-full text-center
+                        px-8 py-3
+                        rounded-full
+                        border border-black
+                        text-sm font-medium
+                        hover:bg-black/10
+                        transition
+                      "
+                    >
+                      Choose Plan
+                    </Link>
+                  )}
+
                 </div>
-
-                {/* FEATURES (GROW SECTION) */}
-                <ul className="space-y-2 text-sm mb-8 flex-1">
-                  {plan.features.map((f, idx) => (
-                    <li key={idx}>{f}</li>
-                  ))}
-                </ul>
-
-                {/* BUTTON ALWAYS BOTTOM */}
-                {plan.type === "custom" ? (
-                  <Link
-                    href="/Services/custom-quote"
-                    className="
-                      w-full text-center
-                      px-8 py-3
-                      rounded-full
-                      border border-black
-                      text-sm font-medium
-                      hover:bg-black/10
-                      transition
-                    "
-                  >
-                    Request Custom Quote
-                  </Link>
-                ) : (
-                  <button
-                    className="
-                      w-full
-                      px-8 py-3
-                      rounded-full
-                      border border-black
-                      text-sm font-medium
-                      hover:bg-black/10
-                      transition
-                    "
-                  >
-                    Choose Plan
-                  </button>
-                )}
-
               </div>
-            </div>
+            </FadeUp>
           ))}
         </div>
 

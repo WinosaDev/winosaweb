@@ -1,32 +1,49 @@
+"use client";
+
+import { motion } from "framer-motion";
+import FadeUp from "@/components/animation/FadeUp";
+
 export default function SectionMap() {
   return (
-    <section className="w-full bg-white py-32">
-      <div className="max-w-7xl mx-auto px-6 text-black">
+    <FadeUp>
+      <section className="w-full bg-white py-32">
+        <div className="max-w-7xl mx-auto px-6 text-black">
 
-        {/* Title */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            Find Us
-          </h2>
-          <p className="text-black/60">
-            Visit our office in Lampung or schedule a meeting.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="text-4xl font-bold mb-4">
+              Find Us
+            </h2>
+            <p className="text-black/60">
+              Visit our office in Lampung or schedule a meeting.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="rounded-[32px] overflow-hidden border border-black/20 shadow-lg"
+          >
+            <iframe
+              src="https://maps.google.com/maps?q=Bandar%20Lampung&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="450"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full"
+            ></iframe>
+          </motion.div>
+
         </div>
-
-        {/* Map */}
-        <div className="rounded-[32px] overflow-hidden border border-black/20 shadow-lg">
-          <iframe
-            src="https://maps.google.com/maps?q=Bandar%20Lampung&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            width="100%"
-            height="450"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            className="w-full"
-          ></iframe>
-        </div>
-
-      </div>
-    </section>
+      </section>
+    </FadeUp>
   );
 }

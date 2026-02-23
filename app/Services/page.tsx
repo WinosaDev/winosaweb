@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
 import SectionHero from "@/components/sectionService/SectionHero";
@@ -10,7 +9,6 @@ import SectionCTA from "@/components/layout/SectionCTA";
 export default function ServicesPage() {
   return (
     <main>
-      <Navbar />
       <SectionHero />
       <SectionServices />
       <SectionInfo />

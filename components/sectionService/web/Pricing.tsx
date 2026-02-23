@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import FadeUp from "@/components/animation/FadeUp";
 
 type PlanType = "normal" | "custom";
 
@@ -60,26 +61,31 @@ export default function SectionPricing() {
 
   return (
     <section className="w-full bg-white py-32">
-      <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-        <h2 className="text-4xl font-bold text-black mb-3">
-          Choose Your Plan
-        </h2>
-        <p className="text-black">
-          Select the plan that fits your business growth.
-        </p>
-      </div>
+
+      <FadeUp>
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <h2 className="text-4xl font-bold text-black mb-3">
+            Choose Your Plan
+          </h2>
+          <p className="text-black">
+            Select the plan that fits your business growth.
+          </p>
+        </div>
+      </FadeUp>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
         {plans.map((plan, i) => (
-          <PricingCard
-            key={i}
-            {...plan}
-            isActive={active === i}
-            onHover={() => setActive(i)}
-            onLeave={() => setActive(1)}
-          />
+          <FadeUp key={i} delay={i * 0.2}>
+            <PricingCard
+              {...plan}
+              isActive={active === i}
+              onHover={() => setActive(i)}
+              onLeave={() => setActive(1)}
+            />
+          </FadeUp>
         ))}
       </div>
+
     </section>
   );
 }
@@ -107,22 +113,12 @@ function PricingCard({
     <div
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className={`
-        relative cursor-pointer
-        rounded-[28px] p-8
-        border border-black
-        bg-white
-        transition-all duration-300
-        flex flex-col
-        h-full
-        ${
-          isActive
-            ? "shadow-[0_0_90px_rgba(255,200,80,0.8)] scale-[1.05]"
-            : "hover:shadow-[0_0_40px_rgba(255,200,80,0.4)]"
-        }
-      `}
+      className={`relative cursor-pointer rounded-[28px] p-8 bg-white transition-all duration-300 flex flex-col h-full ${
+        isActive
+          ? "shadow-[0_0_90px_rgba(255,200,80,0.8)] scale-[1.05]"
+          : "hover:shadow-[0_0_40px_rgba(255,200,80,0.4)]"
+      }`}
     >
-      {/* HEADER */}
       <div>
         <h3 className="text-xl font-bold text-black mb-2">{name}</h3>
         <p className="text-black mb-6">{desc}</p>
@@ -138,7 +134,6 @@ function PricingCard({
         </div>
       </div>
 
-      {/* FEATURES */}
       <ul className="space-y-3 text-sm mb-8 text-black flex-1">
         {features.map((item, i) => (
           <li key={i} className="flex items-center gap-2">
@@ -148,34 +143,15 @@ function PricingCard({
         ))}
       </ul>
 
-      {/* BUTTON ALWAYS BOTTOM */}
       {type === "custom" ? (
         <Link
           href="/Services/customWeb"
-          className={`
-            block text-center w-full py-3 rounded-full
-            border border-black font-semibold transition
-            ${
-              isActive
-                ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                : "bg-white text-black hover:bg-yellow-100"
-            }
-          `}
+          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
         >
           Custom
         </Link>
       ) : (
-        <button
-          className={`
-            w-full py-3 rounded-full font-semibold
-            border border-black transition
-            ${
-              isActive
-                ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                : "bg-white text-black hover:bg-yellow-100"
-            }
-          `}
-        >
+        <button className="w-full py-3 rounded-full font-semibold border border-black transition bg-white text-black hover:bg-yellow-100">
           Get Started
         </button>
       )}

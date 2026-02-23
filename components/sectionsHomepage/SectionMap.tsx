@@ -1,21 +1,32 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function SectionFrame() {
   return (
     <section className="w-full bg-white py-32">
 
-      <h2 className="text-sm tracking-widest mb-12 font-semibold text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+        className="text-sm tracking-widest mb-12 font-semibold text-black text-center"
+      >
         FIND US WHERE INNOVATION LIVES
-      </h2>
+      </motion.h2>
 
-      <a
+      <motion.a
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
         href="https://www.google.com/maps/place/Bandar+Lampung,+Indonesia"
         target="_blank"
         rel="noopener noreferrer"
         className="relative block w-full max-w-[1800px] mx-auto"
       >
         <div className="relative w-full pt-[50%]">
-
           <img
             src="/map.jpg"
             alt="Indonesia Map"
@@ -44,9 +55,8 @@ export default function SectionFrame() {
           >
             Bandar Lampung
           </span>
-
         </div>
-      </a>
+      </motion.a>
 
     </section>
   );

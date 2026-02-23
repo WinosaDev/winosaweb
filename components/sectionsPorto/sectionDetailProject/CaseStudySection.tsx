@@ -1,4 +1,8 @@
-import styles from '@/app/portofolio/[slug]/detail.module.css';
+"use client";
+
+import { motion } from "framer-motion";
+import FadeUp from "@/components/animation/FadeUp";
+import styles from "@/app/portofolio/[slug]/detail.module.css";
 
 interface CaseStudySectionProps {
   project: {
@@ -14,44 +18,123 @@ interface CaseStudySectionProps {
 
 export default function CaseStudySection({ project }: CaseStudySectionProps) {
   return (
-    <section className={styles.caseStudySection}>
-      <div className={styles.caseStudyContainer}>
-        <h2 className={styles.sectionTitle}>Case Study</h2>
-        
-        <div className={styles.caseStudyFlow}>
-          <div className={styles.caseStudyBlock}>
-            <span className={styles.caseStudyStep}>Step 01</span>
-            <h3 className={styles.caseStudyTitle}>The Challenge</h3>
-            <p className={styles.caseStudyText}>{project.challenge}</p>
-          </div>
+    <FadeUp>
+      <section className={styles.caseStudySection}>
+        <div className={styles.caseStudyContainer}>
+          <motion.h2
+            className={styles.sectionTitle}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Case Study
+          </motion.h2>
 
-          <div className={styles.caseStudyBlock}>
-            <span className={styles.caseStudyStep}>Step 02</span>
-            <h3 className={styles.caseStudyTitle}>The Solution</h3>
-            <p className={styles.caseStudyText}>{project.solution}</p>
-          </div>
+          <motion.div
+            className={styles.caseStudyFlow}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.2,
+                },
+              },
+            }}
+          >
+            <motion.div
+              className={styles.caseStudyBlock}
+              variants={{
+                hidden: { opacity: 0, y: 60 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className={styles.caseStudyStep}>Step 01</span>
+              <h3 className={styles.caseStudyTitle}>The Challenge</h3>
+              <p className={styles.caseStudyText}>{project.challenge}</p>
+            </motion.div>
 
-          <div className={styles.caseStudyBlock}>
-            <span className={styles.caseStudyStep}>Step 03</span>
-            <h3 className={styles.caseStudyTitle}>The Result</h3>
-            <p className={styles.caseStudyText}>{project.result}</p>
-          </div>
+            <motion.div
+              className={styles.caseStudyBlock}
+              variants={{
+                hidden: { opacity: 0, y: 60 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className={styles.caseStudyStep}>Step 02</span>
+              <h3 className={styles.caseStudyTitle}>The Solution</h3>
+              <p className={styles.caseStudyText}>{project.solution}</p>
+            </motion.div>
+
+            <motion.div
+              className={styles.caseStudyBlock}
+              variants={{
+                hidden: { opacity: 0, y: 60 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className={styles.caseStudyStep}>Step 03</span>
+              <h3 className={styles.caseStudyTitle}>The Result</h3>
+              <p className={styles.caseStudyText}>{project.result}</p>
+            </motion.div>
+          </motion.div>
+
+          {project.metrics && project.metrics.length > 0 && (
+            <motion.div
+              className={styles.metricsWrapper}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.15,
+                  },
+                },
+              }}
+            >
+              <motion.h3
+                className={styles.metricsTitle}
+                variants={{
+                  hidden: { opacity: 0, y: 60 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.8 }}
+              >
+                Impact & Results
+              </motion.h3>
+
+              <div className={styles.metricsGrid}>
+                {project.metrics.map((metric, index) => (
+                  <motion.div
+                    key={index}
+                    className={styles.metricCard}
+                    variants={{
+                      hidden: { opacity: 0, y: 60 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <span className={styles.metricValue}>
+                      {metric.value}
+                    </span>
+                    <span className={styles.metricLabel}>
+                      {metric.label}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </div>
-
-        {project.metrics && project.metrics.length > 0 && (
-          <div className={styles.metricsWrapper}>
-            <h3 className={styles.metricsTitle}>Impact & Results</h3>
-            <div className={styles.metricsGrid}>
-              {project.metrics.map((metric, index) => (
-                <div key={index} className={styles.metricCard}>
-                  <span className={styles.metricValue}>{metric.value}</span>
-                  <span className={styles.metricLabel}>{metric.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
+      </section>
+    </FadeUp>
   );
 }

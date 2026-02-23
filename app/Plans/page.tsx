@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionCTA from "@/components/layout/SectionCTA";
 
@@ -10,7 +9,6 @@ import SectionFAQ from "@/components/sectionPlans/SectionFAQ";
 export default function SubscriptionPage() {
   return (
     <main className="bg-white">
-      <Navbar />
 
       <SectionHero />
       <SectionPricing />

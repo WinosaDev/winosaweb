@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 
@@ -83,7 +82,6 @@ export default function CustomQuoteUIUXPage() {
 
   return (
     <main>
-      <Navbar />
 
       <section className="w-full bg-white py-32">
         <div className="max-w-6xl mx-auto px-6 text-black">

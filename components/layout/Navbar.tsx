@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const menus = [
@@ -16,11 +16,29 @@ const menus = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState("EN");
+  const [scrolled, setScrolled] = useState(false);
+
+  // Detect scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent">
+    <nav
+      className={`
+        fixed top-0 left-0 w-full z-50
+        transition-all duration-300
+        ${scrolled ? "bg-white shadow-md" : "bg-transparent"}
+      `}
+    >
       {/* ===== TOP BAR ===== */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
+        
         {/* LOGO */}
         <Link href="/">
           <img
@@ -30,7 +48,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* DESKTOP MENU (LG UP) */}
+        {/* DESKTOP MENU */}
         <ul className="hidden lg:flex gap-8 text-black text-sm">
           {menus.map((m) => (
             <li key={m.name}>
@@ -47,9 +65,8 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* RIGHT ACTION */}
+        {/* RIGHT SIDE */}
         <div className="flex items-center gap-4">
-          {/* LANGUAGE (LG UP) */}
           <button
             onClick={() => setLang(lang === "EN" ? "NL" : "EN")}
             className="
@@ -63,7 +80,6 @@ export default function Navbar() {
             {lang}
           </button>
 
-          {/* HAMBURGER (BELOW LG) */}
           <button
             onClick={() => setOpen(true)}
             className="lg:hidden text-black text-2xl"
@@ -76,7 +92,6 @@ export default function Navbar() {
       {/* ===== MOBILE MENU ===== */}
       {open && (
         <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-xl px-6 py-8 overflow-y-auto">
-          {/* HEADER */}
           <div className="flex items-center justify-between">
             <Link href="/" onClick={() => setOpen(false)}>
               <img
@@ -96,7 +111,6 @@ export default function Navbar() {
 
           <div className="w-full h-px bg-black my-6" />
 
-          {/* MENU LIST */}
           <div className="flex flex-col gap-4">
             {menus.map((m) => (
               <Link
@@ -114,7 +128,6 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* LANGUAGE MOBILE */}
             <button
               onClick={() => setLang(lang === "EN" ? "NL" : "EN")}
               className="

@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionCTA from "@/components/layout/SectionCTA";
 
@@ -10,7 +9,6 @@ import SectionMobilePricing from "@/components/sectionService/mobile/Pricing";
 export default function MobileAppPage() {
   return (
     <main className="bg-white">
-      <Navbar />
 
       <SectionMobileHero />
       <SectionMobileFeatures />

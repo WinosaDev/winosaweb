@@ -7,9 +7,10 @@ import Footer from "@/components/layout/Footer";
 
 import {
   servicesData,
-  portfolioData,
+  projects,
   blogData,
 } from "@/components/data/homeData";
+
 
 export default function HomePage() {
   return (
@@ -25,7 +26,7 @@ export default function HomePage() {
 
       <SectionPreview
         title="Our Portfolio"
-        items={portfolioData}
+        items={projects}
       />
 
       <SectionPreview
