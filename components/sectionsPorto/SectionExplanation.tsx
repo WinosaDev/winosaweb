@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/portfolio.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionExplanation() {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className={styles.explanationSection}>
@@ -23,6 +26,8 @@ export default function SectionExplanation() {
               },
             }}
           >
+
+            {/* BADGE */}
             <motion.span
               className={styles.explanationBadge}
               variants={{
@@ -31,9 +36,11 @@ export default function SectionExplanation() {
               }}
               transition={{ duration: 0.8 }}
             >
-              Why Choose Us?
+              {t("portfolioExplanation", "badge")}
             </motion.span>
 
+
+            {/* TITLE */}
             <motion.h2
               className={styles.explanationTitle}
               variants={{
@@ -42,9 +49,14 @@ export default function SectionExplanation() {
               }}
               transition={{ duration: 0.8 }}
             >
-              Creativity & <span>High-Level Expertise</span>
+              {t("portfolioExplanation", "title1")}{" "}
+              <span>
+                {t("portfolioExplanation", "title2")}
+              </span>
             </motion.h2>
 
+
+            {/* DESCRIPTION */}
             <motion.p
               className={styles.explanationText}
               variants={{
@@ -53,12 +65,11 @@ export default function SectionExplanation() {
               }}
               transition={{ duration: 0.8 }}
             >
-              We are a software consulting and development company based in
-              Sumatra, focusing on delivering IT services for both national and
-              international clients. Our professional team is dedicated to
-              providing tailored solutions that add value to your organization.
+              {t("portfolioExplanation", "description")}
             </motion.p>
 
+
+            {/* STATS */}
             <motion.div
               className={styles.highlightStats}
               variants={{
@@ -70,6 +81,8 @@ export default function SectionExplanation() {
                 },
               }}
             >
+
+              {/* TEAM */}
               <motion.div
                 className={styles.highlightItem}
                 variants={{
@@ -78,10 +91,16 @@ export default function SectionExplanation() {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <h3 className={styles.highlightNumber}>24+</h3>
-                <p className={styles.highlightLabel}>Tim Profesional</p>
+                <h3 className={styles.highlightNumber}>
+                  24+
+                </h3>
+                <p className={styles.highlightLabel}>
+                  {t("portfolioExplanation.stats", "team")}
+                </p>
               </motion.div>
 
+
+              {/* PROJECTS */}
               <motion.div
                 className={styles.highlightItem}
                 variants={{
@@ -90,10 +109,16 @@ export default function SectionExplanation() {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <h3 className={styles.highlightNumber}>15+</h3>
-                <p className={styles.highlightLabel}>Proyek Sukses</p>
+                <h3 className={styles.highlightNumber}>
+                  15+
+                </h3>
+                <p className={styles.highlightLabel}>
+                  {t("portfolioExplanation.stats", "projects")}
+                </p>
               </motion.div>
 
+
+              {/* QUALITY */}
               <motion.div
                 className={styles.highlightItem}
                 variants={{
@@ -102,10 +127,16 @@ export default function SectionExplanation() {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <h3 className={styles.highlightNumber}>100%</h3>
-                <p className={styles.highlightLabel}>Komitmen Kualitas</p>
+                <h3 className={styles.highlightNumber}>
+                  100%
+                </h3>
+                <p className={styles.highlightLabel}>
+                  {t("portfolioExplanation.stats", "quality")}
+                </p>
               </motion.div>
+
             </motion.div>
+
           </motion.div>
         </div>
       </section>

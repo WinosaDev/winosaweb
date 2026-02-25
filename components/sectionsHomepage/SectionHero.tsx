@@ -3,8 +3,11 @@
 import Link from "next/link";
 import Button from "@/components/UI/Button";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionHero() {
+  const { t } = useTranslate();
+
   return (
     <section
       className="relative w-full h-screen overflow-hidden"
@@ -14,23 +17,29 @@ export default function SectionHero() {
         backgroundPosition: "center",
       }}
     >
-      {/* overlay */}
       <div className="absolute inset-0 bg-black/10" />
 
       <div className="relative z-10 w-full h-full flex items-center">
         <div className="w-full max-w-7xl mx-auto px-6 md:px-16 flex justify-end">
-
-          <div className="max-w-xl ml-auto text-white text-right">
+          
+          <div className="max-w-[620px] ml-auto text-white text-right">
 
             {/* TITLE */}
             <FadeUp>
               <h1
-                className="text-4xl md:text-[64px] font-bold leading-tight"
+                className="
+                  text-4xl md:text-[64px]
+                  font-bold leading-tight
+                "
                 style={{ textShadow: "0 6px 20px rgba(0,0,0,0.6)" }}
               >
-                Build the Future
-                <br />
-                With Winosa
+                <span className="block whitespace-nowrap">
+                  {t("hero", "titleLine1")}
+                </span>
+
+                <span className="block whitespace-nowrap">
+                  {t("hero", "titleLine2")}
+                </span>
               </h1>
             </FadeUp>
 
@@ -40,11 +49,7 @@ export default function SectionHero() {
                 className="mt-6 text-sm md:text-base text-white/90 leading-relaxed"
                 style={{ textShadow: "0 4px 12px rgba(0,0,0,0.6)" }}
               >
-              We are an IT consulting and development company based in Indonesia, 
-              dedicated to delivering innovative technology solutions for both national 
-              and international clients. With strong creativity, professional expertise, 
-              and solid teamwork, we help businesses grow through reliable, secure, 
-              and sustainable digital solutions.
+                {t("hero", "description")}
               </p>
             </FadeUp>
 
@@ -53,7 +58,7 @@ export default function SectionHero() {
               <div className="mt-10 flex justify-end">
                 <Link href="/Contact">
                   <Button
-                    text="Get in Touch"
+                    text={t("hero", "button")}
                     className="border-white text-white hover:bg-white/20"
                   />
                 </Link>
@@ -64,7 +69,6 @@ export default function SectionHero() {
         </div>
       </div>
 
-      {/* bottom gradient */}
       <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-white to-transparent" />
     </section>
   );

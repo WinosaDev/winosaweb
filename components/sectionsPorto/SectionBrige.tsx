@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/portfolio.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionBridge() {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className={styles.bridgeSection}>
@@ -16,8 +19,7 @@ export default function SectionBridge() {
           viewport={{ once: true }}
         >
           <h2>
-            Through integrity, courage, and solid teamwork, we provide the best
-            solutions to support your business vision.
+            {t("portfolioBridge", "title")}
           </h2>
         </motion.div>
       </section>

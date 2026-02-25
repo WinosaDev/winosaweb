@@ -18,6 +18,8 @@ export default function HeroSection({ project }: HeroSectionProps) {
   return (
     <FadeUp>
       <section className={styles.heroSection}>
+
+        {/* IMAGE */}
         <div className={styles.heroImageWrapper}>
           <Image
             src={project.heroImage}
@@ -30,6 +32,7 @@ export default function HeroSection({ project }: HeroSectionProps) {
           <div className={styles.heroOverlay} />
         </div>
 
+        {/* CONTENT */}
         <motion.div
           className={styles.heroContent}
           initial="hidden"
@@ -44,6 +47,7 @@ export default function HeroSection({ project }: HeroSectionProps) {
             },
           }}
         >
+
           <motion.span
             className={styles.heroCategory}
             variants={{
@@ -76,7 +80,9 @@ export default function HeroSection({ project }: HeroSectionProps) {
           >
             {project.description}
           </motion.p>
+
         </motion.div>
+
       </section>
     </FadeUp>
   );

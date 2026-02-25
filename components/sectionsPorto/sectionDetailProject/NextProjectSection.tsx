@@ -5,6 +5,7 @@ import FadeUp from "@/components/animation/FadeUp";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/app/portofolio/[slug]/detail.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 interface NextProjectSectionProps {
   nextProject: {
@@ -18,10 +19,14 @@ interface NextProjectSectionProps {
 export default function NextProjectSection({
   nextProject,
 }: NextProjectSectionProps) {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className={styles.nextProjectSection}>
         <div className={styles.nextProjectContainer}>
+
+          {/* LABEL */}
           <motion.h2
             className={styles.nextProjectLabel}
             initial={{ opacity: 0, y: 60 }}
@@ -29,9 +34,10 @@ export default function NextProjectSection({
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Next Project
+            {t("portfolioDetail", "nextProject")}
           </motion.h2>
 
+          {/* CARD */}
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -56,14 +62,17 @@ export default function NextProjectSection({
                 <h3 className={styles.nextProjectTitle}>
                   {nextProject.title}
                 </h3>
+
                 <p className={styles.nextProjectDescription}>
                   {nextProject.description}
                 </p>
+
                 <span className={styles.nextProjectArrow}>→</span>
               </div>
             </Link>
           </motion.div>
 
+          {/* BACK BUTTON */}
           <motion.div
             className={styles.backToPortfolioWrapper}
             initial={{ opacity: 0, y: 60 }}
@@ -75,9 +84,10 @@ export default function NextProjectSection({
               href="/portofolio"
               className={styles.backToPortfolioButton}
             >
-              ← Back to Portfolio
+              ← {t("portfolioDetail", "backToPortfolio")}
             </Link>
           </motion.div>
+
         </div>
       </section>
     </FadeUp>

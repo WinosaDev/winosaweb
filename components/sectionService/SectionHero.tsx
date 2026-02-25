@@ -4,8 +4,11 @@ import Link from "next/link";
 import Button from "@/components/UI/Button";
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionHero() {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section
@@ -30,7 +33,7 @@ export default function SectionHero() {
               textShadow: "0 6px 24px rgba(0,0,0,0.6)",
             }}
           >
-            Our Services
+            {t("servicesHero", "title")}
           </motion.h1>
 
           <motion.p
@@ -43,7 +46,7 @@ export default function SectionHero() {
               textShadow: "0 4px 16px rgba(0,0,0,0.6)",
             }}
           >
-            Turning ideas into scalable digital solutions
+            {t("servicesHero", "subtitle")}
           </motion.p>
 
           <motion.div
@@ -54,7 +57,7 @@ export default function SectionHero() {
           >
             <Link href="/Contact">
               <Button
-                text="Get in Touch"
+                text={t("servicesHero", "button")}
                 className="border-white text-white hover:bg-white/20"
               />
             </Link>

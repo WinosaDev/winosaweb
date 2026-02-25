@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/[slug]/detail.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 interface InfoSectionProps {
   project: {
@@ -15,10 +16,14 @@ interface InfoSectionProps {
 }
 
 export default function InfoSection({ project }: InfoSectionProps) {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className={styles.infoSection}>
         <div className={styles.infoContainer}>
+
+          {/* TITLE */}
           <motion.h2
             className={styles.sectionTitle}
             initial={{ opacity: 0, y: 60 }}
@@ -26,9 +31,10 @@ export default function InfoSection({ project }: InfoSectionProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Project Overview
+            {t("portfolioDetail", "overview")}
           </motion.h2>
 
+          {/* INFO GRID */}
           <motion.div
             className={styles.infoGrid}
             initial="hidden"
@@ -37,12 +43,12 @@ export default function InfoSection({ project }: InfoSectionProps) {
             variants={{
               hidden: {},
               visible: {
-                transition: {
-                  staggerChildren: 0.2,
-                },
+                transition: { staggerChildren: 0.2 },
               },
             }}
           >
+
+            {/* CLIENT */}
             <motion.div
               className={styles.infoCard}
               variants={{
@@ -51,10 +57,16 @@ export default function InfoSection({ project }: InfoSectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              <span className={styles.infoLabel}>Client</span>
-              <span className={styles.infoValue}>{project.client}</span>
+              <span className={styles.infoLabel}>
+                {t("portfolioDetail", "client")}
+              </span>
+
+              <span className={styles.infoValue}>
+                {project.client}
+              </span>
             </motion.div>
 
+            {/* YEAR */}
             <motion.div
               className={styles.infoCard}
               variants={{
@@ -63,10 +75,16 @@ export default function InfoSection({ project }: InfoSectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              <span className={styles.infoLabel}>Year</span>
-              <span className={styles.infoValue}>{project.year}</span>
+              <span className={styles.infoLabel}>
+                {t("portfolioDetail", "year")}
+              </span>
+
+              <span className={styles.infoValue}>
+                {project.year}
+              </span>
             </motion.div>
 
+            {/* DURATION */}
             {project.duration && (
               <motion.div
                 className={styles.infoCard}
@@ -76,11 +94,17 @@ export default function InfoSection({ project }: InfoSectionProps) {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className={styles.infoLabel}>Duration</span>
-                <span className={styles.infoValue}>{project.duration}</span>
+                <span className={styles.infoLabel}>
+                  {t("portfolioDetail", "duration")}
+                </span>
+
+                <span className={styles.infoValue}>
+                  {project.duration}
+                </span>
               </motion.div>
             )}
 
+            {/* ROLE */}
             {project.role && (
               <motion.div
                 className={styles.infoCard}
@@ -90,12 +114,19 @@ export default function InfoSection({ project }: InfoSectionProps) {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className={styles.infoLabel}>Our Role</span>
-                <span className={styles.infoValue}>{project.role}</span>
+                <span className={styles.infoLabel}>
+                  {t("portfolioDetail", "role")}
+                </span>
+
+                <span className={styles.infoValue}>
+                  {project.role}
+                </span>
               </motion.div>
             )}
+
           </motion.div>
 
+          {/* TECH STACK */}
           <motion.div
             className={styles.techStack}
             initial="hidden"
@@ -104,12 +135,11 @@ export default function InfoSection({ project }: InfoSectionProps) {
             variants={{
               hidden: {},
               visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
+                transition: { staggerChildren: 0.15 },
               },
             }}
           >
+
             <motion.h3
               className={styles.techStackTitle}
               variants={{
@@ -118,7 +148,7 @@ export default function InfoSection({ project }: InfoSectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              Technologies Used
+              {t("portfolioDetail", "technologies")}
             </motion.h3>
 
             <div className={styles.techTags}>
@@ -136,7 +166,9 @@ export default function InfoSection({ project }: InfoSectionProps) {
                 </motion.span>
               ))}
             </div>
+
           </motion.div>
+
         </div>
       </section>
     </FadeUp>

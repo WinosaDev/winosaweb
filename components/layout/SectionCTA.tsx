@@ -3,8 +3,11 @@
 import Link from "next/link";
 import Button from "@/components/UI/Button";
 import { motion } from "framer-motion";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionCTA() {
+  const { t } = useTranslate();
+
   return (
     <section className="w-full bg-white py-32">
       <motion.div
@@ -15,17 +18,16 @@ export default function SectionCTA() {
         className="max-w-5xl mx-auto text-center px-8 text-black"
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
-          Ready to Build Your Digital Future?
+          {t("cta", "title")}
         </h2>
 
         <p className="text-gray-600 mb-10">
-          Mari bekerja sama untuk menciptakan solusi digital yang inovatif,
-          aman, dan berkelanjutan untuk bisnis Anda.
+          {t("cta", "description")}
         </p>
 
         <div className="flex justify-center gap-6">
           <Link href="/Contact">
-            <Button text="Contact Us" />
+            <Button text={t("cta", "button")} />
           </Link>
         </div>
       </motion.div>

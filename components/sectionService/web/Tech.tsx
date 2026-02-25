@@ -3,49 +3,83 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
-const techStack = [
+type TechGroup = {
+  category: string;
+  tech: string[];
+};
+
+type TechData = {
+  techTitle?: string;
+  techSubtitle?: string;
+  techStack?: TechGroup[];
+  features?: string[];
+  title?: string;
+};
+
+const defaultTechStack: TechGroup[] = [
   {
     category: "Frontend",
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
   },
   {
     category: "Backend",
-    tech: ["Node.js", "Express", "Laravel", "REST API"],
+    tech: ["Node.js", "Express", "REST API"],
   },
   {
     category: "Database",
-    tech: ["PostgreSQL", "MongoDB", "MySQL"],
-  },
-  {
-    category: "Cloud & DevOps",
-    tech: ["AWS", "Docker", "Vercel", "CI/CD"],
+    tech: ["MongoDB", "PostgreSQL"],
   },
 ];
 
-export default function SectionTechWeb() {
+export default function SectionTechWeb({ data }: { data?: TechData }) {
+  const { t } = useTranslate();
   const [active, setActive] = useState(0);
+
+  let techStack: TechGroup[] = [];
+
+  if (data?.techStack?.length) {
+    techStack = data.techStack;
+  } else if (data?.features?.length) {
+    techStack = [
+      {
+        category:
+          data.title ||
+          t("techSection", "fallbackCategory"),
+        tech: data.features,
+      },
+    ];
+  } else {
+    techStack = defaultTechStack;
+  }
+
+  const title =
+    data?.techTitle ||
+    t("techSection", "title");
+
+  const subtitle =
+    data?.techSubtitle ||
+    t("techSection", "subtitle");
 
   return (
     <section className="w-full bg-white py-40">
 
-      {/* TITLE */}
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-            Technology Stack
+            {title}
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto">
-            Structured layers powering scalable digital systems.
+            {subtitle}
           </p>
         </div>
       </FadeUp>
 
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* CONTAINER */}
         <FadeUp delay={0.2}>
-          <div className="relative flex h-[500px] rounded-[40px] border border-black">
+          <div className="relative flex h-[500px] rounded-[40px] border border-black overflow-hidden">
 
             {techStack.map((group, i) => (
               <motion.div
@@ -53,7 +87,7 @@ export default function SectionTechWeb() {
                 onMouseEnter={() => setActive(i)}
                 animate={{ flex: active === i ? 3 : 1 }}
                 transition={{ duration: 0.5 }}
-                className="relative cursor-pointer flex items-center justify-center bg-white"
+                className="relative cursor-pointer flex items-center justify-center bg-white border-r border-black last:border-r-0"
               >
 
                 {/* GOLD GLOW */}

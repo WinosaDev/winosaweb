@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/[slug]/detail.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 interface CaseStudySectionProps {
   project: {
@@ -17,10 +18,14 @@ interface CaseStudySectionProps {
 }
 
 export default function CaseStudySection({ project }: CaseStudySectionProps) {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className={styles.caseStudySection}>
         <div className={styles.caseStudyContainer}>
+
+          {/* TITLE */}
           <motion.h2
             className={styles.sectionTitle}
             initial={{ opacity: 0, y: 60 }}
@@ -28,9 +33,11 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Case Study
+            {t("portfolioCaseStudy", "title")}
           </motion.h2>
 
+
+          {/* FLOW */}
           <motion.div
             className={styles.caseStudyFlow}
             initial="hidden"
@@ -45,6 +52,8 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
               },
             }}
           >
+
+            {/* STEP 1 */}
             <motion.div
               className={styles.caseStudyBlock}
               variants={{
@@ -53,11 +62,21 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              <span className={styles.caseStudyStep}>Step 01</span>
-              <h3 className={styles.caseStudyTitle}>The Challenge</h3>
-              <p className={styles.caseStudyText}>{project.challenge}</p>
+              <span className={styles.caseStudyStep}>
+                {t("portfolioCaseStudy", "step01")}
+              </span>
+
+              <h3 className={styles.caseStudyTitle}>
+                {t("portfolioCaseStudy", "challenge")}
+              </h3>
+
+              <p className={styles.caseStudyText}>
+                {project.challenge}
+              </p>
             </motion.div>
 
+
+            {/* STEP 2 */}
             <motion.div
               className={styles.caseStudyBlock}
               variants={{
@@ -66,11 +85,21 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              <span className={styles.caseStudyStep}>Step 02</span>
-              <h3 className={styles.caseStudyTitle}>The Solution</h3>
-              <p className={styles.caseStudyText}>{project.solution}</p>
+              <span className={styles.caseStudyStep}>
+                {t("portfolioCaseStudy", "step02")}
+              </span>
+
+              <h3 className={styles.caseStudyTitle}>
+                {t("portfolioCaseStudy", "solution")}
+              </h3>
+
+              <p className={styles.caseStudyText}>
+                {project.solution}
+              </p>
             </motion.div>
 
+
+            {/* STEP 3 */}
             <motion.div
               className={styles.caseStudyBlock}
               variants={{
@@ -79,12 +108,23 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
               }}
               transition={{ duration: 0.8 }}
             >
-              <span className={styles.caseStudyStep}>Step 03</span>
-              <h3 className={styles.caseStudyTitle}>The Result</h3>
-              <p className={styles.caseStudyText}>{project.result}</p>
+              <span className={styles.caseStudyStep}>
+                {t("portfolioCaseStudy", "step03")}
+              </span>
+
+              <h3 className={styles.caseStudyTitle}>
+                {t("portfolioCaseStudy", "result")}
+              </h3>
+
+              <p className={styles.caseStudyText}>
+                {project.result}
+              </p>
             </motion.div>
+
           </motion.div>
 
+
+          {/* METRICS */}
           {project.metrics && project.metrics.length > 0 && (
             <motion.div
               className={styles.metricsWrapper}
@@ -108,7 +148,7 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
                 }}
                 transition={{ duration: 0.8 }}
               >
-                Impact & Results
+                {t("portfolioCaseStudy", "impact")}
               </motion.h3>
 
               <div className={styles.metricsGrid}>
@@ -125,14 +165,17 @@ export default function CaseStudySection({ project }: CaseStudySectionProps) {
                     <span className={styles.metricValue}>
                       {metric.value}
                     </span>
+
                     <span className={styles.metricLabel}>
                       {metric.label}
                     </span>
+
                   </motion.div>
                 ))}
               </div>
             </motion.div>
           )}
+
         </div>
       </section>
     </FadeUp>

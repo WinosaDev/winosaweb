@@ -3,14 +3,37 @@
 import Button from "@/components/UI/Button";
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
+import Link from "next/link";
+import { useTranslate } from "@/lib/useTranslate";
 
-export default function Hero() {
+type HeroData = {
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  heroImage?: string;
+};
+
+export default function Hero({ data }: { data?: HeroData }) {
+  const { t } = useTranslate();
+
+  const link = data?.ctaLink || "/Contact";
+
+  const title =
+    data?.title || t("serviceHero", "defaultTitle");
+
+  const subtitle =
+    data?.subtitle || t("serviceHero", "defaultSubtitle");
+
+  const ctaText =
+    data?.ctaText || t("serviceHero", "defaultCTA");
+
   return (
     <FadeUp>
       <section
         className="relative w-full h-screen overflow-hidden"
         style={{
-          backgroundImage: "url('/bg/bg10.jpg')",
+          backgroundImage: `url(${data?.heroImage || "/bg/bg10.jpg"})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -25,7 +48,7 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             className="text-white text-[56px] md:text-[64px] font-bold mb-4"
           >
-            Web Development
+            {title}
           </motion.h1>
 
           <motion.p
@@ -34,7 +57,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-white/90 text-lg mb-8 max-w-xl"
           >
-            Build fast, secure, and scalable websites for your business
+            {subtitle}
           </motion.p>
 
           <motion.div
@@ -42,10 +65,12 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <Button
-              text="Start Your Project"
-              className="border-white text-white hover:bg-white/20"
-            />
+            <Link href={link}>
+              <Button
+                text={ctaText}
+                className="border-white text-white hover:bg-white/20"
+              />
+            </Link>
           </motion.div>
 
         </div>

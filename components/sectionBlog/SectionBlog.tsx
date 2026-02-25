@@ -5,238 +5,311 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import FadeUp from "@/components/animation/FadeUp";
 import EmptyState from "@/components/UI/EmptyState";
+import { useTranslate } from "@/lib/useTranslate";
 
 type Blog = {
-  id: number;
+  _id: string;
   title: string;
-  desc: string;
-  image: string;
-  category: string;
+  content: string;
+  excerpt?: string;
+  image?: string;
+  category?: string;
   slug: string;
+  createdAt: string;
 };
-
-type BlogCardProps = {
-  title: string;
-  desc: string;
-  image: string;
-  category: string;
-  slug: string;
-};
-
-const dummyBlogs: Blog[] = [
-  {
-    id: 1,
-    title: "Where Technology, Design, and Stories Meet",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: "/bg/bg1.jpg",
-    category: "Insight",
-    slug: "technology-design-stories",
-  },
-  {
-    id: 2,
-    title: "Digital Future of Business",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: "/bg/bg1.jpg",
-    category: "Design",
-    slug: "digital-future-business",
-  },
-  {
-    id: 3,
-    title: "How Technology Shapes UX",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    image: "/bg/bg1.jpg",
-    category: "Insight",
-    slug: "technology-shapes-ux",
-  },
-];
-
-const categories = ["All", "Insight", "Design", "Tech"];
 
 export default function SectionBlog() {
+
+  const { t } = useTranslate();
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingStep, setLoadingStep] = useState(0);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
+
   useEffect(() => {
-    setLoading(true);
 
-    const t1 = setTimeout(() => setLoadingStep(1), 1000);
-    const t2 = setTimeout(() => setLoadingStep(2), 2000);
-    const t3 = setTimeout(() => setLoadingStep(3), 3000);
-    const t4 = setTimeout(() => setLoadingStep(4), 4000);
+    const fetchBlogs = async () => {
+      try {
 
-    const t5 = setTimeout(() => {
-      setLoadingStep(5);
-      setBlogs([]);
-      setLoading(false);
-    }, 5000);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/blog`
+        );
 
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
+        const data = await res.json();
+
+        setBlogs(data.data || []);
+
+      } catch (err) {
+
+        console.error(err);
+
+      } finally {
+
+        setLoading(false);
+
+      }
     };
+
+    fetchBlogs();
+
   }, []);
 
+
+
   const filteredBlogs = blogs.filter((blog) => {
-    const matchSearch = blog.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+
+    const title = blog.title?.toLowerCase() || "";
+
+    const category = blog.category?.toLowerCase() || "";
+
+    const matchSearch =
+      title.includes(search.toLowerCase());
 
     const matchCategory =
       activeCategory === "All" ||
-      blog.category === activeCategory;
+      category.includes(activeCategory.toLowerCase());
 
     return matchSearch && matchCategory;
+
   });
 
+
+
+  const categories = [
+    "All",
+    "Insight",
+    "Design",
+    "Tech",
+  ];
+
+
+
   return (
-    <FadeUp>
-      <section className="w-full bg-white py-32">
-        <div className="max-w-7xl mx-auto px-6 text-black">
+    <section className="w-full bg-white py-32 overflow-hidden">
+
+      <div className="max-w-7xl mx-auto px-6 text-black">
+
+        {/* TITLE */}
+        <FadeUp>
           <h2 className="text-3xl font-bold mb-8">
-            Articles for you
+            {t("blogSection", "title")}
           </h2>
+        </FadeUp>
+
+
+
+        {/* SEARCH */}
+        <FadeUp>
 
           <div className="flex gap-4 mb-6">
+
             <input
               type="text"
-              placeholder="Search blog..."
+              placeholder={t("blogSection", "search")}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
               className="flex-1 px-5 py-2 rounded-full border border-black text-sm"
             />
-            <button className="px-8 py-2 rounded-full border border-black hover:bg-black/10">
-              Search
-            </button>
+
           </div>
 
+        </FadeUp>
+
+
+
+        {/* CATEGORY */}
+        <FadeUp>
+
           <div className="flex justify-end gap-3 mb-14 flex-wrap">
+
             {categories.map((cat) => (
+
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() =>
+                  setActiveCategory(cat)
+                }
                 className={`px-5 py-2 rounded-full border text-sm transition ${
                   activeCategory === cat
                     ? "bg-black text-white"
                     : "border-black hover:bg-black/10"
                 }`}
               >
-                {cat}
+                {t("blogCategories", cat)}
               </button>
+
             ))}
+
           </div>
 
-          {loading && (
-            <div className="flex flex-col gap-8">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className={`flex gap-6 border border-black rounded-[28px] px-8 py-6 transition-all duration-700 ${
-                    loadingStep >= i ? "opacity-100" : "opacity-30"
-                  }`}
-                >
-                  <div className="w-28 h-28 bg-gray-200 rounded-2xl animate-pulse" />
-                  <div className="flex-1 space-y-3">
-                    <div className="h-3 bg-gray-200 w-24 rounded animate-pulse" />
-                    <div className="h-5 bg-gray-200 w-3/4 rounded animate-pulse" />
-                    <div className="h-3 bg-gray-200 w-full rounded animate-pulse" />
-                    <div className="h-3 bg-gray-200 w-2/3 rounded animate-pulse" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+        </FadeUp>
 
-          {!loading && (
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: { staggerChildren: 0.15 },
-                },
-              }}
-              className="flex flex-col gap-8"
-            >
-              {filteredBlogs.length === 0 ? (
+
+
+        {/* LOADING */}
+        {loading ? (
+
+          <div className="text-center py-20">
+            {t("global", "loading")}
+          </div>
+
+        ) : (
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15
+                }
+              }
+            }}
+            className="flex flex-col gap-8"
+          >
+
+            {filteredBlogs.length === 0 ? (
+
+              <EmptyState
+                title={t("blogSection", "emptyTitle")}
+                description={t("blogSection", "emptyDesc")}
+              />
+
+            ) : (
+
+              filteredBlogs.map((blog) => (
+
                 <motion.div
+                  key={blog._id}
                   variants={{
-                    hidden: { opacity: 0, y: 60 },
-                    visible: { opacity: 1, y: 0 },
+                    hidden: {
+                      opacity: 0,
+                      y: 50
+                    },
+                    visible: {
+                      opacity: 1,
+                      y: 0
+                    }
                   }}
-                  transition={{ duration: 0.6 }}
+                  transition={{
+                    duration: 0.5
+                  }}
                 >
-                  <EmptyState
-                    title="No Articles Found"
-                    description="We couldn’t find articles matching your search."
-                  />
+
+                  <BlogCard blog={blog} />
+
                 </motion.div>
-              ) : (
-                filteredBlogs.map((blog) => (
-                  <motion.div
-                    key={blog.id}
-                    variants={{
-                      hidden: { opacity: 0, y: 60 },
-                      visible: { opacity: 1, y: 0 },
-                    }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <BlogCard {...blog} />
-                  </motion.div>
-                ))
-              )}
-            </motion.div>
-          )}
-        </div>
-      </section>
-    </FadeUp>
+
+              ))
+
+            )}
+
+          </motion.div>
+
+        )}
+
+      </div>
+
+    </section>
   );
 }
 
-function BlogCard({
-  title,
-  desc,
-  image,
-  category,
-  slug,
-}: BlogCardProps) {
+
+
+function BlogCard({ blog }: { blog: Blog }) {
+
+  const { t } = useTranslate();
+
   return (
-    <div className="flex gap-6 border border-black rounded-[28px] px-8 py-6 transition hover:shadow-md">
-      <div className="w-28 h-28">
-        <img
-          src={image}
-          className="w-full h-full object-cover rounded-2xl"
-          alt={title}
-        />
+
+    <div className="group relative">
+
+      {/* GLOW */}
+      <div
+        className="
+          absolute -inset-6
+          rounded-[40px]
+          bg-[radial-gradient(circle,rgba(255,200,0,0.55)_0%,rgba(255,200,0,0.35)_35%,transparent_70%)]
+          opacity-0
+          blur-[70px]
+          transition-all duration-500
+          group-hover:opacity-100
+        "
+      />
+
+
+
+      {/* CARD */}
+      <div className="
+        relative
+        flex gap-6
+        bg-white
+        border border-black
+        rounded-[28px]
+        px-8 py-6
+        transition-all duration-500
+        group-hover:-translate-y-1
+        group-hover:shadow-[0_15px_40px_rgba(0,0,0,0.2)]
+      ">
+
+        {/* IMAGE */}
+        <div className="w-28 h-28 rounded-2xl overflow-hidden bg-gray-100">
+
+          {blog.image ? (
+
+            <img
+              src={blog.image}
+              className="w-full h-full object-cover"
+              alt={blog.title}
+            />
+
+          ) : (
+
+            <div className="w-full h-full bg-gray-200" />
+
+          )}
+
+        </div>
+
+
+
+        {/* CONTENT */}
+        <div className="flex-1">
+
+          <span className="text-xs font-semibold text-black/60">
+            {blog.category || t("blogSection", "general")}
+          </span>
+
+
+          <h3 className="font-bold text-lg mt-1 mb-2">
+            {blog.title}
+          </h3>
+
+
+          <p className="text-sm text-black/70 mb-4">
+            {blog.excerpt ||
+              blog.content?.slice(0, 120) ||
+              ""}
+          </p>
+
+
+          <Link
+            href={`/Blog/${blog.slug}`}
+            className="inline-block px-6 py-2 rounded-full border border-black text-sm text-black transition hover:bg-black/10"
+          >
+            {t("blogSection", "readMore")}
+          </Link>
+
+        </div>
+
       </div>
 
-      <div className="flex-1">
-        <span className="text-xs font-semibold text-black/60">
-          {category}
-        </span>
-
-        <h3 className="font-bold text-lg mt-1 mb-2">
-          {title}
-        </h3>
-
-        <p className="text-sm text-black/70 mb-4">
-          {desc}
-        </p>
-
-        <Link
-          href={`/Blog/Detail?slug=${slug}`}
-          className="inline-block px-4 py-1.5 rounded-full border border-black text-xs hover:bg-black/10"
-        >
-          Read More
-        </Link>
-      </div>
     </div>
   );
 }

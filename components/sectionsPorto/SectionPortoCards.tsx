@@ -1,25 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/portfolio.module.css";
 import Image from "next/image";
-import { projects, type Project } from "@/lib/projectsData";
+import Link from "next/link";
+import { useTranslate } from "@/lib/useTranslate";
+
+type Project = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  slug: string;
+  category: string;
+};
 
 type FilterType =
   | "All"
   | "Company Web"
   | "Enterprise System"
   | "Product/Platform"
-  | "Web Application";
+  | "Web Application"
+  | "UI/UX Design"
+  | "Branding";
 
-export default function SectionPortoCards() {
-  const router = useRouter();
+export default function SectionPortoCards({
+  data,
+}: {
+  data: Project[];
+}) {
+
+  const { t } = useTranslate();
+
   const [activeFilter, setActiveFilter] =
     useState<FilterType>("All");
-  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [currentIndex, setCurrentIndex] =
+    useState(0);
+
 
   const filters: FilterType[] = [
     "All",
@@ -27,20 +47,27 @@ export default function SectionPortoCards() {
     "Enterprise System",
     "Product/Platform",
     "Web Application",
+    "UI/UX Design",
+    "Branding",
   ];
+
 
   const filteredProjects =
     activeFilter === "All"
-      ? projects
-      : projects.filter(
-          (project) => project.category === activeFilter
+      ? data
+      : data.filter(
+          (project) =>
+            project.category === activeFilter
         );
+
 
   const handleNext = () => {
     setCurrentIndex(
-      (prev) => (prev + 1) % filteredProjects.length
+      (prev) =>
+        (prev + 1) % filteredProjects.length
     );
   };
+
 
   const handlePrev = () => {
     setCurrentIndex(
@@ -50,49 +77,69 @@ export default function SectionPortoCards() {
     );
   };
 
-  const handleFilterChange = (filter: FilterType) => {
+
+  const handleFilterChange = (
+    filter: FilterType
+  ) => {
     setActiveFilter(filter);
     setCurrentIndex(0);
   };
 
-  const handleLearnMore = (project: Project) => {
-    router.push(`/portofolio/${project.slug}`);
-  };
 
   const getCardStyle = (
     index: number
   ): React.CSSProperties => {
+
     const diff = index - currentIndex;
-    const totalCards = filteredProjects.length;
+    const totalCards =
+      filteredProjects.length;
 
     let normalizedDiff = diff;
+
     if (Math.abs(diff) > totalCards / 2) {
+
       normalizedDiff =
         diff > 0
           ? diff - totalCards
           : diff + totalCards;
+
     }
 
-    const isActive = normalizedDiff === 0;
+    const isActive =
+      normalizedDiff === 0;
 
     return {
-      transform: `translateX(${
-        normalizedDiff * 100
-      }%) scale(${
-        1 - Math.abs(normalizedDiff) * 0.15
-      })`,
+
+      transform:
+        `translateX(${normalizedDiff * 100}%) scale(${1 - Math.abs(normalizedDiff) * 0.15})`,
+
       opacity:
         Math.abs(normalizedDiff) > 1
           ? 0
           : 1 - Math.abs(normalizedDiff) * 0.4,
-      zIndex: 10 - Math.abs(normalizedDiff),
-      filter: isActive ? "blur(0px)" : "blur(4px)",
-      pointerEvents: isActive ? "auto" : "none",
+
+      zIndex:
+        10 - Math.abs(normalizedDiff),
+
+      filter:
+        isActive
+          ? "blur(0px)"
+          : "blur(4px)",
+
+      pointerEvents:
+        isActive
+          ? "auto"
+          : "none",
+
     };
+
   };
 
+
   return (
+
     <FadeUp>
+
       <motion.section
         id="portfolio-cards"
         className={styles.cardsSection}
@@ -101,8 +148,12 @@ export default function SectionPortoCards() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
+
+        {/* FILTER */}
         <div className={styles.filterContainer}>
+
           {filters.map((filter) => (
+
             <button
               key={filter}
               className={`${styles.filterBtn} ${
@@ -114,26 +165,41 @@ export default function SectionPortoCards() {
                 handleFilterChange(filter)
               }
             >
-              {filter}
+              {t("portfolioFilters", filter)}
             </button>
+
           ))}
+
         </div>
 
+
+        {/* EMPTY STATE */}
         {filteredProjects.length === 0 ? (
+
           <div className={styles.emptyState}>
-            <div className={styles.emptyStateIcon}>
-              📦
+
+            <div
+              style={{
+                fontSize: "40px",
+                marginBottom: "12px",
+              }}
+            >
+              🔍
             </div>
-            <h3>No Projects Found</h3>
-            <p>
-              We're currently working on projects in this
-              category. Check back soon or explore other
-              categories!
-            </p>
+
+            <h3 style={{ fontWeight: 600 }}>
+              {t("portfolio", "empty")}
+            </h3>
+
           </div>
+
         ) : (
+
           <>
+
+            {/* CAROUSEL */}
             <div className={styles.carouselWrapper}>
+
               <button
                 className={`${styles.navButton} ${styles.navLeft}`}
                 onClick={handlePrev}
@@ -141,21 +207,21 @@ export default function SectionPortoCards() {
                 ‹
               </button>
 
+
               <div className={styles.carouselContainer}>
+
                 {filteredProjects.map(
                   (project, index) => (
+
                     <div
-                      key={project.id}
-                      className={
-                        styles.carouselCard
-                      }
+                      key={project._id}
+                      className={styles.carouselCard}
                       style={getCardStyle(index)}
                     >
-                      <div
-                        className={
-                          styles.cardImage
-                        }
-                      >
+
+                      {/* IMAGE */}
+                      <div className={styles.cardImage}>
+
                         <Image
                           src={project.image}
                           alt={project.title}
@@ -163,25 +229,22 @@ export default function SectionPortoCards() {
                           style={{
                             objectFit: "cover",
                           }}
+                          unoptimized
                           priority={
-                            index ===
-                            currentIndex
+                            index === currentIndex
                           }
                         />
+
                       </div>
 
-                      <div
-                        className={
-                          styles.cardContent
-                        }
-                      >
-                        <h3
-                          className={
-                            styles.cardTitle
-                          }
-                        >
+
+                      {/* CONTENT */}
+                      <div className={styles.cardContent}>
+
+                        <h3 className={styles.cardTitle}>
                           {project.title}
                         </h3>
+
 
                         <p
                           className={
@@ -191,38 +254,46 @@ export default function SectionPortoCards() {
                           {project.description}
                         </p>
 
+
                         <div
                           className={
                             styles.cardFooter
                           }
                         >
+
                           <span
                             className={
                               styles.cardCategory
                             }
                           >
-                            {project.category}
+                            {t(
+                              "portfolioFilters",
+                              project.category
+                            )}
                           </span>
 
-                          <button
+
+                          <Link
+                            href={`/portofolio/${project.slug}`}
                             className={
                               styles.learnMore
                             }
-                            onClick={() =>
-                              handleLearnMore(
-                                project
-                              )
-                            }
                           >
-                            Learn More{" "}
+                            {t("portfolio", "learnMore")}{" "}
                             <span>→</span>
-                          </button>
+                          </Link>
+
                         </div>
+
                       </div>
+
                     </div>
+
                   )
                 )}
+
               </div>
+
 
               <button
                 className={`${styles.navButton} ${styles.navRight}`}
@@ -230,11 +301,16 @@ export default function SectionPortoCards() {
               >
                 ›
               </button>
+
             </div>
 
+
+            {/* DOTS */}
             <div className={styles.dotsContainer}>
+
               {filteredProjects.map(
                 (_, index) => (
+
                   <button
                     key={index}
                     className={`${styles.dot} ${
@@ -246,12 +322,20 @@ export default function SectionPortoCards() {
                       setCurrentIndex(index)
                     }
                   />
+
                 )
               )}
+
             </div>
+
           </>
+
         )}
+
       </motion.section>
+
     </FadeUp>
+
   );
+
 }

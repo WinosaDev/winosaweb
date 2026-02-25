@@ -9,48 +9,53 @@ import {
 
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
-
-const process = [
-  { title: "Discover", desc: "Understand your need and goals." },
-  { title: "Design", desc: "Create detailed designs and prototypes." },
-  { title: "Build", desc: "Develop robust and scalable solutions." },
-  { title: "Test", desc: "Ensure quality and security through testing." },
-  { title: "Deploy", desc: "Launch your solutions with confidence." },
-];
-
-const reasons = [
-  {
-    title: "Trusted Team",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: ShieldCheckIcon,
-  },
-  {
-    title: "Scalable Solutions",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: ChartBarIcon,
-  },
-  {
-    title: "Business Oriented",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    title: "Long-term Partnership",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: HandThumbUpIcon,
-  },
-];
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionInfo() {
+  const { t } = useTranslate();
+
+  const process = [
+    { title: t("info", "discover"), desc: t("info", "discoverDesc") },
+    { title: t("info", "design"), desc: t("info", "designDesc") },
+    { title: t("info", "build"), desc: t("info", "buildDesc") },
+    { title: t("info", "test"), desc: t("info", "testDesc") },
+    { title: t("info", "deploy"), desc: t("info", "deployDesc") },
+  ];
+
+  const reasons = [
+    {
+      title: t("info", "trusted"),
+      desc: t("info", "trustedDesc"),
+      icon: ShieldCheckIcon,
+    },
+    {
+      title: t("info", "scalable"),
+      desc: t("info", "scalableDesc"),
+      icon: ChartBarIcon,
+    },
+    {
+      title: t("info", "business"),
+      desc: t("info", "businessDesc"),
+      icon: CursorArrowRaysIcon,
+    },
+    {
+      title: t("info", "partnership"),
+      desc: t("info", "partnershipDesc"),
+      icon: HandThumbUpIcon,
+    },
+  ];
+
   return (
     <section className="w-full bg-white py-32">
       <div className="max-w-7xl mx-auto px-6 text-black">
 
         <FadeUp>
           <div className="text-center mb-24">
-            <h2 className="text-3xl font-bold mb-2">Our Process</h2>
+            <h2 className="text-3xl font-bold mb-2">
+              {t("info", "processTitle")}
+            </h2>
             <p className="text-sm text-gray-500">
-              How we turn concepts into reality
+              {t("info", "processSubtitle")}
             </p>
           </div>
         </FadeUp>
@@ -84,10 +89,10 @@ export default function SectionInfo() {
         <FadeUp>
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-2">
-              Why Choose Winosa?
+              {t("info", "whyTitle")}
             </h2>
             <p className="text-sm text-gray-500">
-              Experienced professionals dedicated to your success.
+              {t("info", "whySubtitle")}
             </p>
           </div>
         </FadeUp>

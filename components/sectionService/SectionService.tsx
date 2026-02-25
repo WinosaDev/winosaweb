@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Monitor,
@@ -8,73 +9,112 @@ import {
   CloudCog,
   Palette,
   Shield,
+  Code,
+  TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import FadeUp from "@/components/animation/FadeUp";
+import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslate } from "@/lib/useTranslate";
+import { getAllServices } from "@/services/service.service";
 
-export const services = [
-  {
-    title: "Software Development",
-    desc: "We design and develop scalable, secure, and high-performance web systems tailored to your business needs. From corporate websites to enterprise-grade platforms, our solutions are built using modern architecture and best engineering practices to ensure long-term reliability.",
-    icon: Monitor,
-    slug: "/Services/web-development",
-    hasDetail: true,
-  },
-  {
-    title: "IT Consulting",
-    desc: "Our IT consulting services help businesses define technical strategies, evaluate system architecture, choose the right digital stack, and plan sustainable technology roadmaps aligned with business growth objectives.",
-    icon: Briefcase,
-    hasDetail: false,
-  },
-  {
-    title: "Mobile App Development",
-    desc: "We build custom Android and iOS applications focused on usability, scalability, and performance. Our apps integrate seamlessly with backend systems while delivering smooth user experiences.",
-    icon: Smartphone,
-    slug: "/Services/mobile-app",
-    hasDetail: true,
-  },
-  {
-    title: "Cloud Solutions",
-    desc: "From infrastructure setup to monitoring and cost optimization, we implement reliable cloud environments designed for scalability, high availability, and operational efficiency.",
-    icon: CloudCog,
-    hasDetail: false,
-  },
-  {
-    title: "UI/UX Design",
-    desc: "We create intuitive interfaces, strong design systems, interactive prototypes, and data-driven user experiences that enhance engagement and improve product usability.",
-    icon: Palette,
-    slug: "/Services/ui-ux-design",
-    hasDetail: true,
-  },
-  {
-    title: "Cyber Security & Outsourcing",
-    desc: "Our security services include system audits, penetration testing, vulnerability analysis, and dedicated IT resource outsourcing to ensure your digital infrastructure remains protected and efficient.",
-    icon: Shield,
-    hasDetail: false,
-  },
-];
+type Service = {
+  _id: string;
+  title: string;
+  description: string;
+  icon?: string;
+  slug: string;
+};
+
+const iconMap: Record<string, any> = {
+  monitor: Monitor,
+  briefcase: Briefcase,
+  smartphone: Smartphone,
+  cloud: CloudCog,
+  palette: Palette,
+  shield: Shield,
+  mobile: Smartphone,
+  code: Code,
+  "trending-up": TrendingUp,
+};
 
 export default function SectionServices() {
+  const { language } = useLanguageStore();
+  const { t } = useTranslate();
+
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+
+        const data = await getAllServices(language);
+        setServices(data || []);
+      } catch (err) {
+        console.error("Failed to fetch services:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [language]);
+
+  if (loading) {
+    return (
+      <section className="w-full bg-white py-32 text-center">
+        <p className="animate-pulse text-black/60">
+          {t("global", "loading")}
+        </p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="w-full bg-white py-32 text-center">
+        <p className="text-red-500">
+          {t("global", "error")}
+        </p>
+      </section>
+    );
+  }
+
   return (
     <section className="w-full bg-white py-32">
       <div className="max-w-7xl mx-auto px-6 text-black">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+          {services.map((item, index) => {
+            const IconComponent =
+              iconMap[item.icon?.toLowerCase() || ""] || Monitor;
 
-        <FadeUp>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
-            {services.map((item, i) => (
+            return (
               <motion.div
-                key={i}
+                key={item._id}
                 initial={{ opacity: 0, y: 80 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: "easeOut",
+                }}
                 viewport={{ once: true, amount: 0.2 }}
               >
-                <ServiceCard {...item} />
+                <ServiceCard
+                  title={item.title}
+                  desc={item.description}
+                  icon={IconComponent}
+                  slug={`/Services/${item.slug}`}
+                  buttonText={t("services", "viewDetails")}
+                />
               </motion.div>
-            ))}
-          </div>
-        </FadeUp>
-
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -85,17 +125,21 @@ function ServiceCard({
   desc,
   icon: Icon,
   slug,
-  hasDetail,
+  buttonText,
 }: {
   title: string;
   desc: string;
   icon: any;
-  slug?: string;
-  hasDetail: boolean;
+  slug: string;
+  buttonText: string;
 }) {
   const content = (
-    <div className="group relative h-full">
-
+    <motion.div
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+      className="group relative h-full"
+    >
+      {/* Glow */}
       <div
         className="
           absolute -inset-16
@@ -118,7 +162,6 @@ function ServiceCard({
           p-10
           shadow-[0_12px_30px_rgba(0,0,0,0.15)]
           transition-all duration-500
-          group-hover:-translate-y-2
           group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]
         "
       >
@@ -137,33 +180,23 @@ function ServiceCard({
         </p>
 
         <div className="mt-6">
-          {hasDetail ? (
-            <span
-              className="
-                inline-block
-                px-5 py-2
-                rounded-full
-                border border-black
-                text-xs
-                hover:bg-black/10
-                transition
-              "
-            >
-              View Details
-            </span>
-          ) : (
-            <span className="opacity-0 select-none text-xs">
-              placeholder
-            </span>
-          )}
+          <span
+            className="
+              inline-block
+              px-5 py-2
+              rounded-full
+              border border-black
+              text-xs
+              hover:bg-black/10
+              transition
+            "
+          >
+            {buttonText}
+          </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
-  if (hasDetail && slug) {
-    return <Link href={slug}>{content}</Link>;
-  }
-
-  return content;
+  return <Link href={slug}>{content}</Link>;
 }

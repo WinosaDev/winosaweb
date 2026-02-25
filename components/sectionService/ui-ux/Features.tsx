@@ -1,32 +1,37 @@
 "use client";
 
-import { Layout, Layers, MousePointerClick, Smartphone } from "lucide-react";
+import {
+  Layout,
+  Layers,
+  MousePointerClick,
+  Smartphone,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
-export default function SectionFeaturesUIUX() {
-  const features = [
-    {
-      icon: Layout,
-      title: "User-Centered Design",
-      desc: "Every interface is built around user psychology, clarity, and intuitive interaction.",
-    },
-    {
-      icon: Layers,
-      title: "Design System Architecture",
-      desc: "Scalable design foundations with reusable and consistent components.",
-    },
-    {
-      icon: MousePointerClick,
-      title: "Interactive Prototyping",
-      desc: "Clickable and testable prototypes before development begins.",
-    },
-    {
-      icon: Smartphone,
-      title: "Responsive & App Experience",
-      desc: "Optimized layouts for web, tablet, and mobile applications.",
-    },
+export default function SectionFeaturesUIUX({ data }: { data?: any }) {
+  const { t } = useTranslate();
+
+  const iconPool = [
+    Layout,
+    Layers,
+    MousePointerClick,
+    Smartphone,
   ];
+
+  // 🔥 Fallback default features (multi language)
+  const fallbackFeatures = [
+    t("uiuxFeatures", "fallbackFeature1"),
+    t("uiuxFeatures", "fallbackFeature2"),
+    t("uiuxFeatures", "fallbackFeature3"),
+    t("uiuxFeatures", "fallbackFeature4"),
+  ];
+
+  const features =
+    data?.features && data.features.length > 0
+      ? data.features
+      : fallbackFeatures;
 
   return (
     <FadeUp>
@@ -36,52 +41,57 @@ export default function SectionFeaturesUIUX() {
           {/* LEFT SIDE */}
           <div>
             <p className="text-sm uppercase tracking-widest text-yellow-500 mb-4">
-              Our Expertise
+              {t("uiuxFeatures", "label")}
             </p>
 
             <h2 className="text-5xl font-bold text-black leading-tight mb-6">
-              Strategic Design <br /> That Drives Growth
+              {data?.title || t("uiuxFeatures", "defaultTitle")}
             </h2>
 
             <p className="text-black/60 max-w-md">
-              We craft intuitive digital systems that balance aesthetics,
-              usability, and business goals into one cohesive experience.
+              {data?.description || t("uiuxFeatures", "defaultDesc")}
             </p>
           </div>
 
           {/* RIGHT SIDE */}
           <div className="relative flex flex-col gap-8">
 
-            {features.map((feature, i) => {
-              const Icon = feature.icon;
+            {features.length > 0 ? (
+              features.map((feature: string, i: number) => {
+                const Icon = iconPool[i % iconPool.length];
 
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group relative pl-12"
-                >
-                  <div className="absolute left-5 top-0 bottom-0 w-px bg-black/10" />
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                    className="group relative pl-12"
+                  >
+                    <div className="absolute left-5 top-0 bottom-0 w-px bg-black/10" />
 
-                  <div className="absolute left-0 top-1 w-10 h-10 rounded-full border border-black flex items-center justify-center bg-white group-hover:bg-yellow-50 transition">
-                    <Icon className="w-5 h-5 text-black" />
-                  </div>
+                    <div className="absolute left-0 top-1 w-10 h-10 rounded-full border border-black flex items-center justify-center bg-white group-hover:bg-yellow-50 transition">
+                      <Icon className="w-5 h-5 text-black" />
+                    </div>
 
-                  <div className="pb-8 border-b border-black/10">
-                    <h3 className="text-lg font-semibold text-black mb-2 group-hover:translate-x-1 transition">
-                      {feature.title}
-                    </h3>
+                    <div className="pb-8 border-b border-black/10">
+                      <h3 className="text-lg font-semibold text-black mb-2 group-hover:translate-x-1 transition">
+                        {feature}
+                      </h3>
 
-                    <p className="text-sm text-black/60 leading-relaxed max-w-md">
-                      {feature.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
+                      <p className="text-sm text-black/60 leading-relaxed max-w-md">
+                        {t("uiuxFeatures", "fallbackDesc")}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })
+            ) : (
+              <div className="text-black/40 text-sm">
+                {t("uiuxFeatures", "empty")}
+              </div>
+            )}
 
           </div>
         </div>

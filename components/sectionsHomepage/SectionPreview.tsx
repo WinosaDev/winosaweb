@@ -3,17 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Monitor,
-  Briefcase,
-  Smartphone,
-  CloudCog,
-  Palette,
-  Shield,
-} from "lucide-react";
+import * as Icons from "lucide-react";
+import { useTranslate } from "@/lib/useTranslate";
 
 type Item = {
-  id: number;
+  _id: string;
   title: string;
   desc?: string;
   description?: string;
@@ -22,23 +16,36 @@ type Item = {
   slug?: string;
 };
 
-const iconMap: Record<string, any> = {
-  monitor: Monitor,
-  briefcase: Briefcase,
-  smartphone: Smartphone,
-  cloud: CloudCog,
-  palette: Palette,
-  shield: Shield,
-};
+function resolveIcon(iconName?: string) {
+  if (!iconName) return Icons.Monitor;
+
+  const formatted = iconName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
+
+  const IconComponent = (Icons as any)[formatted];
+  if (IconComponent) return IconComponent;
+
+  return Icons.Monitor;
+}
 
 export default function SectionPreview({
   title,
-  items,
+  items = [],
 }: {
   title: string;
-  items: Item[];
+  items?: Item[];
 }) {
+  const { t } = useTranslate();
   const previewItems = items.slice(0, 3);
+
+  const getTranslatedTitle = () => {
+    if (title === "Our Services") return t("preview", "services");
+    if (title === "Our Portfolio") return t("preview", "portfolio");
+    if (title === "Latest Blog") return t("preview", "blog");
+    return title;
+  };
 
   return (
     <section className="w-full bg-white py-28">
@@ -51,16 +58,17 @@ export default function SectionPreview({
           viewport={{ once: true }}
           className="text-center text-3xl font-bold text-black mb-20"
         >
-          {title}
+          {getTranslatedTitle()}
         </motion.h2>
 
         <div className="grid md:grid-cols-3 gap-14">
 
           {previewItems.map((item, index) => {
-            const Icon = item.icon ? iconMap[item.icon] : null;
+            const Icon = resolveIcon(item.icon);
 
             const content = (
               <motion.div
+                key={item._id}
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -68,13 +76,10 @@ export default function SectionPreview({
                 whileHover={{ y: -12 }}
                 className="group relative h-[420px]"
               >
-
-                {/* STRONGER GOLD GLOW */}
                 <div className="absolute -inset-12 opacity-0 blur-[100px] transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle,rgba(255,185,0,0.8)_0%,rgba(255,185,0,0.4)_40%,transparent_75%)]" />
 
                 <div className="relative h-full rounded-[32px] overflow-hidden bg-white shadow-[0_25px_60px_rgba(0,0,0,0.08)] transition duration-500 group-hover:shadow-[0_40px_90px_rgba(0,0,0,0.15)]">
 
-                  {/* IMAGE VERSION */}
                   {item.image ? (
                     <div className="relative h-full overflow-hidden">
                       <Image
@@ -82,9 +87,9 @@ export default function SectionPreview({
                         alt={item.title}
                         fill
                         className="object-cover transition duration-700 group-hover:scale-110"
+                        unoptimized
                       />
 
-                      {/* GOLD LIGHT BLEND */}
                       <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-transparent h-[45%] bottom-0 top-auto" />
 
                       <div className="absolute bottom-0 p-8 text-black">
@@ -97,22 +102,15 @@ export default function SectionPreview({
                       </div>
                     </div>
                   ) : (
-                    /* SERVICES VERSION */
                     <div className="flex flex-col justify-between h-full p-10 text-center">
 
                       <div>
-                        {Icon && (
-                          <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            className="mb-6 flex justify-center"
-                          >
-                            <Icon
-                              size={48}
-                              strokeWidth={1.5}
-                              className="text-black"
-                            />
-                          </motion.div>
-                        )}
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          className="mb-6 flex justify-center"
+                        >
+                          <Icon size={48} strokeWidth={1.5} className="text-black" />
+                        </motion.div>
 
                         <h3 className="text-xl font-semibold text-black mb-4">
                           {item.title}
@@ -125,19 +123,8 @@ export default function SectionPreview({
 
                       {item.slug && (
                         <div className="pt-6">
-                          <span
-                            className="
-                              inline-block
-                              px-5 py-2
-                              rounded-full
-                              border border-black
-                              text-xs
-                              text-black
-                              hover:bg-black/10
-                              transition
-                            "
-                          >
-                            View Details
+                          <span className="inline-block px-5 py-2 rounded-full border border-black text-xs text-black hover:bg-black/10 transition">
+                            {t("preview", "viewDetails")}
                           </span>
                         </div>
                       )}
@@ -149,16 +136,15 @@ export default function SectionPreview({
             );
 
             return item.slug ? (
-              <Link key={item.id} href={item.slug}>
+              <Link key={item._id} href={item.slug}>
                 {content}
               </Link>
             ) : (
-              <div key={item.id}>{content}</div>
+              <div key={item._id}>{content}</div>
             );
           })}
 
         </div>
-
       </div>
     </section>
   );

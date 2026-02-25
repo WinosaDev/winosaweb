@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionMap() {
+  const { t } = useTranslate();
+
   return (
     <FadeUp>
       <section className="w-full bg-white py-32">
@@ -17,10 +20,11 @@ export default function SectionMap() {
             className="mb-12 text-center"
           >
             <h2 className="text-4xl font-bold mb-4">
-              Find Us
+              {t("map", "title")}
             </h2>
+
             <p className="text-black/60">
-              Visit our office in Lampung or schedule a meeting.
+              {t("map", "subtitle")}
             </p>
           </motion.div>
 
@@ -39,7 +43,7 @@ export default function SectionMap() {
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full"
-            ></iframe>
+            />
           </motion.div>
 
         </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 type PlanType = "normal" | "custom";
 
@@ -14,7 +15,7 @@ type Plan = {
   type: PlanType;
 };
 
-const plans: Plan[] = [
+const defaultPlans: Plan[] = [
   {
     name: "Starter App",
     price: "$499",
@@ -56,8 +57,56 @@ const plans: Plan[] = [
   },
 ];
 
-export default function SectionPricingMobile() {
+export default function SectionPricingMobile({ data }: { data?: any }) {
+  const { t } = useTranslate();
   const [active, setActive] = useState<number>(1);
+
+  // 🔥 Clean price from API kalau ada
+  const cleanPrice = data?.price
+    ? data.price.replace(/Starting from\s*/i, "")
+    : null;
+
+  let plans: Plan[];
+
+  // ✅ Kalau ada data dari API (detail mobile app)
+  if (data?.price) {
+    const dynamicPlan: Plan = {
+      name: data.title || "Starter App",
+      price: cleanPrice || "$999",
+      desc: data.description || "Professional mobile app solution.",
+      features: data.features || [],
+      type: "normal",
+    };
+
+    const businessPlan: Plan = {
+      name: "Business App",
+      price: "$1499",
+      desc: "Advanced features for scalable mobile apps.",
+      features: [
+        ...(data.features || []),
+        "User Authentication",
+        "Cloud Deployment",
+      ],
+      type: "normal",
+    };
+
+    const customPlan: Plan = {
+      name: "Enterprise App",
+      price: "Custom",
+      desc: "Full custom architecture & scalable mobile platform.",
+      features: [
+        "Custom Backend",
+        "High Scalability",
+        "Payment Integration",
+        "Dedicated Team",
+      ],
+      type: "custom",
+    };
+
+    plans = [dynamicPlan, businessPlan, customPlan];
+  } else {
+    plans = defaultPlans;
+  }
 
   return (
     <section className="w-full bg-white py-32">
@@ -65,15 +114,15 @@ export default function SectionPricingMobile() {
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <h2 className="text-4xl font-bold text-black mb-3">
-            Mobile App Pricing
+            {t("pricing", "title")}
           </h2>
           <p className="text-black">
-            Flexible pricing tailored for your mobile application needs.
+            {t("pricing", "subtitle")}
           </p>
         </div>
       </FadeUp>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {plans.map((plan, i) => (
           <FadeUp key={i} delay={i * 0.2}>
             <PricingCard
@@ -109,6 +158,11 @@ function PricingCard({
   onHover: () => void;
   onLeave: () => void;
 }) {
+  const { t } = useTranslate();
+
+  const whatsappLink =
+    "https://wa.me/6281234567890?text=Hello%20I%20am%20interested%20in%20your%20mobile%20app%20service";
+
   return (
     <div
       onMouseEnter={onHover}
@@ -125,7 +179,7 @@ function PricingCard({
 
         {type === "normal" && (
           <span className="text-sm text-black block mb-1">
-            Start from
+            {t("pricing", "startFrom")}
           </span>
         )}
 
@@ -148,12 +202,16 @@ function PricingCard({
           href="/Services/customMobile"
           className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
         >
-          Custom
+          {t("pricing", "custom")}
         </Link>
       ) : (
-        <button className="w-full py-3 rounded-full font-semibold border border-black transition bg-white text-black hover:bg-yellow-100">
-          Get Started
-        </button>
+        <a
+          href={whatsappLink}
+          target="_blank"
+          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
+        >
+          {t("pricing", "getStarted")}
+        </a>
       )}
     </div>
   );

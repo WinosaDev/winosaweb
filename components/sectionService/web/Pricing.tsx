@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 type PlanType = "normal" | "custom";
 
@@ -14,50 +15,93 @@ type Plan = {
   type: PlanType;
 };
 
-const plans: Plan[] = [
+const defaultPlans: Plan[] = [
   {
     name: "Starter",
-    price: "$299",
-    desc: "Perfect for small business and personal brands.",
+    price: "$999",
+    desc: "Professional service package.",
     features: [
-      "Landing page / company profile",
-      "Responsive design",
-      "Basic SEO",
-      "Contact form",
-      "1 week delivery",
+      "Responsive Website",
+      "Modern UI Design",
+      "Basic SEO Setup",
+      "Contact Form Integration",
     ],
     type: "normal",
   },
   {
     name: "Business",
-    price: "$799",
-    desc: "Best choice for growing companies.",
+    price: "$1,499",
+    desc: "Extended features for growing companies.",
     features: [
-      "Custom website",
-      "CMS integration",
       "Advanced SEO",
-      "Performance optimization",
-      "Free maintenance 1 month",
+      "Performance Optimization",
+      "Analytics Integration",
+      "Priority Support",
     ],
     type: "normal",
   },
   {
     name: "Enterprise",
     price: "Custom",
-    desc: "For large scale & complex systems.",
+    desc: "Fully customized solution tailored to your needs.",
     features: [
-      "Web app / dashboard",
-      "Custom backend",
-      "Security & testing",
-      "Scalable architecture",
-      "Dedicated support",
+      "Custom Architecture",
+      "Dedicated Support",
+      "Scalable Infrastructure",
+      "Advanced Security",
     ],
     type: "custom",
   },
 ];
 
-export default function SectionPricing() {
-  const [active, setActive] = useState<number>(1);
+export default function SectionPricing({ data }: { data?: any }) {
+  const { t } = useTranslate();
+  const [active, setActive] = useState<number>(0);
+
+  let plans: Plan[];
+
+  // 🔥 Kalau ada API detail Web
+  if (data?.price) {
+    const cleanPrice = data.price.replace(/Starting from\s*/i, "");
+
+    const dynamicPlan: Plan = {
+      name: data.title || "Starter",
+      price: cleanPrice,
+      desc: data.description || "Professional service package.",
+      features: data.features || [],
+      type: "normal",
+    };
+
+    const businessPlan: Plan = {
+      name: "Business",
+      price: "$1,499",
+      desc: "Extended features for growing companies.",
+      features: [
+        ...(data.features || []),
+        "Priority Support",
+        "Advanced Optimization",
+      ],
+      type: "normal",
+    };
+
+    const customPlan: Plan = {
+      name: "Enterprise",
+      price: "Custom",
+      desc: "Fully customized solution tailored to your needs.",
+      features: [
+        "Custom Architecture",
+        "Dedicated Support",
+        "Scalable Infrastructure",
+        "Advanced Security",
+      ],
+      type: "custom",
+    };
+
+    plans = [dynamicPlan, businessPlan, customPlan];
+  } else {
+    // 🔥 Fallback default kalau belum ada API
+    plans = defaultPlans;
+  }
 
   return (
     <section className="w-full bg-white py-32">
@@ -65,22 +109,23 @@ export default function SectionPricing() {
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <h2 className="text-4xl font-bold text-black mb-3">
-            Choose Your Plan
+            {t("pricing", "title")}
           </h2>
           <p className="text-black">
-            Select the plan that fits your business growth.
+            {t("pricing", "subtitle")}
           </p>
         </div>
       </FadeUp>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {plans.map((plan, i) => (
           <FadeUp key={i} delay={i * 0.2}>
             <PricingCard
               {...plan}
               isActive={active === i}
               onHover={() => setActive(i)}
-              onLeave={() => setActive(1)}
+              onLeave={() => setActive(0)}
+              t={t}
             />
           </FadeUp>
         ))}
@@ -99,6 +144,7 @@ function PricingCard({
   isActive,
   onHover,
   onLeave,
+  t,
 }: {
   name: string;
   price: string;
@@ -108,7 +154,11 @@ function PricingCard({
   isActive: boolean;
   onHover: () => void;
   onLeave: () => void;
+  t: any;
 }) {
+  const whatsappLink =
+    "https://wa.me/6281234567890?text=Hello%20I%20am%20interested%20in%20your%20service";
+
   return (
     <div
       onMouseEnter={onHover}
@@ -125,7 +175,7 @@ function PricingCard({
 
         {type === "normal" && (
           <span className="text-sm text-black block mb-1">
-            Start from
+            {t("pricing", "startFrom")}
           </span>
         )}
 
@@ -148,12 +198,16 @@ function PricingCard({
           href="/Services/customWeb"
           className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
         >
-          Custom
+          {t("pricing", "custom")}
         </Link>
       ) : (
-        <button className="w-full py-3 rounded-full font-semibold border border-black transition bg-white text-black hover:bg-yellow-100">
-          Get Started
-        </button>
+        <a
+          href={whatsappLink}
+          target="_blank"
+          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
+        >
+          {t("pricing", "getStarted")}
+        </a>
       )}
     </div>
   );

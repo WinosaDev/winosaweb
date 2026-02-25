@@ -1,52 +1,70 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useTranslate } from "@/lib/useTranslate";
 
-export default function SectionFrame() {
+type GlassData = {
+  whoWeAre?: {
+    image1?: string;
+    image2?: string;
+  };
+  whatWeDo?: {
+    image1?: string;
+    image2?: string;
+  };
+  vision?: {
+    image?: string;
+  };
+};
+
+export default function SectionGlass({ data }: { data: GlassData | null }) {
+  const { t } = useTranslate();
+
   return (
-    <section className="w-full bg-white py-24 lg:py-32 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-0 font-serif text-black">
+    <section className="w-full bg-white py-24 lg:py-32">
+      {/* ❌ font-serif DIHAPUS supaya sama seperti Hero */}
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-0 text-black">
 
-        {/* TITLE */}
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center text-3xl lg:text-4xl font-bold mb-24 lg:mb-32 leading-tight"
-        >
-          EMPOWERING YOUR VISION WITH PEOPLE,<br />
-          INTEGRITY, AND TECHNOLOGY
-        </motion.h2>
+        {/* HEADING (2 BARIS FIX) */}
+        <h2 className="text-center text-3xl lg:text-4xl font-bold mb-24 lg:mb-32 leading-tight">
+          {t("glass", "headingLine1")}
+          <br />
+          {t("glass", "headingLine2")}
+        </h2>
 
+        {/* WHO WE ARE */}
         <TimelineRow
           side="right"
-          title="WHO WE ARE"
-          text="We are a team of highly skilled professionals driven by creativity and excellence.
-          With honesty, courage, and strong collaboration, we transform your vision into
-          practical solutions that deliver long-term business value."
+          title={t("glass", "whoTitle")}
+          text={t("glass", "whoDesc")}
         >
-          <DoubleOvalImage />
+          <DoubleOvalImage
+            image1={data?.whoWeAre?.image1}
+            image2={data?.whoWeAre?.image2}
+          />
         </TimelineRow>
 
+        {/* WHAT WE DO */}
         <TimelineRow
           side="left"
-          title="WHAT WE DO"
-          text="Winosa Mitra Bharatajaya is a business consulting and software development company
-          focused on delivering IT solutions that support and accelerate your business growth."
+          title={t("glass", "whatTitle")}
+          text={t("glass", "whatDesc")}
         >
-          <DoubleOvalImage reverse />
+          <DoubleOvalImage
+            reverse
+            image1={data?.whatWeDo?.image1}
+            image2={data?.whatWeDo?.image2}
+          />
         </TimelineRow>
 
+        {/* VISION */}
         <TimelineRow
           side="right"
-          title="VISION, MISSION & TRUST"
-          text="We are committed to becoming a trusted and innovative IT consulting and development
-          company, capable of competing at both national and international levels."
+          title={t("glass", "visionTitle")}
+          text={t("glass", "visionDesc")}
           isLast
         >
-          <SingleOvalImage />
+          <SingleOvalImage image={data?.vision?.image} />
         </TimelineRow>
 
       </div>
@@ -68,34 +86,15 @@ function TimelineRow({
   isLast?: boolean;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
+    <div
       className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 lg:mb-40 min-h-[240px]"
+      style={{ "--line-height": "365px" } as React.CSSProperties}
     >
-      {/* Timeline Line */}
+      {/* TIMELINE DOT + LINE */}
       <div className="absolute top-16 left-4 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center">
-
-        {/* Dot */}
-        <motion.div
-          initial={{ scale: 0 }}
-          whileInView={{ scale: 1 }}
-          transition={{ duration: 0.4 }}
-          viewport={{ once: true }}
-          className="w-4 h-4 bg-black rounded-full z-10"
-        />
-
-        {/* Line */}
+        <div className="w-4 h-4 bg-black rounded-full z-10" />
         {!isLast && (
-          <motion.div
-            initial={{ height: 0 }}
-            whileInView={{ height: 365 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="w-px bg-black mt-2"
-          />
+          <div className="w-px bg-black mt-2 h-[var(--line-height)]" />
         )}
       </div>
 
@@ -124,7 +123,7 @@ function TimelineRow({
           children
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -138,60 +137,60 @@ function TextBlock({
   align?: "right";
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: align === "right" ? -50 : 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
-      className={`max-w-md ${align === "right" ? "text-right" : ""}`}
-    >
-      <h3 className="font-bold mb-4">{title}</h3>
-      <p className="text-sm leading-relaxed">{text}</p>
-    </motion.div>
+    <div className={`max-w-md ${align === "right" ? "text-right" : ""}`}>
+      {/* FONT SIZE SAMA PERSIS SEPERTI VERSI ASLI */}
+      <h3 className="font-bold mb-4">
+        {title}
+      </h3>
+
+      <p className="text-sm leading-relaxed">
+        {text}
+      </p>
+    </div>
   );
 }
 
-function DoubleOvalImage({ reverse }: { reverse?: boolean }) {
+function DoubleOvalImage({
+  reverse,
+  image1,
+  image2,
+}: {
+  reverse?: boolean;
+  image1?: string;
+  image2?: string;
+}) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
-      className="relative w-[320px] h-[180px]"
-    >
+    <div className="relative w-[320px] h-[180px]">
       <MagnifyOval
         className={`${reverse ? "right-0" : "left-0"} top-6`}
         size="lg"
+        imageUrl={image1}
       />
       <MagnifyOval
         className={`${reverse ? "left-0" : "right-0"} bottom-0`}
         size="sm"
+        imageUrl={image2}
       />
-    </motion.div>
+    </div>
   );
 }
 
-function SingleOvalImage() {
+function SingleOvalImage({ image }: { image?: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
-      className="w-[220px] h-[140px]"
-    >
-      <MagnifyOval size="md" />
-    </motion.div>
+    <div className="relative w-[220px] h-[140px]">
+      <MagnifyOval size="md" imageUrl={image} />
+    </div>
   );
 }
 
 function MagnifyOval({
   size = "md",
   className = "",
+  imageUrl,
 }: {
   size?: "sm" | "md" | "lg";
   className?: string;
+  imageUrl?: string;
 }) {
   const sizeMap = {
     sm: "w-[160px] h-[100px]",
@@ -205,18 +204,18 @@ function MagnifyOval({
       style={{
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
-        backgroundImage: "url(/placeholder.jpg)",
-        backgroundSize: "180%",
-        backgroundPosition: "center",
         boxShadow: "0 12px 30px rgba(0,0,0,0.25)",
       }}
     >
-      <Image
-        src="/placeholder.jpg"
-        alt="oval"
-        fill
-        className="object-cover opacity-40"
-      />
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          alt="oval"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      )}
     </div>
   );
 }

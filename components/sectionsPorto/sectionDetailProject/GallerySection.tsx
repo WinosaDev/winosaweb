@@ -4,19 +4,26 @@ import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import Image from "next/image";
 import styles from "@/app/portofolio/[slug]/detail.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 interface GallerySectionProps {
   project: {
-    title: string;
-    gallery: string[];
+    title?: string;
+    gallery?: string[];
   };
 }
 
 export default function GallerySection({ project }: GallerySectionProps) {
+  const { t } = useTranslate();
+
+  const gallery = project.gallery || [];
+
   return (
     <FadeUp>
       <section className={styles.gallerySection}>
         <div className={styles.galleryContainer}>
+
+          {/* TITLE → translate fallback */}
           <motion.h2
             className={styles.sectionTitle}
             initial={{ opacity: 0, y: 60 }}
@@ -24,9 +31,10 @@ export default function GallerySection({ project }: GallerySectionProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Project Gallery
+            {t("portfolioDetail", "gallery")}
           </motion.h2>
 
+          {/* GALLERY GRID */}
           <motion.div
             className={styles.galleryGrid}
             initial="hidden"
@@ -41,7 +49,7 @@ export default function GallerySection({ project }: GallerySectionProps) {
               },
             }}
           >
-            {project.gallery.map((image, index) => (
+            {gallery.map((image, index) => (
               <motion.div
                 key={index}
                 className={styles.galleryItem}
@@ -53,7 +61,7 @@ export default function GallerySection({ project }: GallerySectionProps) {
               >
                 <Image
                   src={image}
-                  alt={`${project.title} screenshot ${index + 1}`}
+                  alt={`${project.title || "Project"} ${t("portfolioDetail", "galleryImage")} ${index + 1}`}
                   width={600}
                   height={400}
                   style={{ objectFit: "cover" }}
@@ -62,6 +70,7 @@ export default function GallerySection({ project }: GallerySectionProps) {
               </motion.div>
             ))}
           </motion.div>
+
         </div>
       </section>
     </FadeUp>

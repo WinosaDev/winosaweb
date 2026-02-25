@@ -2,15 +2,31 @@
 
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
-
-const stats = [
-  { value: "50+", label: "Projects Delivered" },
-  { value: "5+", label: "Years Experience" },
-  { value: "20+", label: "Happy Clients" },
-  { value: "100%", label: "Commitment" },
-];
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionStats() {
+
+  const { t } = useTranslate();
+
+  const stats = [
+    {
+      value: "50+",
+      label: t("stats", "projects"),
+    },
+    {
+      value: "5+",
+      label: t("stats", "experience"),
+    },
+    {
+      value: "20+",
+      label: t("stats", "clients"),
+    },
+    {
+      value: "100%",
+      label: t("stats", "commitment"),
+    },
+  ];
+
   return (
     <FadeUp>
       <section className="relative w-full bg-white py-32 overflow-hidden">
@@ -18,7 +34,7 @@ export default function SectionStats() {
         {/* GOLD GLOW */}
         <div className="absolute -bottom-40 right-0 w-[600px] h-[600px] bg-yellow-300/30 blur-[150px] rounded-full" />
 
-        {/* TOP SMOOTH FADE TO WHITE */}
+        {/* TOP FADE */}
         <div className="absolute -top-20 left-0 w-full h-[200px] bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none" />
 
         <motion.div
@@ -35,7 +51,9 @@ export default function SectionStats() {
             },
           }}
         >
+
           {stats.map((item, i) => (
+
             <motion.div
               key={i}
               variants={{
@@ -44,14 +62,19 @@ export default function SectionStats() {
               }}
               transition={{ duration: 0.8 }}
             >
+
               <div className="text-5xl font-bold mb-2">
                 {item.value}
               </div>
+
               <p className="text-black/70">
                 {item.label}
               </p>
+
             </motion.div>
+
           ))}
+
         </motion.div>
 
       </section>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
+import { useTranslate } from "@/lib/useTranslate";
 
 const UIUX_PACKAGES = {
   Starter: 600,
@@ -26,6 +27,9 @@ const UIUX_FEATURES = [
 ];
 
 export default function CustomQuoteUIUXPage() {
+
+  const { t } = useTranslate();
+
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -33,7 +37,9 @@ export default function CustomQuoteUIUXPage() {
 
   const toggle = (key: string) => {
     setSelected((prev) =>
-      prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]
+      prev.includes(key)
+        ? prev.filter((f) => f !== key)
+        : [...prev, key]
     );
   };
 
@@ -41,8 +47,9 @@ export default function CustomQuoteUIUXPage() {
     description.trim().length > 0 || selected.length > 0;
 
   const generate = () => {
+
     if (!isValid) {
-      setError("Please describe your design needs or select at least one feature.");
+      setError(t("uiuxEstimator", "error"));
       return;
     }
 
@@ -51,60 +58,91 @@ export default function CustomQuoteUIUXPage() {
     const text = description.toLowerCase();
 
     let projectType = "UI/UX Design Project";
-    if (text.includes("mobile")) projectType = "Mobile App UI/UX Design";
-    if (text.includes("dashboard")) projectType = "Web Dashboard Design";
-    if (text.includes("website")) projectType = "Website UI/UX Design";
+    if (text.includes("mobile"))
+      projectType = "Mobile App UI/UX Design";
 
-    const activeFeatures = UIUX_FEATURES.filter(
-      (f) =>
-        selected.includes(f.key) ||
-        f.keywords.some((k) => text.includes(k))
-    );
+    if (text.includes("dashboard"))
+      projectType = "Web Dashboard Design";
 
-    const featureCost = activeFeatures.reduce(
-      (sum, f) => sum + f.price,
-      0
-    );
+    if (text.includes("website"))
+      projectType = "Website UI/UX Design";
 
-    const estimates = Object.entries(UIUX_PACKAGES).map(
-      ([name, base]) => ({
-        name,
-        price: base + featureCost,
-      })
-    );
+    const activeFeatures =
+      UIUX_FEATURES.filter(
+        (f) =>
+          selected.includes(f.key) ||
+          f.keywords.some((k) =>
+            text.includes(k)
+          )
+      );
+
+    const featureCost =
+      activeFeatures.reduce(
+        (sum, f) => sum + f.price,
+        0
+      );
+
+    const estimates =
+      Object.entries(UIUX_PACKAGES).map(
+        ([name, base]) => ({
+          name,
+          price: base + featureCost,
+        })
+      );
 
     setResult({
       projectType,
       activeFeatures,
       estimates,
     });
+
   };
 
   return (
     <main>
 
       <section className="w-full bg-white py-32">
+
         <div className="max-w-6xl mx-auto px-6 text-black">
 
+          {/* TITLE */}
           <div className="text-center mb-14">
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Custom UI/UX Design Estimation
+              {t("uiuxEstimator", "title")}
             </h1>
+
             <p className="text-black/70 max-w-2xl mx-auto">
-              Describe your UI/UX project and select design services you need.
-              We’ll generate a recommended solution and price range.
+              {t("uiuxEstimator", "subtitle")}
             </p>
+
           </div>
 
+
+          {/* TEXTAREA */}
           <textarea
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Tell us about your UI/UX project (mobile app, dashboard, redesign, etc)..."
-            className="w-full h-40 p-6 border border-black rounded-2xl mb-12"
+            onChange={(e) =>
+              setDescription(e.target.value)
+            }
+            placeholder={
+              t("uiuxEstimator", "placeholder")
+            }
+            className="
+              w-full h-40 p-6 border border-black
+              rounded-2xl mb-12
+            "
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-14">
+
+          {/* FEATURES */}
+          <div className="
+            grid grid-cols-1 sm:grid-cols-2
+            md:grid-cols-3 gap-4 mb-14
+          ">
+
             {UIUX_FEATURES.map((f) => (
+
               <button
                 key={f.key}
                 onClick={() => toggle(f.key)}
@@ -120,9 +158,13 @@ export default function CustomQuoteUIUXPage() {
               >
                 {f.label}
               </button>
+
             ))}
+
           </div>
 
+
+          {/* GENERATE BUTTON */}
           <button
             onClick={generate}
             disabled={!isValid}
@@ -135,28 +177,51 @@ export default function CustomQuoteUIUXPage() {
               }
             `}
           >
-            Generate UI/UX Estimation
+            {t("uiuxEstimator", "generate")}
           </button>
 
+
+          {/* ERROR */}
           {error && (
-            <p className="text-red-500 text-sm mt-4 text-center">
+
+            <p className="
+              text-red-500 text-sm
+              mt-4 text-center
+            ">
               {error}
             </p>
+
           )}
 
-          {result && (
-            <div className="mt-20 border border-black rounded-[28px] p-10">
 
-              <h2 className="text-2xl font-bold mb-4">
-                Recommended Project Type
+          {/* RESULT */}
+          {result && (
+
+            <div className="
+              mt-20 border border-black
+              rounded-[28px] p-10
+            ">
+
+              <h2 className="
+                text-2xl font-bold mb-4
+              ">
+                {t("uiuxEstimator", "recommended")}
               </h2>
 
+
               <p className="mb-10">
-                <strong>{result.projectType}</strong>
+                <strong>
+                  {result.projectType}
+                </strong>
               </p>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-12">
+
+              <div className="
+                grid md:grid-cols-3 gap-6 mb-12
+              ">
+
                 {result.estimates.map((p: any) => (
+
                   <div
                     key={p.name}
                     className="
@@ -165,19 +230,33 @@ export default function CustomQuoteUIUXPage() {
                       transition
                     "
                   >
-                    <h3 className="font-bold text-lg mb-2">
+
+                    <h3 className="
+                      font-bold text-lg mb-2
+                    ">
                       {p.name}
                     </h3>
-                    <div className="text-3xl font-bold mb-2">
+
+                    <div className="
+                      text-3xl font-bold mb-2
+                    ">
                       ${p.price}
                     </div>
-                    <p className="text-sm text-black/70">
-                      Estimated based on selected design services
+
+                    <p className="
+                      text-sm text-black/70
+                    ">
+                      {t("uiuxEstimator", "estimatedNote")}
                     </p>
+
                   </div>
+
                 ))}
+
               </div>
 
+
+              {/* WHATSAPP */}
               <Link
               href="https://wa.me/6281234567890"
               target="_blank"
@@ -202,12 +281,15 @@ export default function CustomQuoteUIUXPage() {
               </Link>
 
             </div>
+
           )}
 
         </div>
+
       </section>
 
       <Footer />
+
     </main>
   );
 }

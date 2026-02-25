@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import FadeUp from "@/components/animation/FadeUp";
+import { useTranslate } from "@/lib/useTranslate";
 
 type PlanType = "normal" | "custom";
 
@@ -14,7 +15,7 @@ type Plan = {
   type: PlanType;
 };
 
-const plans: Plan[] = [
+const defaultPlans: Plan[] = [
   {
     name: "UI Basic",
     price: "$199",
@@ -56,8 +57,54 @@ const plans: Plan[] = [
   },
 ];
 
-export default function SectionPricingUIUX() {
+export default function SectionPricingUIUX({ data }: { data?: any }) {
+  const { t } = useTranslate();
   const [active, setActive] = useState<number>(1);
+
+  let plans: Plan[];
+
+  // 🔥 Kalau API kirim harga
+  if (data?.price) {
+    const cleanPrice = data.price.replace(/Starting from\s*/i, "");
+
+    const dynamicPlan: Plan = {
+      name: data.title || "UI Basic",
+      price: cleanPrice,
+      desc: data.description || "Professional design solution.",
+      features: data.features || [],
+      type: "normal",
+    };
+
+    const proPlan: Plan = {
+      name: "UI/UX Pro",
+      price: "$799",
+      desc: "Advanced user experience & full design system.",
+      features: [
+        ...(data.features || []),
+        "User Research",
+        "Interactive Prototype",
+      ],
+      type: "normal",
+    };
+
+    const customPlan: Plan = {
+      name: "Enterprise UX",
+      price: "Custom",
+      desc: "Full custom UX strategy & product design.",
+      features: [
+        "UX Strategy",
+        "Full Product Research",
+        "Mobile & Web App",
+        "Developer Handoff",
+      ],
+      type: "custom",
+    };
+
+    plans = [dynamicPlan, proPlan, customPlan];
+  } else {
+    // 🔥 Fallback default
+    plans = defaultPlans;
+  }
 
   return (
     <section className="w-full bg-white py-32">
@@ -65,15 +112,15 @@ export default function SectionPricingUIUX() {
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <h2 className="text-4xl font-bold text-black mb-3">
-            UI/UX Design Pricing
+            {t("pricing", "title")}
           </h2>
           <p className="text-black">
-            Professional and user-centered design solutions.
+            {t("pricing", "subtitle")}
           </p>
         </div>
       </FadeUp>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {plans.map((plan, i) => (
           <FadeUp key={i} delay={i * 0.2}>
             <PricingCard
@@ -81,6 +128,7 @@ export default function SectionPricingUIUX() {
               isActive={active === i}
               onHover={() => setActive(i)}
               onLeave={() => setActive(1)}
+              t={t}
             />
           </FadeUp>
         ))}
@@ -99,6 +147,7 @@ function PricingCard({
   isActive,
   onHover,
   onLeave,
+  t,
 }: {
   name: string;
   price: string;
@@ -108,7 +157,11 @@ function PricingCard({
   isActive: boolean;
   onHover: () => void;
   onLeave: () => void;
+  t: any;
 }) {
+  const whatsappLink =
+    "https://wa.me/6281234567890?text=Hello%20I%20am%20interested%20in%20your%20UIUX%20service";
+
   return (
     <div
       onMouseEnter={onHover}
@@ -130,7 +183,7 @@ function PricingCard({
 
         {type === "normal" && (
           <span className="text-sm text-black block mb-1">
-            Start from
+            {t("pricing", "startFrom")}
           </span>
         )}
 
@@ -148,18 +201,22 @@ function PricingCard({
         ))}
       </ul>
 
-          {type === "custom" ? (
+      {type === "custom" ? (
         <Link
           href="/Services/customUi"
           className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
         >
-          Custom Project
+          {t("pricing", "custom")}
         </Link>
       ) : (
-        <button className="w-full py-3 rounded-full font-semibold border border-black transition bg-white text-black hover:bg-yellow-100">
-          Get Started
-        </button>
+        <a
+          href={whatsappLink}
+          target="_blank"
+          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
+        >
+          {t("pricing", "getStarted")}
+        </a>
       )}
-          </div>
-        );
+    </div>
+  );
 }

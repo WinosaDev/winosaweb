@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import styles from "@/app/portofolio/portfolio.module.css";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionPortoHero() {
+  const { t } = useTranslate();
+
   const scrollToCards = () => {
     const cardsSection = document.getElementById("portfolio-cards");
     if (cardsSection) {
@@ -39,9 +42,12 @@ export default function SectionPortoHero() {
               hidden: { opacity: 0, y: 60 },
               visible: { opacity: 1, y: 0 },
             }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8 }}
           >
-            Our <span>Portfolio</span>
+            {t("portfolioHero", "title").split(" ")[0]}{" "}
+            <span>
+              {t("portfolioHero", "title").split(" ").slice(1).join(" ")}
+            </span>
           </motion.h1>
 
           <motion.h2
@@ -50,9 +56,9 @@ export default function SectionPortoHero() {
               hidden: { opacity: 0, y: 60 },
               visible: { opacity: 1, y: 0 },
             }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8 }}
           >
-            Real Projects, Real Results
+            {t("portfolioHero", "tagline")}
           </motion.h2>
 
           <motion.p
@@ -61,11 +67,9 @@ export default function SectionPortoHero() {
               hidden: { opacity: 0, y: 60 },
               visible: { opacity: 1, y: 0 },
             }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8 }}
           >
-            From enterprise systems to innovative platforms,
-            <br />
-            we transform business visions into scalable digital solutions.
+            {t("portfolioHero", "subtitle")}
           </motion.p>
 
           <motion.button
@@ -75,9 +79,9 @@ export default function SectionPortoHero() {
               hidden: { opacity: 0, y: 60 },
               visible: { opacity: 1, y: 0 },
             }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8 }}
           >
-            Explore Our Work
+            {t("portfolioHero", "button")}
             <span className={styles.arrow}>→</span>
           </motion.button>
         </motion.div>

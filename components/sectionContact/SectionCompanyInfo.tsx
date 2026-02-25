@@ -4,30 +4,29 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import { Plus, Minus } from "lucide-react";
+import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionCompanyInfo() {
+  const { t } = useTranslate();
+
   const [active, setActive] = useState<number | null>(0);
 
   const faqs = [
     {
-      question: "What services do you provide?",
-      answer:
-        "We provide web development, UI/UX design, branding, and scalable digital solutions tailored to your business needs.",
+      question: t("faq", "q1"),
+      answer: t("faq", "a1"),
     },
     {
-      question: "How long does a project take?",
-      answer:
-        "Project timelines depend on scope and complexity, typically ranging from 2–8 weeks.",
+      question: t("faq", "q2"),
+      answer: t("faq", "a2"),
     },
     {
-      question: "Do you offer ongoing support?",
-      answer:
-        "Yes, we offer maintenance and long-term support packages.",
+      question: t("faq", "q3"),
+      answer: t("faq", "a3"),
     },
     {
-      question: "How can we start working together?",
-      answer:
-        "Simply contact us through the form and our team will reach out to you.",
+      question: t("faq", "q4"),
+      answer: t("faq", "a4"),
     },
   ];
 
@@ -36,21 +35,25 @@ export default function SectionCompanyInfo() {
       <section className="w-full py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-16 grid lg:grid-cols-2 gap-20">
 
+          {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <p className="text-yellow-600 font-medium mb-4">FAQ</p>
+            <p className="text-yellow-600 font-medium mb-4">
+              {t("faq", "label")}
+            </p>
 
             <h2 className="text-5xl font-bold text-gray-900 leading-tight">
-              Frequently <br />
-              asked <br />
-              questions.
+              {t("faq", "titleLine1")} <br />
+              {t("faq", "titleLine2")} <br />
+              {t("faq", "titleLine3")}
             </h2>
           </motion.div>
 
+          {/* RIGHT */}
           <motion.div
             className="space-y-6"
             initial="hidden"
@@ -108,6 +111,7 @@ export default function SectionCompanyInfo() {
                       </motion.p>
                     )}
                   </AnimatePresence>
+
                 </motion.div>
               );
             })}

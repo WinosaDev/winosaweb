@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
+import { useTranslate } from "@/lib/useTranslate";
 
 const PACKAGES = {
   Starter: 500,
@@ -13,12 +14,12 @@ const PACKAGES = {
 const FEATURES = [
   { key: "admin", label: "Admin Dashboard", price: 300, keywords: ["admin", "dashboard"] },
   { key: "account", label: "User Account System", price: 400, keywords: ["login", "user"] },
-  { key: "payment", label: "Online Payment", price: 500, keywords: ["payment", "checkout"] },
+  { key: "payment", label: "Online Payment", price: 500, keywords: ["payment"] },
   { key: "content", label: "Content Management", price: 300, keywords: ["content", "blog"] },
   { key: "multilang", label: "Multi Language Website", price: 300, keywords: ["language", "bahasa"] },
-  { key: "booking", label: "Booking & Appointment", price: 400, keywords: ["booking", "appointment"] },
+  { key: "booking", label: "Booking & Appointment", price: 400, keywords: ["booking"] },
   { key: "analytics", label: "Analytics & Reporting", price: 250, keywords: ["analytics"] },
-  { key: "design", label: "Custom UI Design", price: 400, keywords: ["design", "ui"] },
+  { key: "design", label: "Custom UI Design", price: 400, keywords: ["design"] },
   { key: "seo", label: "SEO Optimization", price: 300, keywords: ["seo"] },
   { key: "performance", label: "Performance Optimization", price: 250, keywords: ["fast"] },
   { key: "security", label: "Security Protection", price: 300, keywords: ["secure"] },
@@ -26,6 +27,8 @@ const FEATURES = [
 ];
 
 export default function CustomQuotePage() {
+  const { t } = useTranslate();
+
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -42,7 +45,7 @@ export default function CustomQuotePage() {
 
   const generate = () => {
     if (!isValid) {
-      setError("Please write your idea or select at least one feature.");
+      setError(t("customWebsite", "error"));
       return;
     }
 
@@ -69,23 +72,22 @@ export default function CustomQuotePage() {
       price: base + featureCost,
     }));
 
-    setResult({ websiteType, activeFeatures, estimates });
+    setResult({ websiteType, estimates });
   };
 
   return (
     <main>
-
       <section className="w-full bg-white py-32">
         <div className="max-w-6xl mx-auto px-6 text-black">
 
           <h1 className="text-4xl font-bold text-center mb-10">
-            Custom Website Estimator
+            {t("customWebsite", "title")}
           </h1>
 
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Tell us about your website idea, goals, and features you need..."
+            placeholder={t("customWebsite", "placeholder")}
             className="w-full h-40 p-6 border border-black rounded-2xl mb-10"
           />
 
@@ -94,15 +96,11 @@ export default function CustomQuotePage() {
               <button
                 key={f.key}
                 onClick={() => toggle(f.key)}
-                className={`
-                  px-5 py-3 rounded-full border text-sm
-                  ${
-                    selected.includes(f.key)
-                      ? "bg-black text-white"
-                      : "border-black text-black hover:bg-black/10"
-                  }
-                  transition
-                `}
+                className={`px-5 py-3 rounded-full border text-sm ${
+                  selected.includes(f.key)
+                    ? "bg-black text-white"
+                    : "border-black text-black hover:bg-black/10"
+                } transition`}
               >
                 {f.label}
               </button>
@@ -112,16 +110,13 @@ export default function CustomQuotePage() {
           <button
             onClick={generate}
             disabled={!isValid}
-            className={`
-              w-full py-4 rounded-full font-semibold transition
-              ${
-                isValid
-                  ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }
-            `}
+            className={`w-full py-4 rounded-full font-semibold transition ${
+              isValid
+                ? "bg-yellow-400 text-black hover:bg-yellow-300"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
-            Generate Recommendation
+            {t("customWebsite", "generate")}
           </button>
 
           {error && (
@@ -132,12 +127,14 @@ export default function CustomQuotePage() {
 
           {result && (
             <div className="mt-20 border border-black rounded-[28px] p-10">
+
               <h2 className="text-2xl font-bold mb-4">
-                Recommended Solution
+                {t("customWebsite", "recommended")}
               </h2>
 
               <p className="mb-8">
-                Website Type: <strong>{result.websiteType}</strong>
+                {t("customWebsite", "websiteType")}:{" "}
+                <strong>{result.websiteType}</strong>
               </p>
 
               <div className="grid md:grid-cols-3 gap-6 mb-10">
@@ -155,8 +152,7 @@ export default function CustomQuotePage() {
                   </div>
                 ))}
               </div>
-
-             <Link
+<Link
               href="https://wa.me/6281234567890"
               target="_blank"
               className="
@@ -167,19 +163,22 @@ export default function CustomQuotePage() {
                 hover:bg-[#1ebe5d]
                 transition
               "
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="w-6 h-6"
-                fill="currentColor"
               >
-                <path d="M20.52 3.48A11.91 11.91 0 0012.01 0C5.38 0 .02 5.36.02 12c0 2.11.55 4.18 1.6 6.02L0 24l6.15-1.6a11.94 11.94 0 005.86 1.49h.01c6.63 0 11.99-5.36 11.99-12 0-3.19-1.24-6.19-3.49-8.41zM12 21.5a9.45 9.45 0 01-4.82-1.32l-.35-.21-3.65.95.97-3.56-.23-.36a9.48 9.48 0 0114.67-11.63A9.45 9.45 0 0112 21.5zm5.18-7.1c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.63.14-.19.28-.73.91-.9 1.1-.16.19-.33.21-.61.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.37-1.63-1.53-1.91-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.63-1.52-.87-2.08-.23-.55-.47-.47-.63-.47h-.54c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1 2.72 1.14 2.91c.14.19 1.96 3 4.75 4.2.66.28 1.18.45 1.58.58.66.21 1.27.18 1.75.11.53-.08 1.66-.68 1.89-1.34.23-.66.23-1.23.16-1.34-.07-.12-.26-.19-.54-.33z" />
-              </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6"
+                  fill="currentColor"
+                >
+                  <path d="M20.52 3.48A11.91 11.91 0 0012.01 0C5.38 0 .02 5.36.02 12c0 2.11.55 4.18 1.6 6.02L0 24l6.15-1.6a11.94 11.94 0 005.86 1.49h.01c6.63 0 11.99-5.36 11.99-12 0-3.19-1.24-6.19-3.49-8.41zM12 21.5a9.45 9.45 0 01-4.82-1.32l-.35-.21-3.65.95.97-3.56-.23-.36a9.48 9.48 0 0114.67-11.63A9.45 9.45 0 0112 21.5zm5.18-7.1c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.63.14-.19.28-.73.91-.9 1.1-.16.19-.33.21-.61.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.37-1.63-1.53-1.91-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.63-1.52-.87-2.08-.23-.55-.47-.47-.63-.47h-.54c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1 2.72 1.14 2.91c.14.19 1.96 3 4.75 4.2.66.28 1.18.45 1.58.58.66.21 1.27.18 1.75.11.53-.08 1.66-.68 1.89-1.34.23-.66.23-1.23.16-1.34-.07-.12-.26-.19-.54-.33z" />
+                </svg>
 
-              Continue Consultation
-            </Link>
+                Continue Consultation
+              </Link>
+
+
             </div>
           )}
+
         </div>
       </section>
 

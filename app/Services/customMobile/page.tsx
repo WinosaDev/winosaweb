@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
+import { useTranslate } from "@/lib/useTranslate";
 
 const APP_PACKAGES = {
   Starter: 700,
@@ -12,20 +13,22 @@ const APP_PACKAGES = {
 
 const APP_FEATURES = [
   { key: "auth", label: "User Login & Account System", price: 400, keywords: ["login", "account", "user"] },
-  { key: "ui", label: "Custom Mobile UI Design", price: 450, keywords: ["design", "ui", "interface"] },
-  { key: "api", label: "Backend & API Integration", price: 500, keywords: ["api", "backend", "server"] },
-  { key: "payment", label: "In-App Payment", price: 550, keywords: ["payment", "checkout", "subscription"] },
-  { key: "push", label: "Push Notifications", price: 300, keywords: ["notification", "push"] },
-  { key: "map", label: "Maps & Location Service", price: 350, keywords: ["map", "location", "gps"] },
-  { key: "chat", label: "Chat / Messaging Feature", price: 500, keywords: ["chat", "message"] },
-  { key: "admin", label: "Admin Dashboard", price: 400, keywords: ["admin", "dashboard"] },
-  { key: "performance", label: "Performance Optimization", price: 300, keywords: ["fast", "performance"] },
-  { key: "security", label: "Security & Data Protection", price: 350, keywords: ["secure", "security"] },
-  { key: "analytics", label: "Analytics & User Tracking", price: 250, keywords: ["analytics", "tracking"] },
-  { key: "maintenance", label: "Maintenance & Scalability", price: 300, keywords: ["maintenance", "scale"] },
+  { key: "ui", label: "Custom Mobile UI Design", price: 450, keywords: ["design", "ui"] },
+  { key: "api", label: "Backend & API Integration", price: 500, keywords: ["api", "backend"] },
+  { key: "payment", label: "In-App Payment", price: 550, keywords: ["payment"] },
+  { key: "push", label: "Push Notifications", price: 300, keywords: ["notification"] },
+  { key: "map", label: "Maps & Location Service", price: 350, keywords: ["map", "location"] },
+  { key: "chat", label: "Chat / Messaging Feature", price: 500, keywords: ["chat"] },
+  { key: "admin", label: "Admin Dashboard", price: 400, keywords: ["admin"] },
+  { key: "performance", label: "Performance Optimization", price: 300, keywords: ["performance"] },
+  { key: "security", label: "Security & Data Protection", price: 350, keywords: ["security"] },
+  { key: "analytics", label: "Analytics & User Tracking", price: 250, keywords: ["analytics"] },
+  { key: "maintenance", label: "Maintenance & Scalability", price: 300, keywords: ["maintenance"] },
 ];
 
 export default function CustomQuoteMobilePage() {
+  const { t } = useTranslate();
+
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -42,7 +45,7 @@ export default function CustomQuoteMobilePage() {
 
   const generate = () => {
     if (!isValid) {
-      setError("Please describe your app idea or select at least one feature.");
+      setError(t("customMobile", "error"));
       return;
     }
 
@@ -76,31 +79,28 @@ export default function CustomQuoteMobilePage() {
 
     setResult({
       appType,
-      activeFeatures,
       estimates,
     });
   };
 
   return (
     <main>
-
       <section className="w-full bg-white py-32">
         <div className="max-w-6xl mx-auto px-6 text-black">
 
           <div className="text-center mb-14">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Custom Mobile App Estimation
+              {t("customMobile", "title")}
             </h1>
             <p className="text-black/70 max-w-2xl mx-auto">
-              Describe your mobile app idea and select features you need.
-              We’ll generate a recommended solution and price range.
+              {t("customMobile", "subtitle")}
             </p>
           </div>
 
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Tell us about your mobile app idea (booking, delivery, chat, fintech, etc)..."
+            placeholder={t("customMobile", "placeholder")}
             className="w-full h-40 p-6 border border-black rounded-2xl mb-12"
           />
 
@@ -109,15 +109,11 @@ export default function CustomQuoteMobilePage() {
               <button
                 key={f.key}
                 onClick={() => toggle(f.key)}
-                className={`
-                  px-5 py-3 rounded-full border text-sm
-                  ${
-                    selected.includes(f.key)
-                      ? "bg-black text-white"
-                      : "border-black text-black hover:bg-black/10"
-                  }
-                  transition
-                `}
+                className={`px-5 py-3 rounded-full border text-sm ${
+                  selected.includes(f.key)
+                    ? "bg-black text-white"
+                    : "border-black text-black hover:bg-black/10"
+                } transition`}
               >
                 {f.label}
               </button>
@@ -127,16 +123,13 @@ export default function CustomQuoteMobilePage() {
           <button
             onClick={generate}
             disabled={!isValid}
-            className={`
-              w-full py-4 rounded-full font-semibold transition
-              ${
-                isValid
-                  ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }
-            `}
+            className={`w-full py-4 rounded-full font-semibold transition ${
+              isValid
+                ? "bg-yellow-400 text-black hover:bg-yellow-300"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
-            Generate App Estimation
+            {t("customMobile", "generate")}
           </button>
 
           {error && (
@@ -147,9 +140,8 @@ export default function CustomQuoteMobilePage() {
 
           {result && (
             <div className="mt-20 border border-black rounded-[28px] p-10">
-
               <h2 className="text-2xl font-bold mb-4">
-                Recommended App Type
+                {t("customMobile", "recommended")}
               </h2>
 
               <p className="mb-10">
@@ -158,10 +150,7 @@ export default function CustomQuoteMobilePage() {
 
               <div className="grid md:grid-cols-3 gap-6 mb-12">
                 {result.estimates.map((p: any) => (
-                  <div
-                    key={p.name}
-                    className="border border-black rounded-2xl p-6"
-                  >
+                  <div key={p.name} className="border border-black rounded-2xl p-6">
                     <h3 className="font-bold text-lg mb-2">
                       {p.name}
                     </h3>
@@ -169,7 +158,7 @@ export default function CustomQuoteMobilePage() {
                       ${p.price}
                     </div>
                     <p className="text-sm text-black/70">
-                      Estimated based on selected features
+                      {t("customMobile", "estimateNote")}
                     </p>
                   </div>
                 ))}
@@ -197,6 +186,7 @@ export default function CustomQuoteMobilePage() {
 
                 Continue Consultation
               </Link>
+
             </div>
           )}
 
