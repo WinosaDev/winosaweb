@@ -50,24 +50,21 @@ export default function SectionServices() {
       try {
         setLoading(true);
         setError(false);
-
         const data = await getAllServices(language);
         setServices(data || []);
-      } catch (err) {
-        console.error("Failed to fetch services:", err);
+      } catch {
         setError(true);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [language]);
 
   if (loading) {
     return (
       <section className="w-full bg-white py-32 text-center">
-        <p className="animate-pulse text-black/60">
+        <p className="animate-pulse text-gray-600">
           {t("global", "loading")}
         </p>
       </section>
@@ -100,9 +97,8 @@ export default function SectionServices() {
                 transition={{
                   duration: 0.6,
                   delay: index * 0.15,
-                  ease: "easeOut",
                 }}
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true }}
               >
                 <ServiceCard
                   title={item.title}
@@ -133,70 +129,37 @@ function ServiceCard({
   slug: string;
   buttonText: string;
 }) {
-  const content = (
-    <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
-      className="group relative h-full"
-    >
-      {/* Glow */}
-      <div
-        className="
-          absolute -inset-16
-          rounded-[60px]
-          bg-[radial-gradient(circle,rgba(255,200,0,0.6)_0%,rgba(255,200,0,0.35)_40%,transparent_75%)]
-          opacity-0
-          blur-[90px]
-          transition-all duration-500
-          group-hover:opacity-100
-        "
-      />
-
-      <div
-        className="
-          relative
-          h-full
-          flex flex-col
-          bg-white
-          rounded-[28px]
-          p-10
-          shadow-[0_12px_30px_rgba(0,0,0,0.15)]
-          transition-all duration-500
-          group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]
-        "
+  return (
+    <Link href={slug}>
+      <motion.div
+        whileHover={{ y: -8 }}
+        transition={{ duration: 0.3 }}
+        className="group relative h-full"
       >
-        <div className="flex items-start gap-6 mb-6">
-          <div className="w-16 h-16 flex items-center justify-center rounded-full border border-black">
-            <Icon size={28} strokeWidth={1.5} />
+        <div className="absolute -inset-16 rounded-[60px] bg-[radial-gradient(circle,rgba(255,200,0,0.6)_0%,rgba(255,200,0,0.35)_40%,transparent_75%)] opacity-0 blur-[90px] transition-all duration-500 group-hover:opacity-100" />
+
+        <div className="relative h-full flex flex-col bg-white rounded-[28px] p-10 shadow-[0_12px_30px_rgba(0,0,0,0.15)] transition-all duration-500 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+          <div className="flex items-start gap-6 mb-6">
+            <div className="w-16 h-16 flex items-center justify-center rounded-full border border-black">
+              <Icon size={28} strokeWidth={1.5} />
+            </div>
+
+            <h3 className="text-xl font-semibold leading-tight">
+              {title}
+            </h3>
           </div>
 
-          <h3 className="font-bold text-lg leading-tight">
-            {title}
-          </h3>
-        </div>
+          <p className="text-gray-600 leading-relaxed flex-1">
+            {desc}
+          </p>
 
-        <p className="text-sm text-black/70 leading-relaxed flex-1">
-          {desc}
-        </p>
-
-        <div className="mt-6">
-          <span
-            className="
-              inline-block
-              px-5 py-2
-              rounded-full
-              border border-black
-              text-xs
-              hover:bg-black/10
-              transition
-            "
-          >
-            {buttonText}
-          </span>
+          <div className="mt-6">
+            <span className="inline-block px-5 py-2 rounded-full border border-black text-sm font-medium hover:bg-black/10 transition">
+              {buttonText}
+            </span>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
-
-  return <Link href={slug}>{content}</Link>;
 }

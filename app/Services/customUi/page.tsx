@@ -27,9 +27,7 @@ const UIUX_FEATURES = [
 ];
 
 export default function CustomQuoteUIUXPage() {
-
   const { t } = useTranslate();
-
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -37,17 +35,13 @@ export default function CustomQuoteUIUXPage() {
 
   const toggle = (key: string) => {
     setSelected((prev) =>
-      prev.includes(key)
-        ? prev.filter((f) => f !== key)
-        : [...prev, key]
+      prev.includes(key) ? prev.filter((f) => f !== key) : [...prev, key]
     );
   };
 
-  const isValid =
-    description.trim().length > 0 || selected.length > 0;
+  const isValid = description.trim().length > 0 || selected.length > 0;
 
   const generate = () => {
-
     if (!isValid) {
       setError(t("uiuxEstimator", "error"));
       return;
@@ -58,207 +52,109 @@ export default function CustomQuoteUIUXPage() {
     const text = description.toLowerCase();
 
     let projectType = "UI/UX Design Project";
-    if (text.includes("mobile"))
-      projectType = "Mobile App UI/UX Design";
+    if (text.includes("mobile")) projectType = "Mobile App UI/UX Design";
+    if (text.includes("dashboard")) projectType = "Web Dashboard Design";
+    if (text.includes("website")) projectType = "Website UI/UX Design";
 
-    if (text.includes("dashboard"))
-      projectType = "Web Dashboard Design";
+    const activeFeatures = UIUX_FEATURES.filter(
+      (f) =>
+        selected.includes(f.key) ||
+        f.keywords.some((k) => text.includes(k))
+    );
 
-    if (text.includes("website"))
-      projectType = "Website UI/UX Design";
+    const featureCost = activeFeatures.reduce((sum, f) => sum + f.price, 0);
 
-    const activeFeatures =
-      UIUX_FEATURES.filter(
-        (f) =>
-          selected.includes(f.key) ||
-          f.keywords.some((k) =>
-            text.includes(k)
-          )
-      );
+    const estimates = Object.entries(UIUX_PACKAGES).map(
+      ([name, base]) => ({
+        name,
+        price: base + featureCost,
+      })
+    );
 
-    const featureCost =
-      activeFeatures.reduce(
-        (sum, f) => sum + f.price,
-        0
-      );
-
-    const estimates =
-      Object.entries(UIUX_PACKAGES).map(
-        ([name, base]) => ({
-          name,
-          price: base + featureCost,
-        })
-      );
-
-    setResult({
-      projectType,
-      activeFeatures,
-      estimates,
-    });
-
+    setResult({ projectType, estimates });
   };
 
   return (
     <main>
-
       <section className="w-full bg-white py-32">
-
         <div className="max-w-6xl mx-auto px-6 text-black">
 
-          {/* TITLE */}
-          <div className="text-center mb-14">
-
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl font-bold mb-4">
               {t("uiuxEstimator", "title")}
             </h1>
-
-            <p className="text-black/70 max-w-2xl mx-auto">
+            <p className="text-black">
               {t("uiuxEstimator", "subtitle")}
             </p>
-
           </div>
 
-
-          {/* TEXTAREA */}
           <textarea
             value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-            placeholder={
-              t("uiuxEstimator", "placeholder")
-            }
-            className="
-              w-full h-40 p-6 border border-black
-              rounded-2xl mb-12
-            "
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={t("uiuxEstimator", "placeholder")}
+            className="w-full h-40 p-6 border border-black rounded-2xl mb-12"
           />
 
-
-          {/* FEATURES */}
-          <div className="
-            grid grid-cols-1 sm:grid-cols-2
-            md:grid-cols-3 gap-4 mb-14
-          ">
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-14">
             {UIUX_FEATURES.map((f) => (
-
               <button
                 key={f.key}
                 onClick={() => toggle(f.key)}
-                className={`
-                  px-5 py-3 rounded-full border text-sm
-                  ${
-                    selected.includes(f.key)
-                      ? "bg-black text-white"
-                      : "border-black text-black hover:bg-black/10"
-                  }
-                  transition
-                `}
+                className={`px-5 py-3 rounded-full border text-sm ${
+                  selected.includes(f.key)
+                    ? "bg-black text-white"
+                    : "border-black text-black hover:bg-black/10"
+                } transition`}
               >
                 {f.label}
               </button>
-
             ))}
-
           </div>
 
-
-          {/* GENERATE BUTTON */}
           <button
             onClick={generate}
             disabled={!isValid}
-            className={`
-              w-full py-4 rounded-full font-semibold transition
-              ${
-                isValid
-                  ? "bg-yellow-400 text-black hover:bg-yellow-300"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }
-            `}
+            className={`w-full py-4 rounded-full font-semibold transition ${
+              isValid
+                ? "bg-yellow-400 text-black hover:bg-yellow-300"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
             {t("uiuxEstimator", "generate")}
           </button>
 
-
-          {/* ERROR */}
           {error && (
-
-            <p className="
-              text-red-500 text-sm
-              mt-4 text-center
-            ">
+            <p className="text-red-500 text-sm mt-4 text-center">
               {error}
             </p>
-
           )}
 
-
-          {/* RESULT */}
           {result && (
+            <div className="mt-20 border border-black rounded-[28px] p-10">
 
-            <div className="
-              mt-20 border border-black
-              rounded-[28px] p-10
-            ">
-
-              <h2 className="
-                text-2xl font-bold mb-4
-              ">
+              <h2 className="text-2xl font-bold mb-6">
                 {t("uiuxEstimator", "recommended")}
               </h2>
 
-
               <p className="mb-10">
-                <strong>
-                  {result.projectType}
-                </strong>
+                <strong>{result.projectType}</strong>
               </p>
 
-
-              <div className="
-                grid md:grid-cols-3 gap-6 mb-12
-              ">
-
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
                 {result.estimates.map((p: any) => (
-
-                  <div
-                    key={p.name}
-                    className="
-                      border border-black rounded-2xl p-6
-                      hover:shadow-[0_0_50px_rgba(255,200,80,0.6)]
-                      transition
-                    "
-                  >
-
-                    <h3 className="
-                      font-bold text-lg mb-2
-                    ">
+                  <div key={p.name} className="border border-black rounded-[28px] p-8">
+                    <h3 className="font-bold text-lg mb-3">
                       {p.name}
                     </h3>
-
-                    <div className="
-                      text-3xl font-bold mb-2
-                    ">
+                    <div className="text-3xl font-bold">
                       ${p.price}
                     </div>
-
-                    <p className="
-                      text-sm text-black/70
-                    ">
-                      {t("uiuxEstimator", "estimatedNote")}
-                    </p>
-
                   </div>
-
                 ))}
-
               </div>
 
-
-              {/* WHATSAPP */}
               <Link
-              href="https://wa.me/6281234567890"
+                href="https://wa.me/6281234567890"
               target="_blank"
               className="
                 w-full
@@ -281,15 +177,12 @@ export default function CustomQuoteUIUXPage() {
               </Link>
 
             </div>
-
           )}
 
         </div>
-
       </section>
 
       <Footer />
-
     </main>
   );
 }

@@ -9,32 +9,18 @@ export default function SectionStats() {
   const { t } = useTranslate();
 
   const stats = [
-    {
-      value: "50+",
-      label: t("stats", "projects"),
-    },
-    {
-      value: "5+",
-      label: t("stats", "experience"),
-    },
-    {
-      value: "20+",
-      label: t("stats", "clients"),
-    },
-    {
-      value: "100%",
-      label: t("stats", "commitment"),
-    },
+    { value: "50+", label: t("stats", "projects") },
+    { value: "5+", label: t("stats", "experience") },
+    { value: "20+", label: t("stats", "clients") },
+    { value: "100%", label: t("stats", "commitment") },
   ];
 
   return (
     <FadeUp>
       <section className="relative w-full bg-white py-32 overflow-hidden">
 
-        {/* GOLD GLOW */}
         <div className="absolute -bottom-40 right-0 w-[600px] h-[600px] bg-yellow-300/30 blur-[150px] rounded-full" />
 
-        {/* TOP FADE */}
         <div className="absolute -top-20 left-0 w-full h-[200px] bg-gradient-to-b from-white via-white/80 to-transparent pointer-events-none" />
 
         <motion.div
@@ -45,9 +31,7 @@ export default function SectionStats() {
           variants={{
             hidden: {},
             visible: {
-              transition: {
-                staggerChildren: 0.15,
-              },
+              transition: { staggerChildren: 0.15 },
             },
           }}
         >
@@ -62,7 +46,6 @@ export default function SectionStats() {
               }}
               transition={{ duration: 0.8 }}
             >
-
               <div className="text-5xl font-bold mb-2">
                 {item.value}
               </div>

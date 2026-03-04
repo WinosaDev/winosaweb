@@ -28,10 +28,8 @@ export default function SectionHero() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-white text-[56px] md:text-[64px] font-bold mb-4"
-            style={{
-              textShadow: "0 6px 24px rgba(0,0,0,0.6)",
-            }}
+            className="text-white text-5xl md:text-6xl font-bold mb-6"
+            style={{ textShadow: "0 6px 24px rgba(0,0,0,0.6)" }}
           >
             {t("servicesHero", "title")}
           </motion.h1>
@@ -41,10 +39,8 @@ export default function SectionHero() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-white/90 text-lg mb-8"
-            style={{
-              textShadow: "0 4px 16px rgba(0,0,0,0.6)",
-            }}
+            className="text-white/90 text-lg mb-10"
+            style={{ textShadow: "0 4px 16px rgba(0,0,0,0.6)" }}
           >
             {t("servicesHero", "subtitle")}
           </motion.p>

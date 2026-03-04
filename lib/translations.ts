@@ -111,8 +111,8 @@ export const translations = {
   },
 
 
-  //CTA//
-  cta: {
+ // CTA
+cta: {
   title: {
     en: "Ready to Build Your Digital Future?",
     nl: "Klaar om Uw Digitale Toekomst te Bouwen?",
@@ -127,6 +127,60 @@ export const translations = {
     en: "Contact Us",
     nl: "Neem Contact Op",
     id: "Hubungi Kami",
+  },
+},
+
+// NEWSLETTER
+newsletter: {
+  title: {
+    en: "Stay updated with insights & updates.",
+    nl: "Blijf op de hoogte van inzichten en updates.",
+    id: "Tetap terhubung dengan insight terbaru kami.",
+  },
+  subscribe: {
+    en: "Subscribe",
+    nl: "Abonneren",
+    id: "Berlangganan",
+  },
+  subscribing: {
+    en: "Subscribing...",
+    nl: "Bezig met abonneren...",
+    id: "Sedang memproses...",
+  },
+  success: {
+    en: "Subscribed successfully.",
+    nl: "Succesvol geabonneerd.",
+    id: "Berhasil berlangganan.",
+  },
+  errorRequired: {
+    en: "Email is required.",
+    nl: "E-mail is verplicht.",
+    id: "Email wajib diisi.",
+  },
+  errorInvalid: {
+    en: "Invalid email format.",
+    nl: "Ongeldig e-mailadres.",
+    id: "Format email tidak valid.",
+  },
+  errorDuplicate: {
+    en: "This email is already subscribed.",
+    nl: "Dit e-mailadres is al geabonneerd.",
+    id: "Email sudah terdaftar.",
+  },
+  errorTooMany: {
+    en: "Too many attempts. Please try again later.",
+    nl: "Te veel pogingen. Probeer later opnieuw.",
+    id: "Terlalu banyak percobaan. Coba lagi nanti.",
+  },
+  errorGeneral: {
+    en: "Something went wrong.",
+    nl: "Er is iets misgegaan.",
+    id: "Terjadi kesalahan.",
+  },
+   placeholder: {
+    en: "your@email.com",
+    nl: "uw@email.com",
+    id: "emailanda@email.com",
   },
 },
 

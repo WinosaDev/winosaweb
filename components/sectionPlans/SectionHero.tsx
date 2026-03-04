@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
-import Link from "next/link";
+import Button from "@/components/UI/Button";
 import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionHero() {
@@ -18,6 +18,17 @@ export default function SectionHero() {
     "Growth",
     "Digital",
   ];
+
+  const handleScrollToPricing = () => {
+    const section = document.getElementById("pricing");
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   return (
     <FadeUp>
@@ -47,12 +58,12 @@ export default function SectionHero() {
             {t("plansHero", "description")}
           </p>
 
-          <Link
-            href="#pricing"
-            className="inline-block px-10 py-4 rounded-full border border-black text-black hover:bg-black/10 transition"
-          >
-            {t("plansHero", "button")}
-          </Link>
+          {/* ✅ BUTTON TETAP PAKAI COMPONENT KAMU */}
+          <Button
+            text={t("plansHero", "button")}
+            variant="dark"
+            onClick={handleScrollToPricing}   // 🔥 BUKAN href
+          />
 
         </div>
 
@@ -69,13 +80,13 @@ export default function SectionHero() {
             className="flex whitespace-nowrap text-black/20 text-xl font-semibold tracking-widest"
           >
             {[...items, ...items].map((item, i) => (
-              <div key={i} className="mx-16">
+              <div key={`${item}-${i}`} className="mx-16">
                 {item}
               </div>
             ))}
           </motion.div>
 
-          {/* fade edges */}
+          {/* Fade edges */}
           <div className="absolute left-0 top-0 w-40 h-full bg-gradient-to-r from-white to-transparent" />
           <div className="absolute right-0 top-0 w-40 h-full bg-gradient-to-l from-white to-transparent" />
 

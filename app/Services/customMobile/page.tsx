@@ -28,7 +28,6 @@ const APP_FEATURES = [
 
 export default function CustomQuoteMobilePage() {
   const { t } = useTranslate();
-
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -40,8 +39,7 @@ export default function CustomQuoteMobilePage() {
     );
   };
 
-  const isValid =
-    description.trim().length > 0 || selected.length > 0;
+  const isValid = description.trim().length > 0 || selected.length > 0;
 
   const generate = () => {
     if (!isValid) {
@@ -65,10 +63,7 @@ export default function CustomQuoteMobilePage() {
         f.keywords.some((k) => text.includes(k))
     );
 
-    const featureCost = activeFeatures.reduce(
-      (sum, f) => sum + f.price,
-      0
-    );
+    const featureCost = activeFeatures.reduce((sum, f) => sum + f.price, 0);
 
     const estimates = Object.entries(APP_PACKAGES).map(
       ([name, base]) => ({
@@ -77,10 +72,7 @@ export default function CustomQuoteMobilePage() {
       })
     );
 
-    setResult({
-      appType,
-      estimates,
-    });
+    setResult({ appType, estimates });
   };
 
   return (
@@ -88,11 +80,11 @@ export default function CustomQuoteMobilePage() {
       <section className="w-full bg-white py-32">
         <div className="max-w-6xl mx-auto px-6 text-black">
 
-          <div className="text-center mb-14">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl font-bold mb-4">
               {t("customMobile", "title")}
             </h1>
-            <p className="text-black/70 max-w-2xl mx-auto">
+            <p className="text-black">
               {t("customMobile", "subtitle")}
             </p>
           </div>
@@ -140,7 +132,8 @@ export default function CustomQuoteMobilePage() {
 
           {result && (
             <div className="mt-20 border border-black rounded-[28px] p-10">
-              <h2 className="text-2xl font-bold mb-4">
+
+              <h2 className="text-2xl font-bold mb-6">
                 {t("customMobile", "recommended")}
               </h2>
 
@@ -148,18 +141,15 @@ export default function CustomQuoteMobilePage() {
                 <strong>{result.appType}</strong>
               </p>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
                 {result.estimates.map((p: any) => (
-                  <div key={p.name} className="border border-black rounded-2xl p-6">
-                    <h3 className="font-bold text-lg mb-2">
+                  <div key={p.name} className="border border-black rounded-[28px] p-8">
+                    <h3 className="font-bold text-lg mb-3">
                       {p.name}
                     </h3>
-                    <div className="text-3xl font-bold mb-2">
+                    <div className="text-3xl font-bold">
                       ${p.price}
                     </div>
-                    <p className="text-sm text-black/70">
-                      {t("customMobile", "estimateNote")}
-                    </p>
                   </div>
                 ))}
               </div>

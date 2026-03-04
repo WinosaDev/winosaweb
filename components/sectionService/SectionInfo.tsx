@@ -51,10 +51,10 @@ export default function SectionInfo() {
 
         <FadeUp>
           <div className="text-center mb-24">
-            <h2 className="text-3xl font-bold mb-2">
+            <h2 className="text-3xl font-bold mb-4">
               {t("info", "processTitle")}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-gray-600">
               {t("info", "processSubtitle")}
             </p>
           </div>
@@ -71,14 +71,14 @@ export default function SectionInfo() {
                 viewport={{ once: true }}
                 className="flex flex-col items-center text-center"
               >
-                <div className="px-6 py-2 border border-black rounded-full font-medium bg-white">
+                <div className="px-6 py-2 border border-black rounded-full font-medium bg-white text-sm">
                   {item.title}
                 </div>
 
                 <div className="w-px h-12 bg-black" />
                 <div className="w-3 h-3 bg-black rounded-full mb-4" />
 
-                <p className="text-sm text-gray-600">
+                <p className="text-gray-600 text-sm">
                   {item.desc}
                 </p>
               </motion.div>
@@ -88,10 +88,10 @@ export default function SectionInfo() {
 
         <FadeUp>
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-2">
+            <h2 className="text-3xl font-bold mb-4">
               {t("info", "whyTitle")}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-gray-600">
               {t("info", "whySubtitle")}
             </p>
           </div>
@@ -134,8 +134,10 @@ function ReasonCard({
       </div>
 
       <div>
-        <h3 className="font-bold mb-2">{title}</h3>
-        <p className="text-sm text-gray-600 leading-relaxed">
+        <h3 className="text-lg font-semibold mb-2">
+          {title}
+        </h3>
+        <p className="text-gray-600 leading-relaxed">
           {desc}
         </p>
       </div>

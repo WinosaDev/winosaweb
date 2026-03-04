@@ -29,7 +29,6 @@ const team = [
 export default function SectionTeam() {
 
   const { t } = useTranslate();
-
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -58,28 +57,21 @@ export default function SectionTeam() {
 
       <div className="max-w-7xl mx-auto px-6 text-black">
 
-
         {/* TITLE */}
         <div className="text-center mb-16">
-
           <h2 className="text-4xl font-bold mb-4">
             {t("team", "title")}
           </h2>
-
           <p className="text-black/60 max-w-2xl mx-auto">
             {t("team", "subtitle")}
           </p>
-
         </div>
-
 
         {/* CAROUSEL */}
         <div className="relative h-[520px] flex items-center justify-center">
 
-
-          {/* Glow */}
-          <div className="absolute w-[1000px] h-[900px] bg-yellow-300/20 blur-[200px] rounded-full" />
-
+          {/* CONSISTENT GOLD GLOW */}
+          <div className="absolute w-[1000px] h-[900px] bg-[radial-gradient(circle,rgba(255,200,0,0.5)_0%,rgba(255,200,0,0.3)_40%,transparent_70%)] blur-[200px] rounded-full" />
 
           {team.map((member, i) => {
 
@@ -88,38 +80,24 @@ export default function SectionTeam() {
             let styles = "";
 
             if (position === "center") {
-
-              styles =
-                "translate-x-0 scale-100 z-30 opacity-100 blur-0";
-
+              styles = "translate-x-0 scale-100 z-30 opacity-100 blur-0";
             }
             else if (position === "left") {
-
-              styles =
-                "-translate-x-[320px] scale-90 z-20 opacity-60 blur-sm";
-
+              styles = "-translate-x-[320px] scale-90 z-20 opacity-60 blur-sm";
             }
             else if (position === "right") {
-
-              styles =
-                "translate-x-[320px] scale-90 z-20 opacity-60 blur-sm";
-
+              styles = "translate-x-[320px] scale-90 z-20 opacity-60 blur-sm";
             }
             else {
-
               styles = "opacity-0 scale-75";
-
             }
 
             return (
-
               <div
                 key={i}
                 className={`absolute transition-all duration-700 ease-in-out ${styles}`}
               >
-
-                <div className="w-[340px] h-[420px] bg-white border border-black rounded-[32px] shadow-xl overflow-hidden">
-
+                <div className="w-[340px] h-[420px] bg-white border border-black rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden">
 
                   <img
                     src={member.image}
@@ -127,24 +105,18 @@ export default function SectionTeam() {
                     alt={member.name}
                   />
 
-
                   <div className="p-6 text-center">
-
                     <h3 className="text-xl font-bold">
                       {member.name}
                     </h3>
 
-                    <p className="text-yellow-600 font-medium text-sm mt-1">
+                    <p className="text-black/60 font-medium text-sm mt-1">
                       {member.role}
                     </p>
-
                   </div>
 
-
                 </div>
-
               </div>
-
             );
 
           })}
@@ -153,8 +125,6 @@ export default function SectionTeam() {
 
       </div>
 
-
-      {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 w-full h-[300px] bg-gradient-to-t from-white via-white to-transparent pointer-events-none" />
 
     </section>

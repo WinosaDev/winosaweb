@@ -15,6 +15,8 @@ type Plan = {
   type: PlanType;
 };
 
+const whatsappNumber = "6281234567890";
+
 const defaultPlans: Plan[] = [
   {
     name: "Starter",
@@ -54,161 +56,86 @@ const defaultPlans: Plan[] = [
   },
 ];
 
-export default function SectionPricing({ data }: { data?: any }) {
+export default function SectionPricingWeb() {
   const { t } = useTranslate();
   const [active, setActive] = useState<number>(0);
 
-  let plans: Plan[];
-
-  // 🔥 Kalau ada API detail Web
-  if (data?.price) {
-    const cleanPrice = data.price.replace(/Starting from\s*/i, "");
-
-    const dynamicPlan: Plan = {
-      name: data.title || "Starter",
-      price: cleanPrice,
-      desc: data.description || "Professional service package.",
-      features: data.features || [],
-      type: "normal",
-    };
-
-    const businessPlan: Plan = {
-      name: "Business",
-      price: "$1,499",
-      desc: "Extended features for growing companies.",
-      features: [
-        ...(data.features || []),
-        "Priority Support",
-        "Advanced Optimization",
-      ],
-      type: "normal",
-    };
-
-    const customPlan: Plan = {
-      name: "Enterprise",
-      price: "Custom",
-      desc: "Fully customized solution tailored to your needs.",
-      features: [
-        "Custom Architecture",
-        "Dedicated Support",
-        "Scalable Infrastructure",
-        "Advanced Security",
-      ],
-      type: "custom",
-    };
-
-    plans = [dynamicPlan, businessPlan, customPlan];
-  } else {
-    // 🔥 Fallback default kalau belum ada API
-    plans = defaultPlans;
-  }
-
   return (
     <section className="w-full bg-white py-32">
-
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <h2 className="text-4xl font-bold text-black mb-3">
+          <h2 className="text-3xl font-bold text-black mb-3">
             {t("pricing", "title")}
           </h2>
-          <p className="text-black">
+          <p className="text-black text-base">
             {t("pricing", "subtitle")}
           </p>
         </div>
       </FadeUp>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {plans.map((plan, i) => (
-          <FadeUp key={i} delay={i * 0.2}>
-            <PricingCard
-              {...plan}
-              isActive={active === i}
-              onHover={() => setActive(i)}
-              onLeave={() => setActive(0)}
-              t={t}
-            />
-          </FadeUp>
-        ))}
-      </div>
+        {defaultPlans.map((plan, i) => {
+          const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hello%20I%20am%20interested%20in%20${encodeURIComponent(plan.name)}`;
 
+          return (
+            <FadeUp key={i} delay={i * 0.2}>
+              <div
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(0)}
+                className={`relative rounded-[28px] p-10 bg-white transition-all duration-300 flex flex-col h-full ${
+                  active === i
+                    ? "shadow-[0_0_60px_rgba(255,200,80,0.5)] scale-[1.03]"
+                    : ""
+                }`}
+              >
+                <h3 className="text-xl font-bold text-black mb-3">
+                  {plan.name}
+                </h3>
+
+                <p className="text-black mb-6 leading-relaxed">
+                  {plan.desc}
+                </p>
+
+                {plan.type === "normal" && (
+                  <span className="text-sm text-black block mb-2">
+                    {t("pricing", "startFrom")}
+                  </span>
+                )}
+
+                <div className="text-4xl font-bold text-black mb-8">
+                  {plan.price}
+                </div>
+
+                <ul className="space-y-3 text-sm text-black mb-10 flex-1">
+                  {plan.features.map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-yellow-400" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {plan.type === "custom" ? (
+                  <Link
+                    href="/Services/customWeb"
+                    className="block text-center w-full py-3 rounded-full border border-black font-semibold text-black hover:bg-black/10 transition"
+                  >
+                    {t("pricing", "custom")}
+                  </Link>
+                ) : (
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    className="block text-center w-full py-3 rounded-full border border-black font-semibold text-black hover:bg-black/10 transition"
+                  >
+                    {t("pricing", "getStarted")}
+                  </a>
+                )}
+              </div>
+            </FadeUp>
+          );
+        })}
+      </div>
     </section>
-  );
-}
-
-function PricingCard({
-  name,
-  price,
-  desc,
-  features,
-  type,
-  isActive,
-  onHover,
-  onLeave,
-  t,
-}: {
-  name: string;
-  price: string;
-  desc: string;
-  features: string[];
-  type: PlanType;
-  isActive: boolean;
-  onHover: () => void;
-  onLeave: () => void;
-  t: any;
-}) {
-  const whatsappLink =
-    "https://wa.me/6281234567890?text=Hello%20I%20am%20interested%20in%20your%20service";
-
-  return (
-    <div
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-      className={`relative cursor-pointer rounded-[28px] p-8 bg-white transition-all duration-300 flex flex-col h-full ${
-        isActive
-          ? "shadow-[0_0_90px_rgba(255,200,80,0.8)] scale-[1.05]"
-          : "hover:shadow-[0_0_40px_rgba(255,200,80,0.4)]"
-      }`}
-    >
-      <div>
-        <h3 className="text-xl font-bold text-black mb-2">{name}</h3>
-        <p className="text-black mb-6">{desc}</p>
-
-        {type === "normal" && (
-          <span className="text-sm text-black block mb-1">
-            {t("pricing", "startFrom")}
-          </span>
-        )}
-
-        <div className="text-4xl font-bold text-black mb-6">
-          {price}
-        </div>
-      </div>
-
-      <ul className="space-y-3 text-sm mb-8 text-black flex-1">
-        {features.map((item, i) => (
-          <li key={i} className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-yellow-400" />
-            {item}
-          </li>
-        ))}
-      </ul>
-
-      {type === "custom" ? (
-        <Link
-          href="/Services/customWeb"
-          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
-        >
-          {t("pricing", "custom")}
-        </Link>
-      ) : (
-        <a
-          href={whatsappLink}
-          target="_blank"
-          className="block text-center w-full py-3 rounded-full border border-black font-semibold transition bg-white text-black hover:bg-yellow-100"
-        >
-          {t("pricing", "getStarted")}
-        </a>
-      )}
-    </div>
   );
 }

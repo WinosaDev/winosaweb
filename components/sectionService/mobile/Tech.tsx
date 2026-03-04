@@ -12,7 +12,6 @@ type TechItem = {
 export default function SectionMobileTech({ data }: { data?: any }) {
   const { t } = useTranslate();
 
-  // 🔥 Multilingual fallback
   const defaultTechStack: TechItem[] = [
     {
       title: t("mobileTechSection", "t1Title"),
@@ -46,7 +45,6 @@ export default function SectionMobileTech({ data }: { data?: any }) {
     },
   ];
 
-  // ✅ PRIORITY: API DATA
   const techStack: TechItem[] =
     data?.mobileTech && Array.isArray(data.mobileTech)
       ? data.mobileTech
@@ -56,7 +54,6 @@ export default function SectionMobileTech({ data }: { data?: any }) {
     <section className="w-full bg-white py-32">
       <div className="max-w-7xl mx-auto px-6 text-black">
 
-        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,26 +62,21 @@ export default function SectionMobileTech({ data }: { data?: any }) {
           className="max-w-2xl mb-24"
         >
           <h2 className="text-3xl font-bold mb-4">
-            {data?.mobileTechTitle ||
-              t("mobileTechSection", "title")}
+            {data?.mobileTechTitle || t("mobileTechSection", "title")}
           </h2>
 
-          <p className="text-black/70">
-            {data?.mobileTechSubtitle ||
-              t("mobileTechSection", "subtitle")}
+          <p className="text-black/70 text-base leading-relaxed">
+            {data?.mobileTechSubtitle || t("mobileTechSection", "subtitle")}
           </p>
         </motion.div>
 
-        {/* CONTENT */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={{
             hidden: {},
-            visible: {
-              transition: { staggerChildren: 0.15 },
-            },
+            visible: { transition: { staggerChildren: 0.15 } },
           }}
           className="divide-y divide-black/20"
         >
@@ -100,17 +92,15 @@ export default function SectionMobileTech({ data }: { data?: any }) {
             >
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
-                {/* LEFT */}
                 <div>
-                  <h3 className="text-xl font-bold mb-2">
+                  <h3 className="text-xl font-bold mb-2 text-black">
                     {tech.title}
                   </h3>
-                  <p className="text-sm text-black/60">
+                  <p className="text-sm text-black/60 leading-relaxed">
                     {tech.desc}
                   </p>
                 </div>
 
-                {/* RIGHT */}
                 <div className="lg:col-span-2 flex flex-wrap gap-x-10 gap-y-4 text-sm font-medium">
                   {tech.items.map((item, idx) => (
                     <motion.span

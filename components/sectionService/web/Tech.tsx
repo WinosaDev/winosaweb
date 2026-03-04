@@ -45,8 +45,7 @@ export default function SectionTechWeb({ data }: { data?: TechData }) {
     techStack = [
       {
         category:
-          data.title ||
-          t("techSection", "fallbackCategory"),
+          data.title || t("techSection", "fallbackCategory"),
         tech: data.features,
       },
     ];
@@ -55,22 +54,20 @@ export default function SectionTechWeb({ data }: { data?: TechData }) {
   }
 
   const title =
-    data?.techTitle ||
-    t("techSection", "title");
+    data?.techTitle || t("techSection", "title");
 
   const subtitle =
-    data?.techSubtitle ||
-    t("techSection", "subtitle");
+    data?.techSubtitle || t("techSection", "subtitle");
 
   return (
-    <section className="w-full bg-white py-40">
+    <section className="w-full bg-white py-32">
 
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
             {title}
           </h2>
-          <p className="text-black/60 text-lg max-w-2xl mx-auto">
+          <p className="text-black/60 text-lg leading-relaxed max-w-2xl mx-auto">
             {subtitle}
           </p>
         </div>
@@ -90,7 +87,6 @@ export default function SectionTechWeb({ data }: { data?: TechData }) {
                 className="relative cursor-pointer flex items-center justify-center bg-white border-r border-black last:border-r-0"
               >
 
-                {/* GOLD GLOW */}
                 {active === i && (
                   <motion.div
                     layoutId="glow"

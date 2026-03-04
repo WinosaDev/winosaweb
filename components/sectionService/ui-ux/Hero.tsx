@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FadeUp from "@/components/animation/FadeUp";
 import Link from "next/link";
+import Button from "@/components/UI/Button";
 import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionHeroUIUX({ data }: { data?: any }) {
@@ -16,7 +17,6 @@ export default function SectionHeroUIUX({ data }: { data?: any }) {
     <FadeUp>
       <section className="relative w-full min-h-screen bg-white overflow-hidden flex items-center justify-center">
 
-        {/* LEFT IMAGE */}
         <motion.div
           initial={{ x: -300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -31,12 +31,11 @@ export default function SectionHeroUIUX({ data }: { data?: any }) {
                 alt="UIUX Left"
               />
             ) : (
-              <span className="text-gray-400">UIUX Preview</span>
+              <span className="text-black/40 text-sm">UIUX Preview</span>
             )}
           </div>
         </motion.div>
 
-        {/* RIGHT IMAGE */}
         <motion.div
           initial={{ x: 300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -51,31 +50,27 @@ export default function SectionHeroUIUX({ data }: { data?: any }) {
                 alt="UIUX Right"
               />
             ) : (
-              <span className="text-gray-400">UIUX Preview</span>
+              <span className="text-black/40 text-sm">UIUX Preview</span>
             )}
           </div>
         </motion.div>
 
-        {/* CENTER CONTENT */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.4, duration: 1 }}
           className="relative z-10 text-center max-w-3xl px-6"
         >
-          <h1 className="text-5xl lg:text-6xl font-bold text-black mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 leading-tight">
             {title}
           </h1>
 
-          <p className="text-gray-600 text-lg mb-10">
+          <p className="text-black/60 text-lg leading-relaxed mb-10">
             {description}
           </p>
 
-          <Link
-            href="/Contact"
-            className="inline-block px-8 py-4 rounded-full border border-black text-black font-semibold hover:bg-black/5 transition"
-          >
-            {ctaText}
+          <Link href="/Contact">
+            <Button text={ctaText} />
           </Link>
         </motion.div>
 

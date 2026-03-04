@@ -7,32 +7,22 @@ import { Plus, Minus } from "lucide-react";
 import { useTranslate } from "@/lib/useTranslate";
 
 export default function SectionCompanyInfo() {
+
   const { t } = useTranslate();
 
   const [active, setActive] = useState<number | null>(0);
 
   const faqs = [
-    {
-      question: t("faq", "q1"),
-      answer: t("faq", "a1"),
-    },
-    {
-      question: t("faq", "q2"),
-      answer: t("faq", "a2"),
-    },
-    {
-      question: t("faq", "q3"),
-      answer: t("faq", "a3"),
-    },
-    {
-      question: t("faq", "q4"),
-      answer: t("faq", "a4"),
-    },
+    { question: t("faq", "q1"), answer: t("faq", "a1") },
+    { question: t("faq", "q2"), answer: t("faq", "a2") },
+    { question: t("faq", "q3"), answer: t("faq", "a3") },
+    { question: t("faq", "q4"), answer: t("faq", "a4") },
   ];
 
   return (
     <FadeUp>
       <section className="w-full py-28 bg-white">
+
         <div className="max-w-7xl mx-auto px-6 lg:px-16 grid lg:grid-cols-2 gap-20">
 
           {/* LEFT */}
@@ -42,33 +32,35 @@ export default function SectionCompanyInfo() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <p className="text-yellow-600 font-medium mb-4">
+
+            <p className="text-black/60 font-medium mb-4">
               {t("faq", "label")}
             </p>
 
-            <h2 className="text-5xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-5xl font-bold text-black leading-tight">
               {t("faq", "titleLine1")} <br />
               {t("faq", "titleLine2")} <br />
               {t("faq", "titleLine3")}
             </h2>
+
           </motion.div>
 
           {/* RIGHT */}
           <motion.div
-            className="space-y-6"
+            className="space-y-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={{
               hidden: {},
               visible: {
-                transition: {
-                  staggerChildren: 0.15,
-                },
+                transition: { staggerChildren: 0.15 },
               },
             }}
           >
+
             {faqs.map((faq, index) => {
+
               const isOpen = active === index;
 
               return (
@@ -79,23 +71,26 @@ export default function SectionCompanyInfo() {
                     visible: { opacity: 1, y: 0 },
                   }}
                   transition={{ duration: 0.6 }}
-                  className="border-b border-gray-200 pb-6"
+                  className="border-b border-black/20 pb-6"
                 >
+
                   <button
                     onClick={() =>
                       setActive(isOpen ? null : index)
                     }
                     className="w-full flex justify-between items-center text-left"
                   >
-                    <h4 className="text-lg font-medium text-gray-900">
+
+                    <h4 className="text-lg font-semibold text-black">
                       {faq.question}
                     </h4>
 
                     {isOpen ? (
-                      <Minus className="text-yellow-600" size={18} />
+                      <Minus className="text-black" size={18} />
                     ) : (
-                      <Plus className="text-gray-500" size={18} />
+                      <Plus className="text-black/50" size={18} />
                     )}
+
                   </button>
 
                   <AnimatePresence initial={false}>
@@ -105,7 +100,7 @@ export default function SectionCompanyInfo() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="mt-4 text-gray-600 leading-relaxed overflow-hidden"
+                        className="mt-4 text-black/70 leading-relaxed overflow-hidden"
                       >
                         {faq.answer}
                       </motion.p>
@@ -115,9 +110,11 @@ export default function SectionCompanyInfo() {
                 </motion.div>
               );
             })}
+
           </motion.div>
 
         </div>
+
       </section>
     </FadeUp>
   );

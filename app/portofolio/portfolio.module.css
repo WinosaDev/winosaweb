@@ -49,15 +49,15 @@
   margin-top: 16px;
   font-size: 1.6rem;
   font-weight: 600;
-  color: #2a2a2a;
+  color: #1a1a1a;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
   margin-top: 20px;
   font-size: 1.15rem;
-  color: #555;
-  line-height: 1.6;
+  color: #1a1a1a;
+  line-height: 1.7;
 }
 
 .heroButton {
@@ -95,7 +95,7 @@
 
 /* ========== PORTFOLIO CARDS SECTION ========== */
 .cardsSection {
-  padding: 100px 20px 120px;
+  padding: 120px 20px 120px;
   max-width: 1440px;
   margin: 0 auto;
   overflow: hidden;
@@ -116,7 +116,7 @@
   border-radius: 999px;
   border: 2px solid rgba(244, 196, 48, 0.2);
   background: white;
-  color: #333;
+  color: #1a1a1a;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -223,7 +223,7 @@
   padding: 32px;
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(12px);
-  border-radius: 28px 28px 28px 28px;
+  border-radius: 28px;
   z-index: 1;
   border-top: 3px solid rgba(244, 196, 48, 0.3);
 }
@@ -238,7 +238,7 @@
 
 .cardDescription {
   font-size: 0.98rem;
-  color: #666;
+  color: #1a1a1a;
   margin-bottom: 28px;
   line-height: 1.7;
 }
@@ -251,7 +251,7 @@
 
 .cardCategory {
   font-size: 0.88rem;
-  color: #888;
+  color: #1a1a1a;
   font-weight: 600;
   padding: 6px 14px;
   background: rgba(244, 196, 48, 0.1);
@@ -310,11 +310,6 @@
   padding: 120px 20px;
 }
 
-.emptyStateIcon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
 .emptyState h3 {
   font-size: 2rem;
   font-weight: 700;
@@ -324,7 +319,7 @@
 
 .emptyState p {
   font-size: 1.1rem;
-  color: #666;
+  color: #1a1a1a;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -337,12 +332,12 @@
 }
 
 .bigTitle h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2.8rem);
-  font-weight: 600;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
   max-width: 980px;
   margin: 0 auto;
   line-height: 1.5;
-  color: #2a2a2a;
+  color: #1a1a1a;
   letter-spacing: -0.01em;
 }
 
@@ -387,7 +382,7 @@
 
 .explanationText {
   font-size: 1.18rem;
-  color: #555;
+  color: #1a1a1a;
   line-height: 1.8;
   margin-bottom: 70px;
 }
@@ -401,7 +396,7 @@
 .highlightItem {
   padding: 40px 24px;
   background: white;
-  border-radius: 20px;
+  border-radius: 28px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
   text-align: center;
   transition: all 0.3s ease;
@@ -426,61 +421,6 @@
 
 .highlightLabel {
   font-size: 1rem;
-  color: #666;
+  color: #1a1a1a;
   font-weight: 500;
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 968px) {
-  .highlightStats {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .carouselWrapper {
-    padding: 0 70px;
-  }
-}
-
-@media (max-width: 768px) {
-  .carouselContainer,
-  .carouselCard {
-    max-width: 340px;
-    height: 500px;
-  }
-
-  .navButton {
-    width: 48px;
-    height: 48px;
-    font-size: 2rem;
-  }
-
-  .explanationText {
-    font-size: 1.1rem;
-  }
-
-  .bridgeSection {
-    padding: 60px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .carouselWrapper {
-    padding: 0 60px;
-  }
-
-  .carouselContainer,
-  .carouselCard {
-    max-width: 300px;
-    height: 460px;
-  }
-
-  .filterContainer {
-    gap: 10px;
-  }
-
-  .filterBtn {
-    padding: 11px 24px;
-    font-size: 0.88rem;
-  }
 }

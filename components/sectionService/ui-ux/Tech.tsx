@@ -30,19 +30,17 @@ export default function SectionTechUIUX({ data }: { data?: any }) {
   return (
     <section className="relative w-full bg-white py-32 overflow-hidden">
 
-      {/* TITLE */}
       <FadeUp>
         <div className="max-w-7xl mx-auto px-6 lg:px-16 text-center mb-24">
-          <h2 className="text-3xl md:text-4xl font-semibold text-black mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
             {title}
           </h2>
-          <p className="text-black/60 max-w-xl mx-auto text-sm md:text-base">
+          <p className="text-black/60 text-lg leading-relaxed max-w-xl mx-auto">
             {subtitle}
           </p>
         </div>
       </FadeUp>
 
-      {/* MARQUEE */}
       <FadeUp delay={0.2}>
         <div className="relative w-full overflow-hidden">
           <motion.div
@@ -58,7 +56,7 @@ export default function SectionTechUIUX({ data }: { data?: any }) {
             {[...tools, ...tools].map((tool, i) => (
               <div
                 key={i}
-                className="mx-20 text-3xl md:text-4xl font-semibold text-black tracking-normal"
+                className="mx-20 text-3xl md:text-4xl font-semibold text-black"
               >
                 {tool}
               </div>
@@ -67,7 +65,6 @@ export default function SectionTechUIUX({ data }: { data?: any }) {
         </div>
       </FadeUp>
 
-      {/* GOLD GLOW BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="w-full h-full blur-[140px]"
@@ -78,10 +75,8 @@ export default function SectionTechUIUX({ data }: { data?: any }) {
         />
       </div>
 
-      {/* TOP & BOTTOM FADE */}
       <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-white to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" />
-
     </section>
   );
 }

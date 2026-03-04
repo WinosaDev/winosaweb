@@ -13,14 +13,8 @@ import { useTranslate } from "@/lib/useTranslate";
 export default function SectionFeaturesUIUX({ data }: { data?: any }) {
   const { t } = useTranslate();
 
-  const iconPool = [
-    Layout,
-    Layers,
-    MousePointerClick,
-    Smartphone,
-  ];
+  const iconPool = [Layout, Layers, MousePointerClick, Smartphone];
 
-  // 🔥 Fallback default features (multi language)
   const fallbackFeatures = [
     t("uiuxFeatures", "fallbackFeature1"),
     t("uiuxFeatures", "fallbackFeature2"),
@@ -35,27 +29,24 @@ export default function SectionFeaturesUIUX({ data }: { data?: any }) {
 
   return (
     <FadeUp>
-      <section className="w-full bg-white py-32 relative overflow-hidden">
+      <section className="w-full bg-white py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-16 grid lg:grid-cols-2 gap-20 items-center">
 
-          {/* LEFT SIDE */}
           <div>
             <p className="text-sm uppercase tracking-widest text-yellow-500 mb-4">
               {t("uiuxFeatures", "label")}
             </p>
 
-            <h2 className="text-5xl font-bold text-black leading-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-black leading-tight mb-6">
               {data?.title || t("uiuxFeatures", "defaultTitle")}
             </h2>
 
-            <p className="text-black/60 max-w-md">
+            <p className="text-black/60 text-lg leading-relaxed max-w-md">
               {data?.description || t("uiuxFeatures", "defaultDesc")}
             </p>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="relative flex flex-col gap-8">
-
+          <div className="relative flex flex-col gap-10">
             {features.length > 0 ? (
               features.map((feature: string, i: number) => {
                 const Icon = iconPool[i % iconPool.length];
@@ -76,7 +67,7 @@ export default function SectionFeaturesUIUX({ data }: { data?: any }) {
                     </div>
 
                     <div className="pb-8 border-b border-black/10">
-                      <h3 className="text-lg font-semibold text-black mb-2 group-hover:translate-x-1 transition">
+                      <h3 className="text-lg font-semibold text-black mb-2 transition">
                         {feature}
                       </h3>
 
@@ -92,7 +83,6 @@ export default function SectionFeaturesUIUX({ data }: { data?: any }) {
                 {t("uiuxFeatures", "empty")}
               </div>
             )}
-
           </div>
         </div>
       </section>

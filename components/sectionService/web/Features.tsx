@@ -21,7 +21,6 @@ type ProcessData = {
 export default function SectionProcess({ data }: { data?: ProcessData }) {
   const { t } = useTranslate();
   const { language } = useLanguageStore();
-
   const [loading, setLoading] = useState(!data);
 
   useEffect(() => {
@@ -39,18 +38,15 @@ export default function SectionProcess({ data }: { data?: ProcessData }) {
   const steps = data?.process?.length ? data.process : fallbackSteps;
 
   return (
-    <section className="relative w-full bg-white py-40 overflow-hidden">
+    <section className="relative w-full bg-white py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-
         <FadeUp>
-          <div className="text-center mb-32">
+          <div className="text-center mb-24">
             <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-              {data?.processTitle ||
-                t("processSection", "title")}
+              {data?.processTitle || t("processSection", "title")}
             </h2>
-            <p className="text-black/60 text-lg">
-              {data?.processSubtitle ||
-                t("processSection", "subtitle")}
+            <p className="text-black/60 text-lg leading-relaxed">
+              {data?.processSubtitle || t("processSection", "subtitle")}
             </p>
           </div>
         </FadeUp>
@@ -64,7 +60,6 @@ export default function SectionProcess({ data }: { data?: ProcessData }) {
             {steps.map((step, i) => (
               <div key={i} className="min-h-[80vh] flex items-center">
                 <div className="grid md:grid-cols-2 gap-20 w-full">
-
                   <div className="relative">
                     <div className="sticky top-32">
                       <motion.div
@@ -90,7 +85,7 @@ export default function SectionProcess({ data }: { data?: ProcessData }) {
                         {step.highlight}
                       </span>
 
-                      <h3 className="text-3xl font-bold text-black mt-3 mb-6">
+                      <h3 className="text-3xl font-bold text-black mt-4 mb-6">
                         {step.title}
                       </h3>
 
@@ -99,13 +94,11 @@ export default function SectionProcess({ data }: { data?: ProcessData }) {
                       </p>
                     </div>
                   </FadeUp>
-
                 </div>
               </div>
             ))}
           </div>
         )}
-
       </div>
     </section>
   );

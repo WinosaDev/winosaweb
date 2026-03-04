@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslate } from "@/lib/useTranslate";
+import React from "react";
 
 type GlassData = {
   whoWeAre?: {
@@ -17,22 +18,53 @@ type GlassData = {
   };
 };
 
-export default function SectionGlass({ data }: { data: GlassData | null }) {
+type TimelineRowProps = {
+  side: "left" | "right";
+  title: string;
+  text: string;
+  children: React.ReactNode;
+  isLast?: boolean;
+};
+
+type TextBlockProps = {
+  title: string;
+  text: string;
+  align?: "right";
+};
+
+type DoubleOvalProps = {
+  reverse?: boolean;
+  image1?: string;
+  image2?: string;
+};
+
+type SingleOvalProps = {
+  image?: string;
+};
+
+type MagnifyOvalProps = {
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  imageUrl?: string;
+};
+
+export default function SectionGlass({
+  data,
+}: {
+  data: GlassData | null;
+}) {
   const { t } = useTranslate();
 
   return (
-    <section className="w-full bg-white py-24 lg:py-32">
-      {/* ❌ font-serif DIHAPUS supaya sama seperti Hero */}
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-0 text-black">
+    <section className="w-full bg-white py-32">
+      <div className="max-w-[1200px] mx-auto px-6 text-black">
 
-        {/* HEADING (2 BARIS FIX) */}
-        <h2 className="text-center text-3xl lg:text-4xl font-bold mb-24 lg:mb-32 leading-tight">
+        <h2 className="text-center text-4xl font-bold mb-24 leading-tight">
           {t("glass", "headingLine1")}
           <br />
           {t("glass", "headingLine2")}
         </h2>
 
-        {/* WHO WE ARE */}
         <TimelineRow
           side="right"
           title={t("glass", "whoTitle")}
@@ -44,7 +76,6 @@ export default function SectionGlass({ data }: { data: GlassData | null }) {
           />
         </TimelineRow>
 
-        {/* WHAT WE DO */}
         <TimelineRow
           side="left"
           title={t("glass", "whatTitle")}
@@ -57,7 +88,6 @@ export default function SectionGlass({ data }: { data: GlassData | null }) {
           />
         </TimelineRow>
 
-        {/* VISION */}
         <TimelineRow
           side="right"
           title={t("glass", "visionTitle")}
@@ -78,32 +108,20 @@ function TimelineRow({
   text,
   children,
   isLast,
-}: {
-  side: "left" | "right";
-  title: string;
-  text: string;
-  children: React.ReactNode;
-  isLast?: boolean;
-}) {
+}: TimelineRowProps) {
   return (
-    <div
-      className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 lg:mb-40 min-h-[240px]"
-      style={{ "--line-height": "365px" } as React.CSSProperties}
-    >
-      {/* TIMELINE DOT + LINE */}
+    <div className="relative grid lg:grid-cols-2 gap-16 items-center mb-32 min-h-[240px]">
+
+      {/* Timeline Dot + Line */}
       <div className="absolute top-16 left-4 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center">
         <div className="w-4 h-4 bg-black rounded-full z-10" />
         {!isLast && (
-          <div className="w-px bg-black mt-2 h-[var(--line-height)]" />
+          <div className="w-px bg-black mt-2 h-[365px]" />
         )}
       </div>
 
       {/* LEFT SIDE */}
-      <div
-        className={`${
-          side === "left" ? "lg:order-1 text-right pr-16" : "lg:order-1"
-        } flex justify-center lg:justify-end`}
-      >
+      <div className="flex justify-center lg:justify-end">
         {side === "left" ? (
           <TextBlock title={title} text={text} align="right" />
         ) : (
@@ -112,17 +130,14 @@ function TimelineRow({
       </div>
 
       {/* RIGHT SIDE */}
-      <div
-        className={`${
-          side === "right" ? "lg:order-2 pl-16" : "lg:order-2"
-        } flex justify-center lg:justify-start`}
-      >
+      <div className="flex justify-center lg:justify-start">
         {side === "right" ? (
           <TextBlock title={title} text={text} />
         ) : (
           children
         )}
       </div>
+
     </div>
   );
 }
@@ -131,19 +146,14 @@ function TextBlock({
   title,
   text,
   align,
-}: {
-  title: string;
-  text: string;
-  align?: "right";
-}) {
+}: TextBlockProps) {
   return (
     <div className={`max-w-md ${align === "right" ? "text-right" : ""}`}>
-      {/* FONT SIZE SAMA PERSIS SEPERTI VERSI ASLI */}
-      <h3 className="font-bold mb-4">
+      <h3 className="text-xl font-semibold mb-4 text-black">
         {title}
       </h3>
 
-      <p className="text-sm leading-relaxed">
+      <p className="text-gray-600 leading-relaxed">
         {text}
       </p>
     </div>
@@ -154,11 +164,7 @@ function DoubleOvalImage({
   reverse,
   image1,
   image2,
-}: {
-  reverse?: boolean;
-  image1?: string;
-  image2?: string;
-}) {
+}: DoubleOvalProps) {
   return (
     <div className="relative w-[320px] h-[180px]">
       <MagnifyOval
@@ -175,7 +181,7 @@ function DoubleOvalImage({
   );
 }
 
-function SingleOvalImage({ image }: { image?: string }) {
+function SingleOvalImage({ image }: SingleOvalProps) {
   return (
     <div className="relative w-[220px] h-[140px]">
       <MagnifyOval size="md" imageUrl={image} />
@@ -187,11 +193,7 @@ function MagnifyOval({
   size = "md",
   className = "",
   imageUrl,
-}: {
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  imageUrl?: string;
-}) {
+}: MagnifyOvalProps) {
   const sizeMap = {
     sm: "w-[160px] h-[100px]",
     md: "w-[220px] h-[140px]",

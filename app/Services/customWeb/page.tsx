@@ -28,7 +28,6 @@ const FEATURES = [
 
 export default function CustomQuotePage() {
   const { t } = useTranslate();
-
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
@@ -40,8 +39,7 @@ export default function CustomQuotePage() {
     );
   };
 
-  const isValid =
-    description.trim().length > 0 || selected.length > 0;
+  const isValid = description.trim().length > 0 || selected.length > 0;
 
   const generate = () => {
     if (!isValid) {
@@ -54,15 +52,11 @@ export default function CustomQuotePage() {
     const text = description.toLowerCase();
 
     let websiteType = "Company Website";
-    if (text.includes("shop") || text.includes("store"))
-      websiteType = "E-Commerce Website";
-    if (text.includes("dashboard") || text.includes("system"))
-      websiteType = "Web Application";
+    if (text.includes("shop") || text.includes("store")) websiteType = "E-Commerce Website";
+    if (text.includes("dashboard") || text.includes("system")) websiteType = "Web Application";
 
     const activeFeatures = FEATURES.filter(
-      (f) =>
-        selected.includes(f.key) ||
-        f.keywords.some((k) => text.includes(k))
+      (f) => selected.includes(f.key) || f.keywords.some((k) => text.includes(k))
     );
 
     const featureCost = activeFeatures.reduce((s, f) => s + f.price, 0);
@@ -80,7 +74,7 @@ export default function CustomQuotePage() {
       <section className="w-full bg-white py-32">
         <div className="max-w-6xl mx-auto px-6 text-black">
 
-          <h1 className="text-4xl font-bold text-center mb-10">
+          <h1 className="text-3xl font-bold text-center mb-12">
             {t("customWebsite", "title")}
           </h1>
 
@@ -88,10 +82,10 @@ export default function CustomQuotePage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder={t("customWebsite", "placeholder")}
-            className="w-full h-40 p-6 border border-black rounded-2xl mb-10"
+            className="w-full h-40 p-6 border border-black rounded-2xl mb-12"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
             {FEATURES.map((f) => (
               <button
                 key={f.key}
@@ -120,40 +114,32 @@ export default function CustomQuotePage() {
           </button>
 
           {error && (
-            <p className="text-red-500 text-sm mt-4 text-center">
-              {error}
-            </p>
+            <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
           )}
 
           {result && (
             <div className="mt-20 border border-black rounded-[28px] p-10">
 
-              <h2 className="text-2xl font-bold mb-4">
+              <h2 className="text-2xl font-bold mb-6">
                 {t("customWebsite", "recommended")}
               </h2>
 
-              <p className="mb-8">
-                {t("customWebsite", "websiteType")}:{" "}
-                <strong>{result.websiteType}</strong>
+              <p className="mb-10">
+                {t("customWebsite", "websiteType")}:
+                <strong> {result.websiteType}</strong>
               </p>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-10">
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
                 {result.estimates.map((p: any) => (
-                  <div
-                    key={p.name}
-                    className="border border-black rounded-2xl p-6"
-                  >
-                    <h3 className="font-bold text-lg mb-2">
-                      {p.name}
-                    </h3>
-                    <div className="text-3xl font-bold mb-3">
-                      ${p.price}
-                    </div>
+                  <div key={p.name} className="border border-black rounded-[28px] p-8">
+                    <h3 className="font-bold text-lg mb-3">{p.name}</h3>
+                    <div className="text-3xl font-bold">${p.price}</div>
                   </div>
                 ))}
               </div>
-<Link
-              href="https://wa.me/6281234567890"
+
+              <Link
+                href="https://wa.me/6281234567890"
               target="_blank"
               className="
                 w-full
@@ -175,13 +161,10 @@ export default function CustomQuotePage() {
                 Continue Consultation
               </Link>
 
-
             </div>
           )}
-
         </div>
       </section>
-
       <Footer />
     </main>
   );
