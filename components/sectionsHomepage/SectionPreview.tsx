@@ -30,6 +30,7 @@ function resolveIcon(iconName?: string) {
 
 export default function SectionPreview({ title, items = [] }: any) {
   const { t } = useTranslate();
+
   const previewItems = items.slice(0, 3);
 
   function getTranslatedTitle() {
@@ -37,6 +38,33 @@ export default function SectionPreview({ title, items = [] }: any) {
     if (title === "Our Portfolio") return t("preview", "portfolio");
     if (title === "Latest Blog") return t("preview", "blog");
     return title;
+  }
+
+  function getBasePath() {
+    if (title === "Our Services") return "/services";
+    if (title === "Our Portfolio") return "/portofolio";
+    if (title === "Latest Blog") return "/blog";
+    return "";
+  }
+
+  const basePath = getBasePath();
+
+  function buildLink(slug?: string) {
+    if (!slug) return "";
+
+    // jika slug sudah berupa full path
+    if (slug.startsWith("/")) return slug;
+
+    // jika slug sudah mengandung folder
+    if (
+      slug.startsWith("services") ||
+      slug.startsWith("blog") ||
+      slug.startsWith("portofolio")
+    ) {
+      return `/${slug}`;
+    }
+
+    return `${basePath}/${slug}`;
   }
 
   return (
@@ -56,10 +84,14 @@ export default function SectionPreview({ title, items = [] }: any) {
         <div className="grid md:grid-cols-3 gap-16">
 
           {previewItems.map((item: Item, index: number) => {
+
             const uniqueKey =
               item._id ?? item.slug ?? `${item.title}-${index}`;
 
             const Icon = resolveIcon(item.icon);
+
+            const link = buildLink(item.slug);
+            const hasLink = link !== "";
 
             return (
               <motion.div
@@ -69,7 +101,9 @@ export default function SectionPreview({ title, items = [] }: any) {
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -12 }}
-                className="group relative h-[420px]"
+                className={`group relative h-[420px] ${
+                  hasLink ? "cursor-pointer" : ""
+                }`}
               >
 
                 <div className="absolute -inset-12 opacity-0 blur-[100px] transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle,rgba(255,185,0,0.8)_0%,rgba(255,185,0,0.4)_40%,transparent_75%)]" />
@@ -77,28 +111,61 @@ export default function SectionPreview({ title, items = [] }: any) {
                 <div className="relative h-full rounded-[32px] overflow-hidden bg-white shadow-[0_25px_60px_rgba(0,0,0,0.08)] transition duration-500 group-hover:shadow-[0_40px_90px_rgba(0,0,0,0.15)]">
 
                   {item.image ? (
-                    <Link href={item.slug || "#"} className="block h-full">
+
+                    hasLink ? (
+                      <Link href={link} className="block h-full">
+                        <div className="relative h-full overflow-hidden">
+
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            className="object-cover transition duration-700 group-hover:scale-110"
+                            unoptimized
+                          />
+
+                          <div className="absolute bottom-0 p-8 text-black">
+                            <h3 className="text-xl font-semibold mb-2">
+                              {item.title}
+                            </h3>
+
+                            <p className="text-gray-600 text-sm line-clamp-2">
+                              {item.desc || item.description}
+                            </p>
+                          </div>
+
+                        </div>
+                      </Link>
+                    ) : (
                       <div className="relative h-full overflow-hidden">
+
                         <Image
                           src={item.image}
                           alt={item.title}
                           fill
-                          className="object-cover transition duration-700 group-hover:scale-110"
+                          className="object-cover"
                           unoptimized
                         />
+
                         <div className="absolute bottom-0 p-8 text-black">
                           <h3 className="text-xl font-semibold mb-2">
                             {item.title}
                           </h3>
+
                           <p className="text-gray-600 text-sm line-clamp-2">
                             {item.desc || item.description}
                           </p>
                         </div>
+
                       </div>
-                    </Link>
+                    )
+
                   ) : (
+
                     <div className="flex flex-col justify-between h-full p-10 text-center">
+
                       <div>
+
                         <div className="mb-6 flex justify-center">
                           <Icon size={48} strokeWidth={1.5} className="text-black" />
                         </div>
@@ -110,11 +177,12 @@ export default function SectionPreview({ title, items = [] }: any) {
                         <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                           {item.desc}
                         </p>
+
                       </div>
 
-                      {item.slug && (
+                      {hasLink && (
                         <div className="pt-6">
-                          <Link href={item.slug}>
+                          <Link href={link}>
                             <Button
                               text={t("preview", "viewDetails")}
                               className="text-xs px-5 py-2"
@@ -122,10 +190,13 @@ export default function SectionPreview({ title, items = [] }: any) {
                           </Link>
                         </div>
                       )}
+
                     </div>
+
                   )}
 
                 </div>
+
               </motion.div>
             );
           })}

@@ -46,36 +46,31 @@ export default function SectionPricing() {
   ];
 
   return (
-    <section id="pricing" className="relative w-full bg-white py-40 overflow-hidden">
+    <section id="pricing" className="relative w-full bg-white py-24 md:py-32">
 
-      <div className="absolute -bottom-40 left-0 right-0 h-[600px] pointer-events-none">
-        <div className="w-full h-full bg-[radial-gradient(ellipse_at_bottom,rgba(255,200,0,0.5)_0%,rgba(255,200,0,0.25)_40%,transparent_70%)] blur-[120px]" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
 
         <FadeUp>
-          <div className="text-center mb-24">
-            <h2 className="text-5xl font-bold text-black mb-6">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl md:text-5xl font-bold text-black mb-4 md:mb-6">
               {t("plansPricing", "title")}
             </h2>
 
-            <p className="text-black/70 text-lg">
+            <p className="text-black/70 text-base md:text-lg max-w-2xl mx-auto">
               {t("plansPricing", "subtitle")}
             </p>
           </div>
         </FadeUp>
 
-        <div className="grid md:grid-cols-3 gap-12">
+        {/* GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
           {plans.map((plan, index) => (
-            <div key={index} className="group relative">
+            <div key={index} className="group">
 
-              <div className="absolute -inset-6 rounded-[40px] bg-[radial-gradient(circle,rgba(255,200,0,0.55)_0%,rgba(255,200,0,0.25)_40%,transparent_70%)] opacity-0 blur-[70px] transition-all duration-500 group-hover:opacity-100" />
+              <div className="bg-white rounded-[28px] p-8 md:p-10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
 
-              <div className="relative bg-white border border-black rounded-[28px] p-10 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
-
-                <h3 className="text-2xl font-semibold text-black mb-3">
+                <h3 className="text-xl md:text-2xl font-semibold text-black mb-2">
                   {plan.name}
                 </h3>
 
@@ -83,11 +78,11 @@ export default function SectionPricing() {
                   {t("pricing", "startFrom")}
                 </div>
 
-                <div className="text-3xl font-bold text-black mb-8">
+                <div className="text-2xl md:text-3xl font-bold text-black mb-6">
                   {plan.price}
                 </div>
 
-                <ul className="space-y-3 text-black mb-10">
+                <ul className="space-y-3 text-black mb-10 text-sm md:text-base flex-grow">
                   {plan.features.map((feature, i) => (
                     <li key={i}>• {feature}</li>
                   ))}
@@ -98,7 +93,7 @@ export default function SectionPricing() {
                     `${t("plansPricing", "whatsappText")} ${plan.name}`
                   )}`}
                   target="_blank"
-                  className="block text-center py-3 rounded-full border border-black text-black transition hover:bg-black/10"
+                  className="block text-center px-6 py-3 rounded-full border border-black text-black transition hover:bg-black/10"
                 >
                   {t("plansPricing", "chooseButton")}
                 </Link>

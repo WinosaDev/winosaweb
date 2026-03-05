@@ -424,3 +424,122 @@
   color: #1a1a1a;
   font-weight: 500;
 }
+
+/* ===============================
+   CARD RESPONSIVE FIX
+================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+
+  .carouselContainer {
+    height: 520px;
+    max-width: 380px;
+  }
+
+  .carouselCard {
+    max-width: 380px;
+    height: 520px;
+  }
+
+  .cardContent {
+    padding: 26px;
+  }
+
+  .cardTitle {
+    font-size: 1.45rem;
+  }
+
+  .cardDescription {
+    font-size: 0.92rem;
+  }
+
+  .cardCategory {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+  }
+
+  .learnMore {
+    font-size: 0.88rem;
+  }
+
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .carouselWrapper {
+    padding: 0 40px;
+  }
+
+  .carouselContainer {
+    max-width: 320px;
+    height: 480px;
+  }
+
+  .carouselCard {
+    max-width: 320px;
+    height: 480px;
+  }
+
+  .cardContent {
+    padding: 22px;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+
+  .cardDescription {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cardCategory {
+    font-size: 0.75rem;
+  }
+
+  .learnMore {
+    font-size: 0.82rem;
+  }
+
+}
+
+
+/* Small Mobile */
+@media (max-width: 480px) {
+
+  .carouselContainer {
+    max-width: 260px;
+    height: 420px;
+  }
+
+  .carouselCard {
+    max-width: 260px;
+    height: 420px;
+  }
+
+  .cardContent {
+    padding: 18px;
+  }
+
+  .cardTitle {
+    font-size: 1.05rem;
+  }
+
+  .cardDescription {
+    font-size: 0.78rem;
+  }
+
+  .learnMore {
+    font-size: 0.75rem;
+  }
+
+}
